@@ -7,9 +7,9 @@
 int main()
 {
 	CApplication app_sandbox;
-	app_sandbox.init(VideoMode(500, 500), "Sandbox Application");
+	app_sandbox.init(1280, 720, "Steering Behaviors");
 	
-	while (app_sandbox.m_window.isOpen()) {
+	while (1) {
 		app_sandbox.update();
 		app_sandbox.render();
 	}

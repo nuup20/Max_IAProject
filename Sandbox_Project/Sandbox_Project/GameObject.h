@@ -1,12 +1,21 @@
 #pragma once
+#include <SFML\Graphics.hpp>
+#include "Vector3.h"
+
+using sf::RenderWindow;
+using std::string;
+
 class CGameObject
 {
 public:
 
-	virtual void	init() = 0;
-	virtual void	update() = 0;
-	virtual void	render() = 0;
-	virtual void	destroy() = 0;
+	string			m_name;
+	CVector3		m_position;
+
+	virtual void	init();
+	virtual void	update();
+	virtual void	render(RenderWindow& wnd);
+	virtual void	destroy();
 
 	CGameObject();
 	virtual ~CGameObject();

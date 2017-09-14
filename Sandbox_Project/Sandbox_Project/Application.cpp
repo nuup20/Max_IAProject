@@ -1,12 +1,13 @@
 #include "stdafx.h"
 #include "Application.h"
 
-void CApplication::init(VideoMode o_videoMode, const String str_title)
+void CApplication::init(int wndWidth, int wndHeight, const string& str_title)
 {
-	m_window.create(o_videoMode, str_title);
+	m_window.create(sf::VideoMode(wndWidth, wndHeight), str_title);
+	m_world.init();
 }
 
-void CApplication::update()
+void CApplication::wndProc()
 {
 	sf::Event event;
 	while (m_window.pollEvent(event))
@@ -16,32 +17,35 @@ void CApplication::update()
 	}
 }
 
+void CApplication::update()
+{
+	m_world.update();
+}
+
 void CApplication::render()
 {
-	if (m_window.isOpen()) {
-		m_window.clear();		//clear the previous content of the window.		
-		// call render() for all worlds.
-		m_window.display();		//display in window all rendered elements.
-	}
+	m_window.clear();			//clear the previous content of the window.		
+	m_world.render(m_window);	// call render() for all worlds.
+	m_window.display();			//display in window all rendered elements.	
 }
 
 void CApplication::destroy()
 {
-	if (m_window.isOpen()) {
-		m_window.close();
-	}
+	m_world.destroy();
+	m_window.close();	
 }
 
-void CApplication::resizeWindow(int n_width, int n_height, std::string str_title)
+void CApplication::resizeWindow(int n_width, int n_height, const string& str_title)
 {
-	m_window.create(VideoMode(n_width,n_height), str_title);
+	init(n_width, n_height, str_title);
 }
 
 CApplication::CApplication()
 {
-	m_window.create(VideoMode(500, 500), "Generic Window");
+	
 }
 
 CApplication::~CApplication()
 {
+	destroy();
 }

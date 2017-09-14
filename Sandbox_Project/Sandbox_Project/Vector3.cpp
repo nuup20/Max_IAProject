@@ -2,27 +2,6 @@
 #include "Vector3.h"
 
 
-CVector3::CVector3()
-{
-}
-
-CVector3::CVector3(float f_x, float f_y, float f_z)
-{
-}
-
-CVector3::CVector3(float f_x, float f_y)
-{
-}
-
-CVector3::CVector3(float f_const)
-{
-}
-
-
-CVector3::~CVector3()
-{
-}
-
 float CVector3::magnitud()
 {
 	float f_mg = 0;
@@ -60,14 +39,53 @@ CVector3 CVector3::operator*(float f_escalar)
 
 CVector3 CVector3::operator-(CVector3 & vc_vector)
 {
-	return CVector3();
+	CVector3 cv_result;
+	for (int i = 0; i < 3; i++)
+		cv_result.v[i] = this->v[i] - cv_result.v[i];
+	return cv_result;
 }
 
 CVector3 CVector3::operator+(CVector3 & vc_vector)
 {
-	return CVector3();
+	CVector3 cv_result;
+	for (int i = 0; i < 3; i++)
+		cv_result.v[i] = this->v[i] + cv_result.v[i];
+	return cv_result;
 }
 
 void CVector3::operator=(float f_unit)
+{	
+	for (int i = 0; i < 3; i++)
+		this->v[i] = f_unit;	
+}
+
+CVector3::CVector3()
+{
+	this->x = 0;
+	this->y = 0;
+	this->z = 0;
+}
+
+CVector3::CVector3(float f_x, float f_y, float f_z)
+{
+	this->x = f_x;
+	this->y = f_y;
+	this->z = f_z;
+}
+
+CVector3::CVector3(float f_x, float f_y)
+{
+	this->x = f_x;
+	this->y = f_y;
+	this->z = 0;
+}
+
+CVector3::CVector3(float f_const)
+{
+	*(this) = f_const;
+}
+
+
+CVector3::~CVector3()
 {
 }
