@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Vector3.h"
 
-
 float CVector3::magnitud()
 {
 	float f_mg = 0;
@@ -19,6 +18,11 @@ CVector3 CVector3::normalized()
 	for (int i = 0; i < 3; ++i)
 		vc_normalized.v[i] = this->v[i] * f_mag;
 	return vc_normalized;
+}
+
+CVector3 CVector3::truncate(float maxMg)
+{
+	return (this->magnitud() > maxMg ? this->normalized() * maxMg : *(this));	
 }
 
 CVector3 CVector3::operator*(CVector3 & vc_vector)
@@ -41,15 +45,15 @@ CVector3 CVector3::operator-(CVector3 & vc_vector)
 {
 	CVector3 cv_result;
 	for (int i = 0; i < 3; i++)
-		cv_result.v[i] = this->v[i] - cv_result.v[i];
+		cv_result.v[i] = this->v[i] - vc_vector.v[i];
 	return cv_result;
 }
 
 CVector3 CVector3::operator+(CVector3 & vc_vector)
 {
 	CVector3 cv_result;
-	for (int i = 0; i < 3; i++)
-		cv_result.v[i] = this->v[i] + cv_result.v[i];
+	for (int i = 0; i < 3; ++i)
+		cv_result.v[i] = this->v[i] + vc_vector.v[i];
 	return cv_result;
 }
 
@@ -88,4 +92,9 @@ CVector3::CVector3(float f_const)
 
 CVector3::~CVector3()
 {
+}
+
+float dot(CVector3 a, CVector3 b)
+{
+	return (a.x*b.x) + (a.y*b.y) + (a.z*b.z);
 }

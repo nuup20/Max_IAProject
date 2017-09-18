@@ -20,9 +20,7 @@ public:
 	void	init();
 	void	update();
 	void	render(RenderWindow& wnd);
-	void	destroy();
-
-	void	createGameObj();
+	void	destroy();	
 
 	CWorld();
 	~CWorld();

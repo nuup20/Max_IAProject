@@ -4,13 +4,21 @@
 
 void CWorld::init()
 {
+	//CREATE AGENT
+	CBoid* _newGO = new CBoid();
+	_newGO->init();
+	_newGO->m_name = "Agent";
+	_newGO->setPosition(100, 500);
+	_newGO->m_direction = CVector3(0.0f, -1.0f, 0.0f);
+	_newGO->setShapeColor(0, 0, 255, 255);
+	m_gameObjectList.push_back(_newGO);
+
+	//CREATE TARGET
+
 }
 
 void CWorld::update()
 {
-	if (Keyboard::isKeyPressed(Keyboard::C))
-		createGameObj();
-
 	for (m_objIt = m_gameObjectList.begin(); m_objIt != m_gameObjectList.end(); ++m_objIt)
 		(*m_objIt)->update();
 }
@@ -27,17 +35,9 @@ void CWorld::destroy()
 		(*m_objIt)->destroy();
 }
 
-void CWorld::createGameObj()
-{
-	CBoid* newObject = new CBoid;
-	newObject->init();
-	m_gameObjectList.push_back(newObject);
-}
-
 CWorld::CWorld()
 {
 }
-
 
 CWorld::~CWorld()
 {

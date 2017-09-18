@@ -13,6 +13,7 @@ public:
 
 	float		magnitud();
 	CVector3	normalized();
+	CVector3	truncate(const float maxMg);
 	CVector3	operator*(CVector3& vc_vector);
 	CVector3	operator*(float f_escalar);
 	CVector3	operator-(CVector3& vc_vector);
@@ -25,4 +26,6 @@ public:
 	CVector3(float f_const);
 	~CVector3();
 };
+
+float		dot(CVector3 a, CVector3 b);
 
