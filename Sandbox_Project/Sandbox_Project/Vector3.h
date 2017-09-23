@@ -15,9 +15,13 @@ public:
 	CVector3	normalized();
 	CVector3	truncate(const float maxMg);
 	CVector3	operator*(CVector3& vc_vector);
+	CVector3	operator*=(CVector3& vc_vector);
 	CVector3	operator*(float f_escalar);
+	CVector3	operator*=(float f_escalar);
 	CVector3	operator-(CVector3& vc_vector);
+	CVector3	operator-=(CVector3& vc_vector);
 	CVector3	operator+(CVector3& vc_vector);
+	CVector3	operator+=(CVector3& vc_vector);
 	void		operator=(float f_unit);
 
 	CVector3();

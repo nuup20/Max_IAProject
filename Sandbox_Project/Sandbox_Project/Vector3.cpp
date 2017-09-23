@@ -3,11 +3,8 @@
 
 float CVector3::magnitud()
 {
-	float f_mg = 0;
-	for (int i = 0; i < 3; ++i)
-		f_mg += pow(this->v[i], 2);
-	f_mg = sqrt(f_mg);
-	return f_mg;
+	float f_mg = pow(this->x, 2) + pow(this->y, 2) + pow(this->z, 2);	
+	return sqrt(f_mg);
 }
 
 CVector3 CVector3::normalized()
@@ -15,8 +12,9 @@ CVector3 CVector3::normalized()
 	CVector3 vc_normalized;
 	float f_mag = this->magnitud();
 	f_mag = 1 / f_mag;
-	for (int i = 0; i < 3; ++i)
-		vc_normalized.v[i] = this->v[i] * f_mag;
+	vc_normalized.x = this->x * f_mag;
+	vc_normalized.y = this->y * f_mag;
+	vc_normalized.z = this->z * f_mag;	
 	return vc_normalized;
 }
 
@@ -28,39 +26,76 @@ CVector3 CVector3::truncate(float maxMg)
 CVector3 CVector3::operator*(CVector3 & vc_vector)
 {
 	CVector3 cv_product;
-	for (int i = 0; i < 3; ++i)
-		cv_product.v[i] = this->v[i] * vc_vector.v[i];
+	cv_product.x = this->x * vc_vector.x;
+	cv_product.y = this->y * vc_vector.y;
+	cv_product.z = this->z * vc_vector.z;	
 	return cv_product;
+}
+
+CVector3 CVector3::operator*=(CVector3 & vc_vector)
+{
+	this->x *= vc_vector.x;
+	this->y *= vc_vector.y;
+	this->z *= vc_vector.z;
+	return *(this);
 }
 
 CVector3 CVector3::operator*(float f_escalar)
 {
 	CVector3 cv_product;
-	for (int i = 0; i < 3; ++i)
-		cv_product.v[i] = this->v[i] * f_escalar;
+	cv_product.x = this->x * f_escalar;
+	cv_product.y = this->y * f_escalar;
+	cv_product.z = this->z * f_escalar;
 	return cv_product;
+}
+
+CVector3 CVector3::operator*=(float f_escalar)
+{
+	this->x *= f_escalar;
+	this->y *= f_escalar;
+	this->z *= f_escalar;
+	return *(this);
 }
 
 CVector3 CVector3::operator-(CVector3 & vc_vector)
 {
 	CVector3 cv_result;
-	for (int i = 0; i < 3; i++)
-		cv_result.v[i] = this->v[i] - vc_vector.v[i];
+	cv_result.x = this->x - vc_vector.x;
+	cv_result.y = this->y - vc_vector.y;
+	cv_result.z = this->z - vc_vector.z;
 	return cv_result;
+}
+
+CVector3 CVector3::operator-=(CVector3 & vc_vector)
+{
+	this->x -= vc_vector.x;
+	this->y -= vc_vector.y;
+	this->z -= vc_vector.z;
+	return *(this);
 }
 
 CVector3 CVector3::operator+(CVector3 & vc_vector)
 {
 	CVector3 cv_result;
-	for (int i = 0; i < 3; ++i)
-		cv_result.v[i] = this->v[i] + vc_vector.v[i];
+	cv_result.x = this->x + vc_vector.x;
+	cv_result.y = this->y + vc_vector.y;
+	cv_result.z = this->z + vc_vector.z;
 	return cv_result;
+}
+
+CVector3 CVector3::operator+=(CVector3 & vc_vector)
+{
+	this->x += vc_vector.x;
+	this->y += vc_vector.y;
+	this->z += vc_vector.z;
+	return *(this);
 }
 
 void CVector3::operator=(float f_unit)
 {	
-	for (int i = 0; i < 3; i++)
-		this->v[i] = f_unit;	
+	this->x = f_unit;
+	this->y = f_unit;
+	this->z = f_unit;
 }
 
 CVector3::CVector3()

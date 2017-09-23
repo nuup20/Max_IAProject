@@ -16,8 +16,8 @@ public:
 
 	CVector3	m_direction;	
 	
-	vector<CVector3>	nodes;
-	int					pathIndex;
+	vector<CGameObject*>	nodes;
+	int						pathIndex;
 
 	void		init();
 	void		update();
@@ -31,11 +31,11 @@ public:
 	CVector3	evade(CVector3 pos, CVector3 dir, float speed);
 	CVector3	wander();
 	CVector3	followPath();
-	CVector3	followPath(vector<CVector3>& nodeList, float index);
+	CVector3	followPath(vector<CGameObject*>& nodeList, float index);	
 
 	void		setDirection(int x, int y);
 	void		setShapeColor(int r, int g, int b, int a);
-	void		setPathIndex(int index);
+	void		addObstacleNode(CGameObject& newNode);
 	void		transform();
 
 	CBoid();

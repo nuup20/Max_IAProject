@@ -70,7 +70,7 @@ CVector3 CBoid::evade(CVector3 pos, CVector3 dir, float speed) {
 CVector3 CBoid::wander() {
 	CVector3 pp = m_position + (m_direction * PP_WANDER_DIST);
 	float f_wAp = (rand() % PP_WANDER_APERTURE) * (PI / 180);
-	float f_wPhi = (atan(m_direction.y / m_direction.x) - (f_wAp *0.5)) + f_wAp;
+	float f_wPhi = (atan(m_direction.y / m_direction.x) - ((PP_WANDER_APERTURE >> 1) * PI / 180)) + f_wAp;
 	pp.x += PP_WANDER_RADIUS * cos(f_wPhi);
 	pp.y += PP_WANDER_RADIUS * sin(f_wPhi);
 	return (pp - m_position);
@@ -81,30 +81,30 @@ CVector3 CBoid::followPath()
 	if (pathIndex >= nodes.size())
 		return CVector3();
 	if (pathIndex == 0)
-		return seek(nodes[pathIndex].x, nodes[pathIndex].y);
+		return seek(nodes[pathIndex]->m_position.x, nodes[pathIndex]->m_position.y);
 
-	CVector3 agentDist = m_position - nodes[pathIndex - 1];
-	CVector3 nodeDist = nodes[pathIndex] - nodes[pathIndex - 1];
+	CVector3 agentDist = m_position - nodes[pathIndex - 1]->m_position;
+	CVector3 nodeDist = nodes[pathIndex]->m_position - nodes[pathIndex - 1]->m_position;
 	CVector3 pathForce = (nodeDist * dot(nodeDist, agentDist)) - agentDist;
-	CVector3 nodeForce = nodes[pathIndex] - m_position;
+	CVector3 nodeForce = nodes[pathIndex]->m_position - m_position;
 	
-	if ((nodes[pathIndex] - m_position).magnitud() <= NODE_RADIUS)
+	if ((nodes[pathIndex]->m_position - m_position).magnitud() <= NODE_RADIUS)
 		++pathIndex;
 
 	return nodeForce + pathForce;
 }
 
-CVector3 CBoid::followPath(vector<CVector3>& nodeList, float index)
+CVector3 CBoid::followPath(vector<CGameObject*>& nodeList, float index)
 {
 	if (index >= nodeList.size())
 		return CVector3();
 	if (index == 0)
-		return seek(nodeList[index].x, nodeList[index].y);
+		return seek(nodeList[index]->m_position.x, nodeList[index]->m_position.y);
 
-	CVector3 agentDist = m_position - nodeList[index - 1];
-	CVector3 nodeDist = nodeList[index] - nodeList[index - 1];
+	CVector3 agentDist = m_position - nodeList[index - 1]->m_position;
+	CVector3 nodeDist = nodeList[index]->m_position - nodeList[index - 1]->m_position;
 	CVector3 pathForce = (nodeDist * dot(nodeDist, agentDist)) - agentDist;
-	CVector3 nodeForce = nodeList[index] - m_position;
+	CVector3 nodeForce = nodeList[index]->m_position - m_position;
 
 	return nodeForce + pathForce;
 }
@@ -118,6 +118,11 @@ void CBoid::setDirection(int x, int y)
 void CBoid::setShapeColor(int r, int g, int b, int a)
 {
 	m_shape.setFillColor(sf::Color(r, g, b, a));
+}
+
+void CBoid::addObstacleNode(CGameObject & newNode)
+{
+	nodes.push_back(&newNode);
 }
 
 void CBoid::transform()
