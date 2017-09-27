@@ -9,6 +9,10 @@
 #define PP_WANDER_RADIUS	2	//Radio del Circulo proyectado (wander)
 #define PP_WANDER_APERTURE	30	//Angulo de apertura en grados (wander)
 #define NODE_RADIUS			2
+#define BOID_RADIUS			1
+#define BOID_VISION			5
+#define BOID_SEPARATION		5
+#define BOID_REPULSION_FORCE 10
 #define VELOCITY			10
 
 void CBoid::init() {
@@ -107,6 +111,70 @@ CVector3 CBoid::followPath(vector<CGameObject*>& nodeList, float index)
 	CVector3 nodeForce = nodeList[index]->m_position - m_position;
 
 	return nodeForce + pathForce;
+}
+
+CVector3 CBoid::obstacleAvoidance(vector<CObstacle*>& obstacles)
+{
+	CVector3	visionVec = this->m_direction * BOID_VISION;
+	CVector3	vect_ObsToVision, vect_AgentToObs;
+	CGameObject* primaryObstacle = NULL;
+	float		refEsc = BOID_VISION;
+	float		dotEsc = 0;
+
+	for (int i = 0; i < obstacles.size(); ++i) {
+		vect_AgentToObs = (*obstacles[i]).m_position - this->m_position;
+		dotEsc = vect_AgentToObs.dot(visionVec);
+		if ( dotEsc > 0 && dotEsc <= 1 && dotEsc <= refEsc) {
+			vect_ObsToVision = (visionVec * dotEsc) - vect_AgentToObs;
+			if (((vect_ObsToVision).magnitud() - (*obstacles[i]).m_radius) <= (BOID_RADIUS * 0.5f)) {
+				primaryObstacle = obstacles[i];
+			}
+		}
+	}
+
+	if (primaryObstacle != NULL) {
+		vect_AgentToObs = (*primaryObstacle).m_position - this->m_position;
+		dotEsc = vect_AgentToObs.dot(visionVec);
+		vect_ObsToVision = (visionVec * dotEsc) - vect_AgentToObs;
+		return vect_ObsToVision * 999999.f;
+	}
+
+	return CVector3(0,0,0);
+}
+
+CVector3 CBoid::avargeDirection(vector<CBoid*>& boidList)
+{
+	CVector3 pDirection(0,0,0);
+	for (int i = 0; i < boidList.size(); ++i) {
+		pDirection += (*boidList[i]).m_direction;
+	}
+	return (pDirection / boidList.size()).normalized();
+}
+
+CVector3 CBoid::cohesion(vector<CBoid*>& boidList)
+{
+	CVector3 pPosition(0, 0, 0);
+	for (int i = 0; i < boidList.size(); ++i) {
+		pPosition += (*boidList[i]).m_direction;
+	}
+	pPosition /= boidList.size();
+	return seek(pPosition.x, pPosition.y);
+}
+
+CVector3 CBoid::separation(vector<CBoid*>& boidList) {
+	CVector3 separationForce(0, 0, 0);
+	CVector3 vectToObject;
+	for (int i = 0; i < boidList.size(); ++i) {
+		vectToObject = m_position - boidList[i]->m_position;
+		if (vectToObject.magnitud() <= BOID_SEPARATION)
+			separationForce += vectToObject.normalized() * ((1 - (vectToObject.magnitud() / BOID_SEPARATION))*BOID_REPULSION_FORCE);		
+	}
+	return separationForce;
+}
+
+CVector3 CBoid::flock(vector<CBoid*>& boidList)
+{
+	return separation(boidList) + cohesion(boidList) + avargeDirection(boidList);
 }
 
 void CBoid::setDirection(int x, int y)

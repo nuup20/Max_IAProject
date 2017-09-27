@@ -23,6 +23,10 @@ void CWorld::update()
 		(*m_objIt)->update();
 }
 
+void CWorld::render()
+{
+}
+
 void CWorld::render(RenderWindow& wnd)
 {
 	for (m_objIt = m_gameObjectList.begin(); m_objIt != m_gameObjectList.end(); ++m_objIt)

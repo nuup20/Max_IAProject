@@ -91,11 +91,30 @@ CVector3 CVector3::operator+=(CVector3 & vc_vector)
 	return *(this);
 }
 
+CVector3 CVector3::operator/(float f_denominador)
+{	
+	return CVector3(this->x / f_denominador, this->y / f_denominador, this->z / f_denominador);
+}
+
+CVector3 CVector3::operator/=(float f_denominador)
+{
+	this->x /= f_denominador;
+	this->y /= f_denominador;
+	this->z /= f_denominador;
+	
+	return (*this);
+}
+
 void CVector3::operator=(float f_unit)
 {	
 	this->x = f_unit;
 	this->y = f_unit;
 	this->z = f_unit;
+}
+
+float CVector3::dot(CVector3 & vc_vector)
+{
+	return (this->x*vc_vector.x) + (this->y*vc_vector.y) + (this->z*vc_vector.z);
 }
 
 CVector3::CVector3()

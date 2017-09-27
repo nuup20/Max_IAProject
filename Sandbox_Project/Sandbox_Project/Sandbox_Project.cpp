@@ -3,17 +3,13 @@
 
 #include "stdafx.h"
 #include "Application.h"
+#include "SFMLApplication.h"
 #include <iostream>
 
 int main()
 {	
-	CApplication app_sandbox;
-	app_sandbox.init(1280, 720, "Steering Behaviors");
+	CSFMLApplication app_sandbox;
 	
-	while (1) {
-		app_sandbox.update();
-		app_sandbox.render();
-	}	
-
-	return 0;
+	app_sandbox.init();	
+	return app_sandbox.run();
 }

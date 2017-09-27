@@ -22,7 +22,10 @@ public:
 	CVector3	operator-=(CVector3& vc_vector);
 	CVector3	operator+(CVector3& vc_vector);
 	CVector3	operator+=(CVector3& vc_vector);
+	CVector3	operator / (float f_denominador);
+	CVector3	operator /= (float f_denominador);
 	void		operator=(float f_unit);
+	float		dot(CVector3& vc_vector);
 
 	CVector3();
 	CVector3(float f_x, float f_y, float f_z);
