@@ -177,6 +177,12 @@ CVector3 CBoid::flock(vector<CBoid*>& boidList)
 	return separation(boidList) + cohesion(boidList) + avargeDirection(boidList);
 }
 
+CVector3 CBoid::followTheLeader(CBoid& leader, float proyectionMgn, vector<CBoid*>& boidList)
+{
+	CVector3 seekPoint = leader.m_position - (leader.m_direction * proyectionMgn);
+	return separation(boidList) + seek(seekPoint.x,seekPoint.y) + (leader.m_direction * MAG_SEEK) + flee(leader.m_position.x, leader.m_position.y);
+}
+
 void CBoid::setDirection(int x, int y)
 {
 	m_direction.x = x;
