@@ -10,22 +10,26 @@ public:
 		};
 		float v[3];
 	};
+	
+	
+	CVector3	operator*(const CVector3& vc_vector) const;
+	CVector3	operator*(const float f_escalar) const;
+	CVector3	operator-(const CVector3& vc_vector) const;
+	CVector3	operator+(const CVector3& vc_vector) const;
+	CVector3	operator / (const float f_denominador) const;
+	CVector3	operator*=(const CVector3& vc_vector);
+	CVector3	operator*=(const float f_escalar);	
+	CVector3	operator-=(const CVector3& vc_vector);	
+	CVector3	operator+=(const CVector3& vc_vector);	
+	CVector3	operator /= (const float f_denominador);
+	void		operator=(const float f_unit);
 
-	float		magnitud();
-	CVector3	normalized();
-	CVector3	truncate(const float maxMg);
-	CVector3	operator*(CVector3& vc_vector);
-	CVector3	operator*=(CVector3& vc_vector);
-	CVector3	operator*(float f_escalar);
-	CVector3	operator*=(float f_escalar);
-	CVector3	operator-(CVector3& vc_vector);
-	CVector3	operator-=(CVector3& vc_vector);
-	CVector3	operator+(CVector3& vc_vector);
-	CVector3	operator+=(CVector3& vc_vector);
-	CVector3	operator / (float f_denominador);
-	CVector3	operator /= (float f_denominador);
-	void		operator=(float f_unit);
-	float		dot(CVector3& vc_vector);
+	CVector3	truncate(const float maxMg) const;
+	CVector3	normalized() const;
+	CVector3	cross(const CVector3& vc_vector) const;
+	float		magnitud() const;	
+	float		dot(const CVector3& vc_vector) const;
+	
 
 	CVector3();
 	CVector3(float f_x, float f_y, float f_z);

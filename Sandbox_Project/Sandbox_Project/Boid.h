@@ -38,6 +38,7 @@ public:
 	CVector3	cohesion(vector<CBoid*>& boidList);
 	CVector3	separation(vector<CBoid*>& boidList);
 	CVector3	flock(vector<CBoid*>& boidList);
+	CVector3	followTheLeader(CBoid& leader, float proyectionMgn, vector<CBoid*>& boidList);
 
 	void		setDirection(int x, int y);
 	void		setShapeColor(int r, int g, int b, int a);

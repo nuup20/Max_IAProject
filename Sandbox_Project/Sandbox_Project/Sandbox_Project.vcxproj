@@ -152,10 +152,22 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Attack.h" />
     <ClInclude Include="Boid.h" />
+    <ClInclude Include="Build.h" />
+    <ClInclude Include="Dead.h" />
+    <ClInclude Include="Fsm.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Gather.h" />
+    <ClInclude Include="Idle.h" />
+    <ClInclude Include="Land.h" />
+    <ClInclude Include="Lift.h" />
+    <ClInclude Include="MoveTo.h" />
     <ClInclude Include="Obstacle.h" />
+    <ClInclude Include="Patrol.h" />
+    <ClInclude Include="RetreaveCargo.h" />
     <ClInclude Include="SFMLApplication.h" />
+    <ClInclude Include="State.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Vector3.h" />
@@ -163,11 +175,23 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Attack.cpp" />
     <ClCompile Include="Boid.cpp" />
+    <ClCompile Include="Build.cpp" />
+    <ClCompile Include="Dead.cpp" />
+    <ClCompile Include="Fsm.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Gather.cpp" />
+    <ClCompile Include="Idle.cpp" />
+    <ClCompile Include="Land.cpp" />
+    <ClCompile Include="Lift.cpp" />
+    <ClCompile Include="MoveTo.cpp" />
     <ClCompile Include="Obstacle.cpp" />
+    <ClCompile Include="Patrol.cpp" />
+    <ClCompile Include="RetreaveCargo.cpp" />
     <ClCompile Include="Sandbox_Project.cpp" />
     <ClCompile Include="SFMLApplication.cpp" />
+    <ClCompile Include="State.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -176,6 +200,9 @@
     </ClCompile>
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="World.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Sandbox_Project.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
