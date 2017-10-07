@@ -39,6 +39,16 @@ void CWorld::destroy()
 		(*m_objIt)->destroy();
 }
 
+vector<CGameObject*> CWorld::getObjsInArea(int x, int y, float radius)
+{
+	CVector3 position(x,y);
+	vector<CGameObject*> objectsDetected;
+	for (unsigned int i = 0; i < m_gameObjectList.size(); ++i)
+		if ((position - m_gameObjectList[i]->m_position).magnitud() <= radius)
+			objectsDetected.push_back(m_gameObjectList[i]);
+	return objectsDetected;
+}
+
 CWorld::CWorld()
 {
 }

@@ -23,6 +23,8 @@ public:
 	void	render(RenderWindow& wnd);
 	void	destroy();	
 
+	vector<CGameObject*> getObjsInArea(int x, int y, float radius);
+
 	CWorld();
 	~CWorld();
 };
