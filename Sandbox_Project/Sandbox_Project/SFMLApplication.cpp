@@ -3,7 +3,7 @@
 
 bool CSFMLApplication::peekEvent(Event& _event)
 {
-	while (m_window.pollEvent(_event)) {
+	while (m_activeWindow->m_window.pollEvent(_event)) {
 		switch (_event.type) {
 		case Event::Closed:
 			destroy();
@@ -19,31 +19,30 @@ bool CSFMLApplication::peekEvent(Event& _event)
 void CSFMLApplication::init()
 {
 	m_world.init();
+	createWindow(800, 600, "mainWindow");
+	if (m_windowList.size() > 0)
+		m_activeWindow = m_windowList[0];
 }
 
 void CSFMLApplication::update()
 {
-	m_world.update();
+	m_world.update();	
 }
 
-void CSFMLApplication::render(RenderWindow& wnd)
+void CSFMLApplication::render()
 {
-	m_window.clear();
-	m_world.render(wnd);
-	m_window.display();
+	m_activeWindow->clear();
+	m_world.render(m_activeWindow->m_window);
+	m_activeWindow->render();
 }
 
 int CSFMLApplication::run()
-{
-	setWindow(800, 600, "Test Window");
-	m_window.create(sf::VideoMode(m_wndWidth,m_wndHeight),m_wndTitle);
-	sf::Event event;
-
-	init();	
+{	
+	sf::Event event;	
 	
 	while (peekEvent(event)) {
 		update();
-		render(m_window);
+		render();
 	}		
 	
 	destroy();
@@ -53,14 +52,32 @@ int CSFMLApplication::run()
 void CSFMLApplication::destroy()
 {
 	m_world.destroy();
-	m_window.close();
+	for(unsigned int i = 0; i < m_windowList.size(); ++i)
+		m_windowList[i]->destroy();
 }
 
-void CSFMLApplication::setWindow(int width, int height, string title)
+void CSFMLApplication::createWindow(short _width, short _height, string _title)
 {
-	m_wndWidth = width;
-	m_wndHeight = height;
-	m_wndTitle = title;
+	CSFMLWindow *newWindow = new CSFMLWindow;
+	newWindow->initWindow(_height, _width, _title);
+	m_windowList.push_back(newWindow);	
+}
+
+bool CSFMLApplication::destroyWindow(unsigned int index)
+{
+	if (index >= m_windowList.size())
+		return false;
+	m_windowList[index]->destroy();
+	
+}
+
+bool CSFMLApplication::setActiveWindow(unsigned int index)
+{
+	if (m_windowList.size() < index) {
+		m_activeWindow = m_windowList[index];
+		return true;
+	}		
+	return false;
 }
 
 CSFMLApplication::CSFMLApplication()

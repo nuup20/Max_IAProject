@@ -1,5 +1,6 @@
 #pragma once
 #include "Application.h"
+#include "SFMLWindow.h"
 #include <SFML/Graphics.hpp>
 
 using sf::RenderWindow;
@@ -10,22 +11,21 @@ class CSFMLApplication : public CApplication
 {
 private:
 
-	RenderWindow	m_window;
-
-	int		m_wndWidth;
-	int		m_wndHeight;
-	string	m_wndTitle;
+	vector<CSFMLWindow*>		m_windowList;
+	CSFMLWindow					*m_activeWindow;
 
 	bool	peekEvent(Event& _event);
 
 public:
 	void	init();
 	void	update();
-	void	render(RenderWindow& wnd);
+	void	render();
 	int		run();
 	void	destroy();
 
-	void	setWindow(int width, int height, string title);
+	void	createWindow(short _width, short _height, string _title);
+	bool	destroyWindow(unsigned int index);
+	bool	setActiveWindow(unsigned int index);
 
 	CSFMLApplication();
 	~CSFMLApplication();

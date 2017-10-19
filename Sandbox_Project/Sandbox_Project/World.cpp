@@ -13,8 +13,13 @@ void CWorld::init()
 	_newGO->setShapeColor(0, 0, 255, 255);
 	m_gameObjectList.push_back(_newGO);
 
-	//CREATE TARGET
-
+	//CREATE BUTTON
+	CInteractiveButton* _newBtn = new CInteractiveButton();
+	_newBtn->m_name = "Play_Button";
+	_newBtn->setPosition(100, 100);
+	_newBtn->init();
+	_newBtn->setLabel("Play!");
+	m_gameObjectList.push_back(_newBtn);
 }
 
 void CWorld::update()

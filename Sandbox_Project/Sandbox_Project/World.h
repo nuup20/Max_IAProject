@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "GameObject.h"
 #include "Boid.h"
+#include "InteractiveButton.h"
 
 using std::vector;
 using sf::RenderWindow;
