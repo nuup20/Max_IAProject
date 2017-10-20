@@ -25,6 +25,12 @@ void CScene::setName(string newName)
 
 void CScene::onMouseClick(int x, int y, short btn)
 {
+
+}
+
+void CScene::onMouseMove(int x, int y)
+{
+
 }
 
 /*

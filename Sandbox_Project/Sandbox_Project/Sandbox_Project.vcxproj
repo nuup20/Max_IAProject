@@ -167,6 +167,7 @@
     <ClInclude Include="MenuGM.h" />
     <ClInclude Include="MoveTo.h" />
     <ClInclude Include="Obstacle.h" />
+    <ClInclude Include="OptionsScene.h" />
     <ClInclude Include="Patrol.h" />
     <ClInclude Include="RetreaveCargo.h" />
     <ClInclude Include="Scene.h" />
@@ -196,6 +197,7 @@
     <ClCompile Include="MenuGM.cpp" />
     <ClCompile Include="MoveTo.cpp" />
     <ClCompile Include="Obstacle.cpp" />
+    <ClCompile Include="OptionsScene.cpp" />
     <ClCompile Include="Patrol.cpp" />
     <ClCompile Include="RetreaveCargo.cpp" />
     <ClCompile Include="Sandbox_Project.cpp" />

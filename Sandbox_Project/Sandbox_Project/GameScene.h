@@ -17,6 +17,7 @@ public:
 	void destroy();
 
 	void onMouseClick(int x, int y, short btn);
+	void onMouseMove(int x, int y);
 
 	CGameScene();
 	~CGameScene();

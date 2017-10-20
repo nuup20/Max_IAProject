@@ -28,17 +28,15 @@ void CMenuGM::init()
 	// Play Button
 	CInteractiveButton* _newBtn = new CInteractiveButton();
 	_newBtn->m_name = "Play_Button";
-	_newBtn->setPosition(400, 260);
-	_newBtn->init();
-	_newBtn->setLabel("Play!");
+	_newBtn->setPosition(400, 260);	
+	_newBtn->setLabel("Play!");	
 	m_buttonList.push_back(_newBtn);
 
 	// Option Button
 	_newBtn = new CInteractiveButton();
 	_newBtn->m_name = "Option_Button";
-	_newBtn->setPosition(400, 360);
-	_newBtn->init();
-	_newBtn->setLabel("Options");
+	_newBtn->setPosition(400, 360);	
+	_newBtn->setLabel("Options");	
 	m_buttonList.push_back(_newBtn);
 	
 }
@@ -60,6 +58,7 @@ void CMenuGM::destroy()
 {
 	for (unsigned int i = 0; i < m_buttonList.size(); ++i)
 		m_buttonList[i]->destroy();
+	m_buttonList.clear();
 }
 
 void CMenuGM::onMouseClick(int x, int y, short btn)
@@ -69,6 +68,12 @@ void CMenuGM::onMouseClick(int x, int y, short btn)
 			buttonFunc(i);
 			return;
 		}
+}
+
+void CMenuGM::onMouseMove(int x, int y)
+{
+	for (unsigned int i = 0; i < m_buttonList.size(); ++i)
+		m_buttonList[i]->isHoverbyPosition(x, y);
 }
 
 CMenuGM::CMenuGM()

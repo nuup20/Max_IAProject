@@ -4,6 +4,7 @@
 #include "Scene.h"
 #include "MenuGM.h"
 #include "GameScene.h"
+#include "OptionsScene.h"
 #include <SFML/Graphics.hpp>
 
 using sf::RenderWindow;

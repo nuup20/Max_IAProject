@@ -26,6 +26,10 @@ void CGameScene::onMouseClick(int x, int y, short btn)
 
 }
 
+void CGameScene::onMouseMove(int x, int y)
+{
+}
+
 CGameScene::CGameScene()
 {
 }

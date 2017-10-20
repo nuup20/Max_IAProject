@@ -13,6 +13,9 @@ bool CSFMLApplication::peekEvent(Event& _event)
 			if (Mouse::isButtonPressed(sf::Mouse::Left))
 				m_activeScene->onMouseClick(Mouse::getPosition(m_appWindow.m_window).x, Mouse::getPosition(m_appWindow.m_window).y,0);			
 			break;
+		case Event::MouseMoved:
+			m_activeScene->onMouseMove(Mouse::getPosition(m_appWindow.m_window).x, Mouse::getPosition(m_appWindow.m_window).y);
+			break;
 		default:
 			return true;
 		}
@@ -27,14 +30,19 @@ void CSFMLApplication::init()
 	CMenuGM* menuScene = new CMenuGM();
 	menuScene->init();
 	menuScene->setName("Menu Scene");
-	m_sceneList.push_back(menuScene);
-	setActiveScene(0);
+	m_sceneList.push_back(menuScene);	
+
+	COptionsScene* optionsScene = new COptionsScene();
+	optionsScene->init();
+	optionsScene->setName("Options Scene");
+	m_sceneList.push_back(optionsScene);	
 
 	CGameScene* gameScene = new CGameScene();
 	gameScene->init();
 	gameScene->setName("Game Scene");
 	m_sceneList.push_back(gameScene);
-	setActiveScene(0);
+
+	setActiveScene(1);
 
 	//for (unsigned int i = 0; i < m_sceneList.size(); ++i)
 		//m_sceneList[i]->setMyApp(this);
@@ -52,7 +60,6 @@ void CSFMLApplication::render()
 	m_appWindow.clear();	
 	m_activeScene->render(m_appWindow.m_window);
 	m_appWindow.render();
-
 }
 
 int CSFMLApplication::run()
@@ -85,8 +92,6 @@ bool CSFMLApplication::setActiveScene(unsigned int index)
 	m_activeScene->init();
 	return true;
 }
-
-
 
 CSFMLApplication::CSFMLApplication()
 {

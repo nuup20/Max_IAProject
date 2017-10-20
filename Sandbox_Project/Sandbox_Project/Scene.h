@@ -25,6 +25,7 @@ public:
 
 	virtual void setName(string newName);
 	virtual void onMouseClick(int x, int y, short btn);
+	virtual void onMouseMove(int x, int y);
 
 	//virtual void setMyApp(CSFMLApplication *_myApp);
 

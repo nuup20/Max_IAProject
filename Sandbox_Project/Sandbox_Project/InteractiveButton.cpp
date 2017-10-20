@@ -2,27 +2,41 @@
 #include "InteractiveButton.h"
 
 
-void CInteractiveButton::resetLabelPosition()
+void CInteractiveButton::hoverAnimation()
 {
+
+}
+
+void CInteractiveButton::updateButtonParams()
+{
+	
+	if (!m_font.loadFromFile(m_fontDirectory))
+		m_font.loadFromFile("fonts/arial.ttf");
+	m_label.setFont(m_font);
+	m_label.setCharacterSize(m_characterSize);
+	m_label.setString(m_buttonLabelStr);
+
+	if (!m_texture.loadFromFile(m_buttonTextureDirectory))
+		m_texture.loadFromFile("textures/default/spr_btn_01.png");
+	setSizeByTexture(m_texture);
+	m_btnSprite.setTexture(m_texture);
+	m_btnSprite.setPosition(m_position.x, m_position.y);
+	m_btnSprite.setColor(m_normalColor);
+
 	sf::FloatRect rect = m_label.getGlobalBounds();
-	m_label.setPosition(m_position.x + ((m_width - rect.width)*0.5), m_position.y + ((m_height - rect.height)*0.5));
+	m_label.setPosition(m_position.x + ((m_width - rect.width)*0.5), m_position.y + ((m_height - rect.height)*0.25));
 }
 
 void CInteractiveButton::init()
 {
-	if (!m_font.loadFromFile("fonts/Keep_Singing.ttf"))
-		return;
-	m_label.setFont(m_font);
-	m_label.setFillColor(Color::White);
-	m_label.setCharacterSize(20);
-	m_label.setString("Default");	
-
-	if (!m_texture.loadFromFile("textures/default/spr_btn_01.png"))
-		return;
-	setSizeByTexture(m_texture);
-	m_btnSprite.setTexture(m_texture);
-	m_btnSprite.setPosition(m_position.x, m_position.y);
-	resetLabelPosition();	
+	m_fontDirectory = "fonts/Keep_Singing.ttf";
+	m_buttonTextureDirectory = "textures/default/spr_btn_01.png";
+	m_textColor = Color::White;
+	m_hoverColor = Color::Red;
+	m_normalColor = Color::Blue;
+	m_buttonLabelStr = "Default";
+	m_characterSize = 20;
+	updateButtonParams();
 	return;
 }
 
@@ -51,53 +65,61 @@ bool CInteractiveButton::isPressedByPosition(int x, int y)
 	return false;
 }
 
+bool CInteractiveButton::isHoverbyPosition(int x, int y)
+{
+	sf::FloatRect butRect = m_btnSprite.getGlobalBounds();
+	if (butRect.contains(x, y)) {		
+		m_btnSprite.setColor(m_hoverColor);
+		return true;
+	}
+	m_btnSprite.setColor(m_normalColor);
+	return false;
+}
+
 void CInteractiveButton::setSize(int width, int height)
 {
 
 }
 
-bool CInteractiveButton::setTextureDirectory(string _directory)
+void CInteractiveButton::setTextureDirectory(string _directory)
 {
-	if(!m_texture.loadFromFile(_directory))
-		return false;
-	setSizeByTexture(m_texture);
-	resetLabelPosition();
-	return true;
-}
-
-void CInteractiveButton::setTexture(Texture _newTexture)
-{
-	m_texture = _newTexture;
+	m_buttonTextureDirectory = _directory;
+	updateButtonParams();	
 }
 
 void CInteractiveButton::setLabel(string _newLabel)
 {
-	m_label.setString(_newLabel);
-	resetLabelPosition();
+	m_buttonLabelStr = _newLabel;
+	updateButtonParams();
 }
 
-void CInteractiveButton::setFont(Font _newFont)
+void CInteractiveButton::setFontDirectory(string _Directory)
 {
-	m_font = _newFont;
-	m_label.setFont(m_font);
-	resetLabelPosition();
+	m_fontDirectory = _Directory;
+	updateButtonParams();
 }
 
-bool CInteractiveButton::loadFont(string _directory)
+
+void CInteractiveButton::setFontColor(short r, short g, short b, short a)
 {
-	if (!m_font.loadFromFile(_directory))
-		return false;
-	return true;
+	m_textColor = Color(r, g, b, a);
+	m_label.setFillColor(m_textColor);
 }
 
-void CInteractiveButton::setFontColor(Color _fontColor)
+void CInteractiveButton::setNormalColor(short r, short g, short b, short a)
 {
-	m_label.setFillColor(_fontColor);
+	m_normalColor = Color(r, g, b, a);
+}
+
+void CInteractiveButton::setHoverColor(short r, short g, short b, short a)
+{
+	m_hoverColor = Color(r, g, b, a);
 }
 
 void CInteractiveButton::setFontSize(int _size)
 {
-	m_label.setCharacterSize(_size);
+	m_characterSize = _size;
+	updateButtonParams();
 }
 
 void CInteractiveButton::setSizeByTexture(Texture & _texture)
@@ -109,9 +131,11 @@ void CInteractiveButton::setSizeByTexture(Texture & _texture)
 
 CInteractiveButton::CInteractiveButton()
 {
+	init();
 }
 
 
 CInteractiveButton::~CInteractiveButton()
 {
+	destroy();
 }

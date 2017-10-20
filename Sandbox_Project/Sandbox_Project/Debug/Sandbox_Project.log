@@ -1,5 +1,71 @@
-﻿  Scene.cpp
+﻿  stdafx.cpp
+  World.cpp
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\world.cpp(41): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  WindowApp.cpp
+  Vector3.cpp
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\vector3.cpp(6): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\vector3.cpp(7): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+  State.cpp
+  SFMLWindow.cpp
   SFMLApplication.cpp
+  Scene.cpp
+  Sandbox_Project.cpp
+  RetreaveCargo.cpp
+  Patrol.cpp
+  OptionsScene.cpp
+  Obstacle.cpp
+  MoveTo.cpp
+  MenuGM.cpp
+  Lift.cpp
+  Land.cpp
+  InteractiveButton.cpp
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\interactivebutton.cpp(27): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\interactivebutton.cpp(63): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\interactivebutton.cpp(71): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\interactivebutton.cpp(105): warning C4244: 'argument': conversion from 'short' to 'sf::Uint8', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\interactivebutton.cpp(111): warning C4244: 'argument': conversion from 'short' to 'sf::Uint8', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\interactivebutton.cpp(116): warning C4244: 'argument': conversion from 'short' to 'sf::Uint8', possible loss of data
+  Idle.cpp
+  Gather.cpp
+  GameScene.cpp
+  Generating Code...
+  Compiling...
+  GameObject.cpp
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\gameobject.cpp(25): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\gameobject.cpp(26): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  Fsm.cpp
+  Dead.cpp
+  Build.cpp
+  Boid.cpp
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(42): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(48): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(56): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(57): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(58): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(65): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(71): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(76): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(77): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(85): warning C4018: '>=': signed/unsigned mismatch
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(88): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(106): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(106): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(108): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(109): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(111): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(124): warning C4018: '<': signed/unsigned mismatch
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(148): warning C4018: '<': signed/unsigned mismatch
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(151): warning C4244: 'argument': conversion from 'unsigned int' to 'const float', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(157): warning C4018: '<': signed/unsigned mismatch
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(160): warning C4244: 'argument': conversion from 'unsigned int' to 'const float', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(161): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(167): warning C4018: '<': signed/unsigned mismatch
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(183): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(188): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(189): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(204): warning C4305: 'argument': truncation from 'double' to 'const float'
+  Attack.cpp
+  Application.cpp
   Generating Code...
   Sandbox_Project.vcxproj -> D:\Max Maldonado\Documents\Max_IAProject\Sandbox_Project\Debug\Sandbox_Project.exe
   Sandbox_Project.vcxproj -> D:\Max Maldonado\Documents\Max_IAProject\Sandbox_Project\Debug\Sandbox_Project.pdb (Full PDB)
