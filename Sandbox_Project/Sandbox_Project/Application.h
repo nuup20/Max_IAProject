@@ -4,9 +4,6 @@
 
 class CApplication
 {
-protected:
-	CWorld	m_world;	
-
 public:
 	virtual void	init();
 	virtual void	update();

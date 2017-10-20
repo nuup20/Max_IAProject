@@ -1,18 +1,23 @@
 #pragma once
 #include "Application.h"
 #include "SFMLWindow.h"
+#include "Scene.h"
+#include "MenuGM.h"
+#include "GameScene.h"
 #include <SFML/Graphics.hpp>
 
 using sf::RenderWindow;
 using sf::Event;
+using sf::Mouse;
 using std::string;
 
 class CSFMLApplication : public CApplication
 {
-private:
+private:	
 
-	vector<CSFMLWindow*>		m_windowList;
-	CSFMLWindow					*m_activeWindow;
+	CSFMLWindow			m_appWindow;
+	vector<CScene*>		m_sceneList;
+	CScene*				m_activeScene;	
 
 	bool	peekEvent(Event& _event);
 
@@ -23,9 +28,7 @@ public:
 	int		run();
 	void	destroy();
 
-	void	createWindow(short _width, short _height, string _title);
-	bool	destroyWindow(unsigned int index);
-	bool	setActiveWindow(unsigned int index);
+	bool	setActiveScene(unsigned int index);
 
 	CSFMLApplication();
 	~CSFMLApplication();

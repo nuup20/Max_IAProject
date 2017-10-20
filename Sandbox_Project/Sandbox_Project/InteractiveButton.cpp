@@ -10,7 +10,7 @@ void CInteractiveButton::resetLabelPosition()
 
 void CInteractiveButton::init()
 {
-	if (!m_font.loadFromFile("fonts/arial.ttf"))
+	if (!m_font.loadFromFile("fonts/Keep_Singing.ttf"))
 		return;
 	m_label.setFont(m_font);
 	m_label.setFillColor(Color::White);
@@ -43,8 +43,11 @@ void CInteractiveButton::destroy()
 
 }
 
-bool CInteractiveButton::isHover(int x, int y)
+bool CInteractiveButton::isPressedByPosition(int x, int y)
 {
+	sf::FloatRect butRect = m_btnSprite.getGlobalBounds();
+	if (butRect.contains(x, y))
+		return true;
 	return false;
 }
 
@@ -75,7 +78,9 @@ void CInteractiveButton::setLabel(string _newLabel)
 
 void CInteractiveButton::setFont(Font _newFont)
 {
-	m_label.setFont(_newFont);
+	m_font = _newFont;
+	m_label.setFont(m_font);
+	resetLabelPosition();
 }
 
 bool CInteractiveButton::loadFont(string _directory)

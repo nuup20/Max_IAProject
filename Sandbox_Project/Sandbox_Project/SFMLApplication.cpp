@@ -3,11 +3,15 @@
 
 bool CSFMLApplication::peekEvent(Event& _event)
 {
-	while (m_activeWindow->m_window.pollEvent(_event)) {
+	while (m_appWindow.m_window.pollEvent(_event)) {
 		switch (_event.type) {
 		case Event::Closed:
 			destroy();
 			return false;
+			break;
+		case Event::MouseButtonPressed:
+			if (Mouse::isButtonPressed(sf::Mouse::Left))
+				m_activeScene->onMouseClick(Mouse::getPosition(m_appWindow.m_window).x, Mouse::getPosition(m_appWindow.m_window).y,0);			
 			break;
 		default:
 			return true;
@@ -17,23 +21,38 @@ bool CSFMLApplication::peekEvent(Event& _event)
 }
 
 void CSFMLApplication::init()
-{
-	m_world.init();
-	createWindow(800, 600, "mainWindow");
-	if (m_windowList.size() > 0)
-		m_activeWindow = m_windowList[0];
+{		
+	m_appWindow.initWindow(1024, 720, "SandBox");	
+	
+	CMenuGM* menuScene = new CMenuGM();
+	menuScene->init();
+	menuScene->setName("Menu Scene");
+	m_sceneList.push_back(menuScene);
+	setActiveScene(0);
+
+	CGameScene* gameScene = new CGameScene();
+	gameScene->init();
+	gameScene->setName("Game Scene");
+	m_sceneList.push_back(gameScene);
+	setActiveScene(0);
+
+	//for (unsigned int i = 0; i < m_sceneList.size(); ++i)
+		//m_sceneList[i]->setMyApp(this);
+
 }
 
 void CSFMLApplication::update()
 {
-	m_world.update();	
+	m_appWindow.update();
+	m_activeScene->update();
 }
 
 void CSFMLApplication::render()
 {
-	m_activeWindow->clear();
-	m_world.render(m_activeWindow->m_window);
-	m_activeWindow->render();
+	m_appWindow.clear();	
+	m_activeScene->render(m_appWindow.m_window);
+	m_appWindow.render();
+
 }
 
 int CSFMLApplication::run()
@@ -51,34 +70,23 @@ int CSFMLApplication::run()
 
 void CSFMLApplication::destroy()
 {
-	m_world.destroy();
-	for(unsigned int i = 0; i < m_windowList.size(); ++i)
-		m_windowList[i]->destroy();
+	m_appWindow.destroy();
+	for (unsigned int i = 0; i < m_sceneList.size(); ++i)
+		m_sceneList[i]->destroy();
 }
 
-void CSFMLApplication::createWindow(short _width, short _height, string _title)
+bool CSFMLApplication::setActiveScene(unsigned int index)
 {
-	CSFMLWindow *newWindow = new CSFMLWindow;
-	newWindow->initWindow(_height, _width, _title);
-	m_windowList.push_back(newWindow);	
-}
-
-bool CSFMLApplication::destroyWindow(unsigned int index)
-{
-	if (index >= m_windowList.size())
+	if (index >= m_sceneList.size())
 		return false;
-	m_windowList[index]->destroy();
-	
+	if (m_activeScene != NULL)
+		m_activeScene->destroy();
+	m_activeScene = m_sceneList[index];
+	m_activeScene->init();
+	return true;
 }
 
-bool CSFMLApplication::setActiveWindow(unsigned int index)
-{
-	if (m_windowList.size() < index) {
-		m_activeWindow = m_windowList[index];
-		return true;
-	}		
-	return false;
-}
+
 
 CSFMLApplication::CSFMLApplication()
 {

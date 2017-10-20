@@ -15,15 +15,15 @@ public:
 	short	m_height;
 	string	m_title;
 
-	virtual void init();
-	virtual void update();
-	virtual void render();
-	virtual void clear();
-	virtual void destroy();
+	void init();
+	void update();
+	void render();
+	void clear();
+	void destroy();
 
-	virtual void initWindow(short _h, short _w, string title);
+	void initWindow(short _h, short _w, string title);
 
 	CSFMLWindow();
-	virtual ~CSFMLWindow();
+	~CSFMLWindow();
 };
 

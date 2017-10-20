@@ -31,10 +31,10 @@
     <Filter Include="Source Files\Math">
       <UniqueIdentifier>{3864c13b-a078-442e-9d24-f94a46fda9c9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Windows">
+    <Filter Include="Header Files\Scenes">
       <UniqueIdentifier>{450cb2b7-dc0e-4143-a9dd-5f0842edf683}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Windows">
+    <Filter Include="Source Files\Scenes">
       <UniqueIdentifier>{d196f933-008e-48f2-b715-5c922b66c2ee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -49,9 +49,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Application.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="World.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SFMLApplication.h">
@@ -105,17 +102,26 @@
     <ClInclude Include="Fsm.h">
       <Filter>Header Files\FSM</Filter>
     </ClInclude>
-    <ClInclude Include="WindowApp.h">
-      <Filter>Header Files\Windows</Filter>
-    </ClInclude>
     <ClInclude Include="SFMLWindow.h">
-      <Filter>Header Files\Windows</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MenuWin.h">
-      <Filter>Header Files\Windows</Filter>
+    <ClInclude Include="WindowApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuGM.h">
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>Header Files\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="InteractiveButton.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -126,9 +132,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Application.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="World.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SFMLApplication.cpp">
@@ -183,16 +186,25 @@
       <Filter>Source Files\FSM</Filter>
     </ClCompile>
     <ClCompile Include="SFMLWindow.cpp">
-      <Filter>Source Files\Windows</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WindowApp.cpp">
-      <Filter>Source Files\Windows</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MenuWin.cpp">
-      <Filter>Source Files\Windows</Filter>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuGM.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>Source Files\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="InteractiveButton.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

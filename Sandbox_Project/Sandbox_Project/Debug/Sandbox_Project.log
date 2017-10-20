@@ -1,7 +1,5 @@
-﻿  World.cpp
-d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\world.cpp(49): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  InteractiveButton.cpp
-d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\interactivebutton.cpp(8): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+﻿  Scene.cpp
+  SFMLApplication.cpp
   Generating Code...
   Sandbox_Project.vcxproj -> D:\Max Maldonado\Documents\Max_IAProject\Sandbox_Project\Debug\Sandbox_Project.exe
   Sandbox_Project.vcxproj -> D:\Max Maldonado\Documents\Max_IAProject\Sandbox_Project\Debug\Sandbox_Project.pdb (Full PDB)

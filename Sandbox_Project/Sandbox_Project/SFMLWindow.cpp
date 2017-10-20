@@ -25,7 +25,7 @@ void CSFMLWindow::destroy()
 	m_window.close();
 }
 
-void CSFMLWindow::initWindow(short _h, short _w, string _title)
+void CSFMLWindow::initWindow(short _w, short _h, string _title)
 {
 	this->m_width = _w;
 	this->m_height = _h;

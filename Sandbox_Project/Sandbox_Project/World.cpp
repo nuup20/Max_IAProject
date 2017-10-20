@@ -11,15 +11,7 @@ void CWorld::init()
 	_newGO->setPosition(100, 500);
 	_newGO->m_direction = CVector3(0.0f, -1.0f, 0.0f);
 	_newGO->setShapeColor(0, 0, 255, 255);
-	m_gameObjectList.push_back(_newGO);
-
-	//CREATE BUTTON
-	CInteractiveButton* _newBtn = new CInteractiveButton();
-	_newBtn->m_name = "Play_Button";
-	_newBtn->setPosition(100, 100);
-	_newBtn->init();
-	_newBtn->setLabel("Play!");
-	m_gameObjectList.push_back(_newBtn);
+	m_gameObjectList.push_back(_newGO);	
 }
 
 void CWorld::update()

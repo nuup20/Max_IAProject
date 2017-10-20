@@ -28,7 +28,7 @@ public:
 	void	render(RenderWindow& wnd);
 	void	destroy();
 	
-	bool isHover(int x, int y);
+	bool isPressedByPosition(int x, int y);
 
 	void setSize(int width, int height);
 	bool setTextureDirectory(string _directory);
