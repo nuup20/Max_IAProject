@@ -21,7 +21,7 @@ bool CSFMLApplication::peekEvent(Event& _event)
 
 void CSFMLApplication::init()
 {		
-	m_appWindow.initWindow(1024, 720, "SandBox");	
+	m_appWindow.initWindow(1024, 720, "SandBox");
 
 	m_screenFSM.AddState(reinterpret_cast<CState*>(new CMenuGM("Menu Scene", &m_appWindow.m_window)));
 	m_screenFSM.AddState(reinterpret_cast<CState*>(new COptionsScene("Options Scene", &m_appWindow.m_window)));
@@ -37,7 +37,7 @@ void CSFMLApplication::update()
 
 void CSFMLApplication::render()
 {
-	m_appWindow.clear();	
+	m_appWindow.clear(sf::Color(49,143,194,255));
 	if (m_screenFSM.m_aciveState)
 	{
 		CScene* pScene = reinterpret_cast<CScene*>(m_screenFSM.m_aciveState);

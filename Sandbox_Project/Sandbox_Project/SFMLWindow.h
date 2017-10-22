@@ -6,6 +6,8 @@
 using std::string;
 using sf::RenderWindow;
 using sf::VideoMode;
+using sf::Color;
+
 class CSFMLWindow : public CWindowApp
 {	
 public:
@@ -18,7 +20,7 @@ public:
 	void init();
 	void update();
 	void render();
-	void clear();
+	void clear(const Color bckColor);
 	void destroy();
 
 	void initWindow(short _h, short _w, string title);

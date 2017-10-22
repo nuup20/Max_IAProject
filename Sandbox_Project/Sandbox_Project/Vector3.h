@@ -29,6 +29,8 @@ public:
 	CVector3	cross(const CVector3& vc_vector) const;
 	float		magnitud() const;	
 	float		dot(const CVector3& vc_vector) const;
+	float		radAngle();
+	float		degAngle();
 	
 
 	CVector3();

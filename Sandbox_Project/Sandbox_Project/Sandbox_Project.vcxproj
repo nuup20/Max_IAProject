@@ -169,6 +169,7 @@
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="OptionsScene.h" />
     <ClInclude Include="Patrol.h" />
+    <ClInclude Include="RendObject.h" />
     <ClInclude Include="RetreaveCargo.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SFMLApplication.h" />
@@ -199,6 +200,7 @@
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="OptionsScene.cpp" />
     <ClCompile Include="Patrol.cpp" />
+    <ClCompile Include="RendObject.cpp" />
     <ClCompile Include="RetreaveCargo.cpp" />
     <ClCompile Include="Sandbox_Project.cpp" />
     <ClCompile Include="Scene.cpp" />

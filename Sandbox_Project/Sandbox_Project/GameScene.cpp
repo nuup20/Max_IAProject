@@ -10,8 +10,7 @@ unsigned int CGameScene::update(void * pObject)
 	Event* pEvent = reinterpret_cast<Event*>(pObject);
 
 	switch (pEvent->type)
-	{
-	
+	{	
 	default: 
 	{
 		m_world.update();

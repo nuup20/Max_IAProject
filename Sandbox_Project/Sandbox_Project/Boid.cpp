@@ -16,21 +16,27 @@
 #define VELOCITY			10
 
 void CBoid::init() {
-	m_shape.setRadius(10.f);
-	m_shape.setFillColor(sf::Color::Red);
-	m_shape.setPosition(m_position.x, m_position.y);
+	
 	pathIndex = 0;
+
+	m_texture.loadFromFile("textures/default/spr_boid_01.png");
+	m_sprite.setTexture(m_texture);
+	m_sprite.setPosition(m_position.x, m_position.y);
+	m_sprite.setColor(sf::Color::Green);
+	
+	sf::FloatRect rect = m_sprite.getLocalBounds();
+	m_sprite.setOrigin(rect.width * 0.5f, rect.height * 0.5f);
 }
 
 void CBoid::update()
 {	
 	transform();
-	m_shape.setPosition(m_position.x, m_position.y);
+	m_sprite.setPosition(m_position.x, m_position.y);
 }
 
 void CBoid::render(RenderWindow& wnd)
 {	
-	wnd.draw(m_shape);
+	wnd.draw(m_sprite);	
 }
 
 void CBoid::destroy()
@@ -189,9 +195,24 @@ void CBoid::setDirection(int x, int y)
 	m_direction.y = y;	
 }
 
-void CBoid::setShapeColor(int r, int g, int b, int a)
+void CBoid::setSpriteDirectory(string directory)
 {
-	m_shape.setFillColor(sf::Color(r, g, b, a));
+	if (!m_texture.loadFromFile(directory))
+		m_texture.loadFromFile("textures/default/spr_boid_01.png");
+	m_sprite.setTexture(m_texture, true);
+	
+	sf::FloatRect rect = m_sprite.getLocalBounds();
+	m_sprite.setOrigin(rect.width * 0.5f, rect.height * 0.5f);
+}
+
+void CBoid::setSpriteColor(int r, int g, int b, int a)
+{
+	m_sprite.setColor(sf::Color(r, g, b, a));
+}
+
+void CBoid::scaleSprite(float scale)
+{
+	m_sprite.scale(scale,scale);
 }
 
 void CBoid::addObstacleNode(CGameObject & newNode)
@@ -199,11 +220,24 @@ void CBoid::addObstacleNode(CGameObject & newNode)
 	nodes.push_back(&newNode);
 }
 
+void CBoid::setObjective(CGameObject * newObj)
+{
+	if (newObj) {
+		m_Objective = newObj;
+	}
+}
+
 void CBoid::transform()
 {	
-	CVector3 res_Force = ((m_direction * VELOCITY) + (arrive(640, 360) * 0.001));
+	if (!m_Objective)
+		return;
+
+	CVector3 res_Force = ((m_direction * VELOCITY) + (seek(m_Objective->m_position.x,m_Objective->m_position.y) * 0.001));
 	m_direction = res_Force.normalized();
 	m_position = m_position + (res_Force.truncate(VELOCITY) * 0.01f);
+
+	float ang = m_direction.degAngle();
+	m_sprite.setRotation(ang);
 }
 
 CBoid::CBoid()

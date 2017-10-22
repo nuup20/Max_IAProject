@@ -7,12 +7,19 @@
 
 using sf::CircleShape;
 using sf::RenderWindow;
+using sf::Texture;
+using sf::Sprite;
 using std::vector;
 
 class CBoid : public CGameObject
 {
 private:
-	CircleShape m_shape;	
+
+	Texture		m_texture;
+	Sprite		m_sprite;
+
+	CGameObject* m_Objective;
+
 public:
 
 	CVector3	m_direction;	
@@ -41,8 +48,11 @@ public:
 	CVector3	followTheLeader(CBoid& leader, float proyectionMgn, vector<CBoid*>& boidList);
 
 	void		setDirection(int x, int y);
-	void		setShapeColor(int r, int g, int b, int a);
+	void		setSpriteDirectory(string directory);
+	void		setSpriteColor(int r, int g, int b, int a);
+	void		scaleSprite(float scale);
 	void		addObstacleNode(CGameObject& newNode);
+	void		setObjective(CGameObject* newObj);
 	void		transform();
 
 	CBoid();

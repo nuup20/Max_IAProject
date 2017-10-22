@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Vector3.h"
 
+#define PI 3.1415926535
+
 float CVector3::magnitud() const
 {
 	float f_mg = pow(this->x, 2) + pow(this->y, 2) + pow(this->z, 2);	
@@ -115,6 +117,20 @@ void CVector3::operator=(float f_unit)
 float CVector3::dot(const CVector3 & vc_vector) const
 {
 	return (this->x*vc_vector.x) + (this->y*vc_vector.y) + (this->z*vc_vector.z);
+}
+
+float CVector3::radAngle()
+{
+	if (this->x != 0 && this->y != 0)
+		return(atan2f(this->y, this->x));
+	return 0.0f;
+}
+
+float CVector3::degAngle()
+{
+	if(this->x != 0 && this->y != 0)
+		return (atan2f(this->y,this->x)) * 180 / PI;
+	return 0.0f;
 }
 
 CVector3 CVector3::cross(const CVector3 & vc_vector) const

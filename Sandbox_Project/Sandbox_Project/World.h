@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "GameObject.h"
 #include "Boid.h"
+#include "RendObject.h"
 #include "InteractiveButton.h"
 
 using std::vector;

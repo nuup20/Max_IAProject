@@ -15,9 +15,9 @@ void CSFMLWindow::render()
 	m_window.display();
 }
 
-void CSFMLWindow::clear()
+void CSFMLWindow::clear(const Color bckColor)
 {
-	m_window.clear();
+	m_window.clear(bckColor);
 }
 
 void CSFMLWindow::destroy()

@@ -4,14 +4,26 @@
 
 void CWorld::init()
 {
+	//CREATE OBSTACLE
+	CRendObject* _newR = new CRendObject();
+	_newR->init();
+	_newR->m_name = "Objective";
+	_newR->setPosition(520, 350);	
+	_newR->setColor(255, 255, 255, 255);
+	_newR->setSpriteDirectory("gameResources/sprites/spr_crusier.png");
+	//_newR->scale(0.5f);
+	m_gameObjectList.push_back(_newR);
+
 	//CREATE AGENT
 	CBoid* _newGO = new CBoid();
 	_newGO->init();
 	_newGO->m_name = "Agent";
 	_newGO->setPosition(100, 500);
 	_newGO->m_direction = CVector3(0.0f, -1.0f, 0.0f);
-	_newGO->setShapeColor(0, 0, 255, 255);
+	_newGO->scaleSprite(0.8f);
+	_newGO->setSpriteDirectory("gameResources/sprites/spr_plane.png");
 	m_gameObjectList.push_back(_newGO);	
+	_newGO->setObjective(_newR);
 }
 
 void CWorld::update()

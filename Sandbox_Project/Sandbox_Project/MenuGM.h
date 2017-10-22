@@ -11,7 +11,7 @@ private:
 	Font	m_font;
 	Text	m_title;
 
-	void buttonFunc(unsigned int index);
+	void	buttonFunc(unsigned int index);
 
 public:
 
