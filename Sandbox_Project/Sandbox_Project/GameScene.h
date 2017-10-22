@@ -9,17 +9,17 @@ private:
 
 	CWorld m_world;
 
-public:
+public:	
 
-	void init();
-	void update();
+	void init();	
+	unsigned int update(void* pObject);
 	void render(RenderWindow& wnd);
 	void destroy();
 
-	void onMouseClick(int x, int y, short btn);
+	void onMouseReleased(int x, int y, short btn);
 	void onMouseMove(int x, int y);
 
-	CGameScene();
+	CGameScene(const std::string& title, RenderWindow* window) : CScene(SCENE_STATES::kGame, title, window) {}
 	~CGameScene();
 };
 

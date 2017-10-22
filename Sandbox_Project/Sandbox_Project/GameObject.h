@@ -5,7 +5,14 @@
 using sf::RenderWindow;
 using std::string;
 
-class CGameObject
+class CObject
+{
+public:
+	CObject() {};
+	virtual ~CObject() {};
+};
+
+class CGameObject : public CObject
 {
 public:
 

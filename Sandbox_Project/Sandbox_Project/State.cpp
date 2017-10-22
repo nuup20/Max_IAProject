@@ -6,16 +6,18 @@ void CState::onEnter()
 {
 }
 
-void CState::update()
+unsigned int CState::update(void* pObject)
 {
+	return 0;
 }
 
 void CState::onExit()
 {
 }
 
-CState::CState()
+CState::CState() : m_id(0)
 {
+	
 }
 
 

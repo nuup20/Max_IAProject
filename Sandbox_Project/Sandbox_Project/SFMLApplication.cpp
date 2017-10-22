@@ -9,56 +9,40 @@ bool CSFMLApplication::peekEvent(Event& _event)
 			destroy();
 			return false;
 			break;
-		case Event::MouseButtonPressed:
-			if (Mouse::isButtonPressed(sf::Mouse::Left))
-				m_activeScene->onMouseClick(Mouse::getPosition(m_appWindow.m_window).x, Mouse::getPosition(m_appWindow.m_window).y,0);			
-			break;
-		case Event::MouseMoved:
-			m_activeScene->onMouseMove(Mouse::getPosition(m_appWindow.m_window).x, Mouse::getPosition(m_appWindow.m_window).y);
-			break;
-		default:
+		default:{	
+			
+			}
 			return true;
 		}
 	}
+	m_screenFSM.UpdateState(reinterpret_cast<void*>(&_event));
 	return true;
 }
 
 void CSFMLApplication::init()
 {		
 	m_appWindow.initWindow(1024, 720, "SandBox");	
-	
-	CMenuGM* menuScene = new CMenuGM();
-	menuScene->init();
-	menuScene->setName("Menu Scene");
-	m_sceneList.push_back(menuScene);	
 
-	COptionsScene* optionsScene = new COptionsScene();
-	optionsScene->init();
-	optionsScene->setName("Options Scene");
-	m_sceneList.push_back(optionsScene);	
-
-	CGameScene* gameScene = new CGameScene();
-	gameScene->init();
-	gameScene->setName("Game Scene");
-	m_sceneList.push_back(gameScene);
-
-	setActiveScene(1);
-
-	//for (unsigned int i = 0; i < m_sceneList.size(); ++i)
-		//m_sceneList[i]->setMyApp(this);
+	m_screenFSM.AddState(reinterpret_cast<CState*>(new CMenuGM("Menu Scene", &m_appWindow.m_window)));
+	m_screenFSM.AddState(reinterpret_cast<CState*>(new COptionsScene("Options Scene", &m_appWindow.m_window)));
+	m_screenFSM.AddState(reinterpret_cast<CState*>(new CGameScene("Game Scene", &m_appWindow.m_window)));
+	m_screenFSM.SetState(SCENE_STATES::kMenu);	
 
 }
 
 void CSFMLApplication::update()
 {
 	m_appWindow.update();
-	m_activeScene->update();
 }
 
 void CSFMLApplication::render()
 {
 	m_appWindow.clear();	
-	m_activeScene->render(m_appWindow.m_window);
+	if (m_screenFSM.m_aciveState)
+	{
+		CScene* pScene = reinterpret_cast<CScene*>(m_screenFSM.m_aciveState);
+		pScene->render(m_appWindow.m_window);
+	}
 	m_appWindow.render();
 }
 
@@ -78,19 +62,6 @@ int CSFMLApplication::run()
 void CSFMLApplication::destroy()
 {
 	m_appWindow.destroy();
-	for (unsigned int i = 0; i < m_sceneList.size(); ++i)
-		m_sceneList[i]->destroy();
-}
-
-bool CSFMLApplication::setActiveScene(unsigned int index)
-{
-	if (index >= m_sceneList.size())
-		return false;
-	if (m_activeScene != NULL)
-		m_activeScene->destroy();
-	m_activeScene = m_sceneList[index];
-	m_activeScene->init();
-	return true;
 }
 
 CSFMLApplication::CSFMLApplication()

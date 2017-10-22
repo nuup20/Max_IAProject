@@ -2,7 +2,6 @@ d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\debug\s
 d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\debug\vc140.pdb
 d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\debug\vc140.idb
 d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\debug\stdafx.obj
-d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\debug\gameobject.obj
 d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\debug\gamescene.obj
 d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\debug\gather.obj
 d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\debug\idle.obj
@@ -12,6 +11,7 @@ d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\debug\l
 d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\debug\menugm.obj
 d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\debug\moveto.obj
 d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\debug\obstacle.obj
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\debug\optionsscene.obj
 d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\debug\patrol.obj
 d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\debug\retreavecargo.obj
 d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\debug\sandbox_project.obj
@@ -28,7 +28,7 @@ d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\debug\b
 d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\debug\build.obj
 d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\debug\dead.obj
 d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\debug\fsm.obj
-d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\debug\optionsscene.obj
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\debug\gameobject.obj
 d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\debug\sandbox_project.res
 d:\max maldonado\documents\max_iaproject\sandbox_project\debug\sandbox_project.pdb
 d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\debug\sandbox_project.tlog\cl.command.1.tlog

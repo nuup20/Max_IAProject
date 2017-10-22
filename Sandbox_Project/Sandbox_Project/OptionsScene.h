@@ -16,14 +16,14 @@ private:
 public:
 
 	void init();
-	void update();
+	unsigned int update(void* pObject);
 	void render(RenderWindow& wnd);
 	void destroy();
 	
-	void onMouseClick(int x, int y, short btn);
+	void onMouseReleased(int x, int y, short btn);
 	void onMouseMove(int x, int y);
 
-	COptionsScene();
+	COptionsScene(const std::string& title, RenderWindow* window) : CScene(SCENE_STATES ::kOptions, title, window) { m_font.loadFromFile("fonts/Keep_Singing.ttf"); }
 	~COptionsScene();
 };
 

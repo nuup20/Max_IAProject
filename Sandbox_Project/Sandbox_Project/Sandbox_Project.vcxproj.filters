@@ -124,7 +124,7 @@
       <Filter>Header Files\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="OptionsScene.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -210,7 +210,7 @@
       <Filter>Source Files\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="OptionsScene.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

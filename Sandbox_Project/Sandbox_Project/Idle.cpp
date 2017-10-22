@@ -14,8 +14,9 @@ void CIdle::onExit()
 {
 }
 
-CIdle::CIdle()
+CIdle::CIdle() : CState(1)
 {
+
 }
 
 

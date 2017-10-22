@@ -5,6 +5,7 @@
 #include "MenuGM.h"
 #include "GameScene.h"
 #include "OptionsScene.h"
+#include "Fsm.h"
 #include <SFML/Graphics.hpp>
 
 using sf::RenderWindow;
@@ -17,8 +18,7 @@ class CSFMLApplication : public CApplication
 private:	
 
 	CSFMLWindow			m_appWindow;
-	vector<CScene*>		m_sceneList;
-	CScene*				m_activeScene;	
+	CFsm				m_screenFSM;
 
 	bool	peekEvent(Event& _event);
 
@@ -28,8 +28,6 @@ public:
 	void	render();
 	int		run();
 	void	destroy();
-
-	bool	setActiveScene(unsigned int index);
 
 	CSFMLApplication();
 	~CSFMLApplication();

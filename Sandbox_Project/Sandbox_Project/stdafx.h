@@ -10,6 +10,16 @@
 #include <stdio.h>
 #include <tchar.h>
 
-
+namespace SCENE_STATES
+{
+	enum E
+	{
+		kInvalid = 0,
+		kMenu,
+		kOptions,
+		kGame,
+		kNumScenes
+	};
+}
 
 // TODO: reference additional headers your program requires here
