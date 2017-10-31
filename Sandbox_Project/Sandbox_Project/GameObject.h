@@ -17,7 +17,8 @@ class CGameObject : public CObject
 public:
 
 	string			m_name;
-	CVector3		m_position;	
+	CVector3		m_position;
+	int				m_layer;
 
 	virtual void	init();
 	virtual void	update();
@@ -26,8 +27,9 @@ public:
 
 	void		setPosition(int x, int y);
 	void		setName(string name);
+	void		setLayer(int layer);
 
-	CGameObject();
+	CGameObject(int layer = 0) : m_layer(layer) {}
 	virtual ~CGameObject();
 };
 

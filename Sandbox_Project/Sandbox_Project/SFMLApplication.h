@@ -3,7 +3,8 @@
 #include "SFMLWindow.h"
 #include "Scene.h"
 #include "MenuGM.h"
-#include "GameScene.h"
+#include "SeekScreen.h"
+#include "SceneSelection.h"
 #include "OptionsScene.h"
 #include "Fsm.h"
 #include <SFML/Graphics.hpp>

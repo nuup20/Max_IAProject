@@ -22,7 +22,7 @@ unsigned int CGameScene::update(void * pObject)
 
 void CGameScene::init()
 {
-	m_world.init();
+	m_world.init();	
 }
 
 void CGameScene::render(RenderWindow & wnd)

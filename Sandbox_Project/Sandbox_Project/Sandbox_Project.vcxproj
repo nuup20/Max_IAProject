@@ -169,9 +169,12 @@
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="OptionsScene.h" />
     <ClInclude Include="Patrol.h" />
+    <ClInclude Include="PureMenuScene.h" />
     <ClInclude Include="RendObject.h" />
     <ClInclude Include="RetreaveCargo.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneSelection.h" />
+    <ClInclude Include="SeekScreen.h" />
     <ClInclude Include="SFMLApplication.h" />
     <ClInclude Include="SFMLWindow.h" />
     <ClInclude Include="State.h" />
@@ -200,10 +203,13 @@
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="OptionsScene.cpp" />
     <ClCompile Include="Patrol.cpp" />
+    <ClCompile Include="PureMenuScene.cpp" />
     <ClCompile Include="RendObject.cpp" />
     <ClCompile Include="RetreaveCargo.cpp" />
     <ClCompile Include="Sandbox_Project.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneSelection.cpp" />
+    <ClCompile Include="SeekScreen.cpp" />
     <ClCompile Include="SFMLApplication.cpp" />
     <ClCompile Include="SFMLWindow.cpp" />
     <ClCompile Include="State.cpp" />

@@ -19,7 +19,7 @@ void CInteractiveButton::updateButtonParams()
 	if (!m_texture.loadFromFile(m_buttonTextureDirectory))
 		m_texture.loadFromFile("textures/default/spr_btn_01.png");
 	setSizeByTexture(m_texture);
-	m_btnSprite.setTexture(m_texture);
+	m_btnSprite.setTexture(m_texture, true);
 	m_btnSprite.setPosition(m_position.x, m_position.y);
 	m_btnSprite.setColor(m_normalColor);
 
@@ -55,6 +55,11 @@ void CInteractiveButton::render(RenderWindow & wnd)
 void CInteractiveButton::destroy()
 {
 
+}
+
+unsigned int CInteractiveButton::getID()
+{
+	return m_buttonID;
 }
 
 bool CInteractiveButton::isPressedByPosition(int x, int y)
@@ -93,6 +98,17 @@ void CInteractiveButton::setLabel(string _newLabel)
 	updateButtonParams();
 }
 
+CVector3 CInteractiveButton::getLabelPosition()
+{
+	sf::Vector2f p = m_label.getPosition();
+	return CVector3(p.x, p.y, 0);
+}
+
+void CInteractiveButton::setLabelPosition(int x, int y, int z)
+{
+	m_label.setPosition(x, y);
+}
+
 void CInteractiveButton::setFontDirectory(string _Directory)
 {
 	m_fontDirectory = _Directory;
@@ -109,6 +125,7 @@ void CInteractiveButton::setFontColor(short r, short g, short b, short a)
 void CInteractiveButton::setNormalColor(short r, short g, short b, short a)
 {
 	m_normalColor = Color(r, g, b, a);
+	m_btnSprite.setColor(m_normalColor);
 }
 
 void CInteractiveButton::setHoverColor(short r, short g, short b, short a)
@@ -127,11 +144,6 @@ void CInteractiveButton::setSizeByTexture(Texture & _texture)
 	sf::Vector2u aux = _texture.getSize();
 	m_width = aux.x;
 	m_height = aux.y;
-}
-
-CInteractiveButton::CInteractiveButton()
-{
-	init();
 }
 
 

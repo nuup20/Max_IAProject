@@ -10,15 +10,6 @@ using sf::RenderWindow;
 using sf::Event;
 using sf::Mouse;
 
-namespace BUTTONS_MENU {
-	enum b {
-		GAME,
-		OPTIONS,
-		MENU,
-		UNDEFINED
-	};
-}
-
 class CScene : public CState
 {
 protected:
@@ -27,15 +18,15 @@ protected:
 	RenderWindow*		m_rendWindow;
 public:
 
-	void		onEnter();	
+	virtual void		onEnter();	
 	virtual unsigned int update(void* pObject) override;
-	void		onExit();
+	virtual void		onExit();
 
 	virtual void init();
 	virtual void render(RenderWindow& wnd);
 	virtual void destroy();
 
-	virtual void setName(string newName);
+	virtual void setSceneName(string newName);
 	virtual void onMouseReleased(int x, int y, short btn);
 	virtual void onMouseMove(int x, int y);
 

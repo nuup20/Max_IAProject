@@ -25,7 +25,8 @@ void CSFMLApplication::init()
 
 	m_screenFSM.AddState(reinterpret_cast<CState*>(new CMenuGM("Menu Scene", &m_appWindow.m_window)));
 	m_screenFSM.AddState(reinterpret_cast<CState*>(new COptionsScene("Options Scene", &m_appWindow.m_window)));
-	m_screenFSM.AddState(reinterpret_cast<CState*>(new CGameScene("Game Scene", &m_appWindow.m_window)));
+	m_screenFSM.AddState(reinterpret_cast<CState*>(new CSceneSelection("Select Game Scene", &m_appWindow.m_window)));
+	m_screenFSM.AddState(reinterpret_cast<CState*>(new CSeekScreen("Game Scene", &m_appWindow.m_window)));
 	m_screenFSM.SetState(SCENE_STATES::kMenu);	
 
 }

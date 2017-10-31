@@ -31,9 +31,9 @@ void CScene::destroy()
 {
 }
 
-void CScene::setName(string newName)
+void CScene::setSceneName(string newName)
 {
-	this->m_name = "default";
+	this->m_name = newName;
 }
 
 void CScene::onMouseReleased(int x, int y, short btn)

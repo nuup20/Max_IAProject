@@ -11,6 +11,8 @@ class CInteractiveButton : public CGameObject
 {
 private:
 
+	unsigned int	m_buttonID;
+
 	Color	m_hoverColor;
 	Color	m_normalColor;
 	Color	m_textColor;
@@ -27,8 +29,7 @@ private:
 	int m_width;
 	int m_height;
 	
-	void hoverAnimation();
-	void updateButtonParams();
+	void hoverAnimation();	
 	void setSizeByTexture(Texture& _texture);
 
 public:
@@ -37,20 +38,26 @@ public:
 	void	update();
 	void	render(RenderWindow& wnd);
 	void	destroy();
+
+	unsigned int getID();
 	
-	bool isPressedByPosition(int x, int y);
-	bool isHoverbyPosition(int x, int y);	
+	bool		isPressedByPosition(int x, int y);
+	bool		isHoverbyPosition(int x, int y);	
 
-	void setSize(int width, int height);
-	void setTextureDirectory(string _directory);	
-	void setLabel(string _newLabel);
-	void setFontDirectory(string _directory);	
-	void setFontColor(short r, short g, short b, short a);
-	void setNormalColor(short r, short g, short b, short a);
-	void setHoverColor(short r, short g, short b, short a);
-	void setFontSize(int _size);	
+	void		setSize(int width, int height);
+	void		setTextureDirectory(string _directory);	
+	void		setLabel(string _newLabel);
+	CVector3	getLabelPosition();
+	void		setLabelPosition(int x, int y, int z = 0);
+	void		setFontDirectory(string _directory);	
+	void		setFontColor(short r, short g, short b, short a);
+	void		setNormalColor(short r, short g, short b, short a);
+	void		setHoverColor(short r, short g, short b, short a);
+	void		setFontSize(int _size);
+	void		updateButtonParams();
+	
 
-	CInteractiveButton();
+	CInteractiveButton(unsigned int id) : m_buttonID(id) { init(); };
 	~CInteractiveButton();
 };
 

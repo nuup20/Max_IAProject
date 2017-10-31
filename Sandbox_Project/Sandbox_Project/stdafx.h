@@ -18,6 +18,8 @@ namespace SCENE_STATES
 		kMenu,
 		kOptions,
 		kGame,
+		kSceneSelection,
+		kSeekScene,
 		kNumScenes
 	};
 }

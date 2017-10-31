@@ -31,8 +31,9 @@ void CGameObject::setName(string name)
 	m_name = name;
 }
 
-CGameObject::CGameObject()
+void CGameObject::setLayer(int layer) // Describe el número de capa para renderizar
 {
+	m_layer = layer;
 }
 
 
