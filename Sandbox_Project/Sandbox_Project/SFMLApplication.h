@@ -5,6 +5,7 @@
 #include "MenuGM.h"
 #include "SeekScreen.h"
 #include "SceneSelection.h"
+#include "FleeScreen.h"
 #include "OptionsScene.h"
 #include "Fsm.h"
 #include <SFML/Graphics.hpp>

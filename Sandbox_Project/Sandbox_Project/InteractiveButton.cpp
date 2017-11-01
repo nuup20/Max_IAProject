@@ -139,6 +139,12 @@ void CInteractiveButton::setFontSize(int _size)
 	updateButtonParams();
 }
 
+CVector3 CInteractiveButton::getButtonSpriteSize()
+{
+	sf::IntRect rect = m_btnSprite.getTextureRect();
+	return CVector3(rect.width, rect.height, 0);
+}
+
 void CInteractiveButton::setSizeByTexture(Texture & _texture)
 {
 	sf::Vector2u aux = _texture.getSize();

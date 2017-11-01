@@ -4,13 +4,12 @@
 
 namespace BUTTONS_MENU {
 	enum b {
-		UNDEFINED,
-		GAME,
-		SCENESELECTION,
-		OPTIONS,
-		MENU,
-		KSeekScreen,
-		COUNT
+		kUndefined,
+		KSceneSelectionScn,
+		kOptionsScn,
+		kMenuScn,	
+		KSeekFleeScn,
+		kCount
 	};
 }
 

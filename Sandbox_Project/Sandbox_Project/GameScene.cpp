@@ -4,6 +4,7 @@
 #include "SFML/Window/Mouse.hpp"
 #include "Fsm.h"
 
+#define ICO_HOFFSET 50
 
 unsigned int CGameScene::update(void * pObject)
 {
@@ -11,13 +12,61 @@ unsigned int CGameScene::update(void * pObject)
 
 	switch (pEvent->type)
 	{	
-	default: 
+	case Event::MouseButtonReleased:
 	{
-		m_world.update();
-	}		
+		sf::Vector2i mousePos = Mouse::getPosition(*m_rendWindow);
+		onMouseReleased(mousePos.x, mousePos.y, 0);
+		pEvent->type = Event::Count;
+	}
+	break;
+	case Event::MouseMoved:
+	{
+		sf::Vector2i mousePos = Mouse::getPosition(*m_rendWindow);
+		onMouseMove(mousePos.x, mousePos.y);
+	}
+	break;
+	default:
+		for (unsigned int i = 0; i < m_buttonList.size(); ++i)
+			m_buttonList[i]->update();
 		break;
-	}	
+	}
+
+	m_world.update();
 	return 0;
+}
+
+void CGameScene::buttonFunc(int id)
+{
+}
+
+void CGameScene::setButtonPositions()
+{
+	if (m_buttonList.size() > 0)
+	{
+		sf::Vector2u size = m_rendWindow->getSize();
+		CVector3 sprSize = m_buttonList[0]->getButtonSpriteSize();
+		int maxCol = (size.x / (sprSize.x + ICO_HOFFSET)) - 1;
+		
+		for (int i = 0; i < m_buttonList.size(); ++i) {		
+
+			m_buttonList[i]->setPosition(ICO_HOFFSET + ((ICO_HOFFSET + sprSize.x) * i), size.y - 30 - sprSize.y);
+			m_buttonList[i]->updateButtonParams();		
+
+			m_buttonList[i]->setNormalColor(180, 180, 180, 255);
+			m_buttonList[i]->setHoverColor(255, 255, 255, 255);
+		}
+	}
+	return;
+}
+
+void CGameScene::onEnter()
+{
+	init();
+}
+
+void CGameScene::onExit()
+{
+	destroy();
 }
 
 void CGameScene::init()
@@ -28,21 +77,32 @@ void CGameScene::init()
 void CGameScene::render(RenderWindow & wnd)
 {
 	m_world.render(wnd);
+
+	for (unsigned int i = 0; i < m_buttonList.size(); ++i)
+		m_buttonList[i]->render(wnd);
 }
 
 void CGameScene::destroy()
 {
 	m_world.destroy();
+	for (unsigned int i = 0; i < m_buttonList.size(); ++i)
+		delete m_buttonList[i];
+	m_buttonList.clear();
 }
 
 void CGameScene::onMouseReleased(int x, int y, short btn)
 {
-
+	for (unsigned int i = 0; i < m_buttonList.size(); ++i)
+		if (m_buttonList[i]->isPressedByPosition(x, y)) {
+			buttonFunc(m_buttonList[i]->getID());
+			return;
+		}
 }
 
 void CGameScene::onMouseMove(int x, int y)
 {
-
+	for (unsigned int i = 0; i < m_buttonList.size(); ++i)
+		m_buttonList[i]->isHoverbyPosition(x, y);
 }
 
 CGameScene::~CGameScene()

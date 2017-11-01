@@ -3,7 +3,7 @@
 
 #define	PI					3.141592
 #define MAG_SEEK			3
-#define RADIUS_FlEE			5 
+#define RADIUS_FlEE			500 
 #define RADIUS_ARRIVE		200.f	
 #define	PP_WANDER_DIST		2	//Distancia entre el Puntro proyectado y posicion (wander)
 #define PP_WANDER_RADIUS	2	//Radio del Circulo proyectado (wander)
@@ -16,8 +16,6 @@
 #define VELOCITY			10
 
 void CBoid::init() {
-	
-	pathIndex = 0;
 
 	m_texture.loadFromFile("textures/default/spr_boid_01.png");
 	m_sprite.setTexture(m_texture);
@@ -26,12 +24,21 @@ void CBoid::init() {
 	
 	sf::FloatRect rect = m_sprite.getLocalBounds();
 	m_sprite.setOrigin(rect.width * 0.5f, rect.height * 0.5f);
+
+	m_Fsm.AddState(reinterpret_cast<CState*>(new CSeek(this)));
+	m_Fsm.AddState(reinterpret_cast<CState*>(new CFlee(this)));
 }
 
 void CBoid::update()
 {	
-	transform();
-	m_sprite.setPosition(m_position.x, m_position.y);
+	m_Fsm.UpdateState(nullptr);
+	
+	m_direction = ((m_direction * VELOCITY) + (m_steeringForce * 0.001));
+	m_direction = m_direction.normalized();
+	m_position = m_position + (m_direction * VELOCITY * 0.01f);
+	
+	m_sprite.setPosition(m_position.x, m_position.y);	
+	m_sprite.setRotation(m_direction.degAngle());
 }
 
 void CBoid::render(RenderWindow& wnd)
@@ -43,13 +50,13 @@ void CBoid::destroy()
 {
 }
 
-CVector3 CBoid::seek(int x, int y)
+CVector3 CBoid::seek(float x, float y)
 {
 	CVector3 desired_Velocity = (CVector3(x, y) - m_position).normalized() * VELOCITY;	
 	return desired_Velocity - (m_direction * VELOCITY);
 }
 
-CVector3 CBoid::flee(int x, int y)
+CVector3 CBoid::flee(float x, float y)
 {	
 	if ((CVector3(x, y) - m_position).magnitud() < RADIUS_FlEE)
 		return seek(x, y) *-1;
@@ -57,7 +64,7 @@ CVector3 CBoid::flee(int x, int y)
 		return CVector3(0, 0);
 }
 
-CVector3 CBoid::arrive(int x, int y)
+CVector3 CBoid::arrive(float x, float y)
 {
 	CVector3 desired_Velocity = (CVector3(x, y) - m_position).normalized() * VELOCITY;	
 	if ((CVector3(x, y) - m_position).magnitud() < RADIUS_ARRIVE)
@@ -88,18 +95,18 @@ CVector3 CBoid::wander() {
 
 CVector3 CBoid::followPath()
 {
-	if (pathIndex >= nodes.size())
+	if (m_pathIndex >= m_nodes.size())
 		return CVector3();
-	if (pathIndex == 0)
-		return seek(nodes[pathIndex]->m_position.x, nodes[pathIndex]->m_position.y);
+	if (m_pathIndex == 0)
+		return seek(m_nodes[m_pathIndex]->m_position.x, m_nodes[m_pathIndex]->m_position.y);
 
-	CVector3 agentDist = m_position - nodes[pathIndex - 1]->m_position;
-	CVector3 nodeDist = nodes[pathIndex]->m_position - nodes[pathIndex - 1]->m_position;
+	CVector3 agentDist = m_position - m_nodes[m_pathIndex - 1]->m_position;
+	CVector3 nodeDist = m_nodes[m_pathIndex]->m_position - m_nodes[m_pathIndex - 1]->m_position;
 	CVector3 pathForce = (nodeDist * dot(nodeDist, agentDist)) - agentDist;
-	CVector3 nodeForce = nodes[pathIndex]->m_position - m_position;
+	CVector3 nodeForce = m_nodes[m_pathIndex]->m_position - m_position;
 	
-	if ((nodes[pathIndex]->m_position - m_position).magnitud() <= NODE_RADIUS)
-		++pathIndex;
+	if ((m_nodes[m_pathIndex]->m_position - m_position).magnitud() <= NODE_RADIUS)
+		++m_pathIndex;
 
 	return nodeForce + pathForce;
 }
@@ -189,10 +196,16 @@ CVector3 CBoid::followTheLeader(CBoid& leader, float proyectionMgn, vector<CBoid
 	return separation(boidList) + seek(seekPoint.x,seekPoint.y) + (leader.m_direction * MAG_SEEK) + flee(leader.m_position.x, leader.m_position.y);
 }
 
-void CBoid::setDirection(int x, int y)
+void CBoid::setDirection(float x, float y, float z)
 {
 	m_direction.x = x;
 	m_direction.y = y;	
+	m_direction.z = z;
+}
+
+CVector3 CBoid::getDirection()
+{
+	return m_direction;
 }
 
 void CBoid::setSpriteDirectory(string directory)
@@ -217,31 +230,34 @@ void CBoid::scaleSprite(float scale)
 
 void CBoid::addObstacleNode(CGameObject & newNode)
 {
-	nodes.push_back(&newNode);
+	m_nodes.push_back(&newNode);
 }
 
 void CBoid::setObjective(CGameObject * newObj)
 {
-	if (newObj) {
-		m_Objective = newObj;
-	}
+	m_Objective = newObj;
 }
 
-void CBoid::transform()
-{	
-	if (!m_Objective)
-		return;
-
-	CVector3 res_Force = ((m_direction * VELOCITY) + (seek(m_Objective->m_position.x,m_Objective->m_position.y) * 0.001));
-	m_direction = res_Force.normalized();
-	m_position = m_position + (res_Force.truncate(VELOCITY) * 0.01f);
-
-	float ang = m_direction.degAngle();
-	m_sprite.setRotation(ang);
-}
-
-CBoid::CBoid()
+CVector3 CBoid::getObjectivePosition()
 {
+	if (m_Objective != nullptr)
+		return m_Objective->m_position;
+	return CVector3(0, 0, 0);
+}
+
+void CBoid::setSteeringForce(CVector3 force)
+{
+	m_steeringForce = force;
+}
+
+bool CBoid::setActiveState(int id)
+{
+	return m_Fsm.SetState(id);	
+}
+
+CBoid::CBoid() : m_pathIndex(0)
+{
+	m_Objective = nullptr;
 }
 
 CBoid::~CBoid()

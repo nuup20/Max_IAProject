@@ -4,6 +4,7 @@ class CSeekScreen :
 	public CGameScene
 {
 private:
+	void buttonFunc(int id);
 
 public:
 

@@ -3,7 +3,11 @@
 #include "GameObject.h"
 #include "Obstacle.h"
 #include "Vector3.h"
+#include "Fsm.h"
 #include "SFML\Graphics.hpp"
+
+#include "Seek.h"
+#include "Flee.h"
 
 using sf::CircleShape;
 using sf::RenderWindow;
@@ -14,27 +18,27 @@ using std::vector;
 class CBoid : public CGameObject
 {
 private:
-
 	Texture		m_texture;
 	Sprite		m_sprite;
 
-	CGameObject* m_Objective;
+	CFsm		m_Fsm;
+	CState*		m_activeState;	
+	
+	CVector3				m_direction;
+	CVector3				m_steeringForce;
+	CGameObject*			m_Objective;	
+	vector<CGameObject*>	m_nodes;
+	int						m_pathIndex;
 
 public:
-
-	CVector3	m_direction;	
-	
-	vector<CGameObject*>	nodes;
-	int						pathIndex;
-
 	void		init();
 	void		update();
 	void		render(RenderWindow& wnd);
 	void		destroy();
 
-	CVector3	seek(int x, int y);
-	CVector3	flee(int x, int y);
-	CVector3	arrive(int x, int y);
+	CVector3	seek(float x, float y);
+	CVector3	flee(float x, float y);
+	CVector3	arrive(float x, float y);
 	CVector3	pursuit(CVector3 pos, CVector3 dir, float speed);
 	CVector3	evade(CVector3 pos, CVector3 dir, float speed);
 	CVector3	wander();
@@ -47,13 +51,17 @@ public:
 	CVector3	flock(vector<CBoid*>& boidList);
 	CVector3	followTheLeader(CBoid& leader, float proyectionMgn, vector<CBoid*>& boidList);
 
-	void		setDirection(int x, int y);
+	void		setDirection(float x, float y, float z = 0);
+	CVector3	getDirection();
 	void		setSpriteDirectory(string directory);
 	void		setSpriteColor(int r, int g, int b, int a);
 	void		scaleSprite(float scale);
 	void		addObstacleNode(CGameObject& newNode);
 	void		setObjective(CGameObject* newObj);
-	void		transform();
+	CVector3	getObjectivePosition();
+	void		setSteeringForce(CVector3 force);
+
+	bool		setActiveState(int id);
 
 	CBoid();
 	~CBoid();

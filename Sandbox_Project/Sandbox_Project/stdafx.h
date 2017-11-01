@@ -20,7 +20,27 @@ namespace SCENE_STATES
 		kGame,
 		kSceneSelection,
 		kSeekScene,
+		kFleeScene,
 		kNumScenes
+	};
+}
+
+namespace BOIDSTATE {
+	enum e {
+		kUndefined,
+		kIdle,
+		kSeek,
+		kFlee,
+		kAttack,
+		kBuild,
+		kDead,
+		kGather,
+		kLand,
+		kLift,
+		kMoveTo,
+		kPatrol,
+		kRetreaveCargo,
+		kCount
 	};
 }
 

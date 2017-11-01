@@ -10,10 +10,10 @@
 void CSceneSelection::buttonFunc(unsigned int id)
 {
 	switch (id) {
-	case BUTTONS_MENU::KSeekScreen:
+	case BUTTONS_MENU::KSeekFleeScn:
 		this->m_pFSM->SetState(SCENE_STATES::kSeekScene);
 		break;	
-	case BUTTONS_MENU::UNDEFINED:break;
+	case BUTTONS_MENU::kUndefined:break;
 	default:
 		break;
 	}
@@ -51,10 +51,10 @@ void CSceneSelection::init()
 	this->setTitle("Scene Selection");
 
 	//SEEK SCREEN
-	CInteractiveButton* _newBtn = new CInteractiveButton(BUTTONS_MENU::KSeekScreen);
-	_newBtn->m_name = "Seek Screen";	
+	CInteractiveButton* _newBtn = new CInteractiveButton(BUTTONS_MENU::KSeekFleeScn);
+	_newBtn->m_name = "Seek Flee Screen";	
 	_newBtn->setLabel("Seek");		
-	_newBtn->setTextureDirectory("gameResources/icons/spr_ico_01.png");
+	_newBtn->setTextureDirectory("gameResources/icons/spr_seekflee_01.png");
 	m_buttonList.push_back(_newBtn);	
 
 	//Position Buttons in Screen

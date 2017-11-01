@@ -26,7 +26,8 @@ void CWorld::render(RenderWindow& wnd)
 void CWorld::destroy()
 {
 	for (m_objIt = m_gameObjectList.begin(); m_objIt != m_gameObjectList.end(); ++m_objIt)
-		(*m_objIt)->destroy();
+		delete *m_objIt;
+	m_gameObjectList.clear();
 }
 
 void CWorld::addGameObject(CGameObject * newGameObject)

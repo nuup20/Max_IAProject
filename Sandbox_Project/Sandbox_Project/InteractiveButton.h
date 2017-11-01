@@ -54,6 +54,7 @@ public:
 	void		setNormalColor(short r, short g, short b, short a);
 	void		setHoverColor(short r, short g, short b, short a);
 	void		setFontSize(int _size);
+	CVector3	getButtonSpriteSize();
 	void		updateButtonParams();
 	
 
