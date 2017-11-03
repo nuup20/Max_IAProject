@@ -22,7 +22,7 @@ void CScene::init()
 
 }
 
-void CScene::render(RenderWindow& wnd)
+void CScene::render()
 {
 
 }

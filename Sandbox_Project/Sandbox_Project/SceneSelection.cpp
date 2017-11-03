@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "SceneSelection.h"
 #include "Fsm.h"
+#include "SFMLWindow.h"
 
 #define ICO_SIZE	110
 #define ICO_HOFFSET	40 
@@ -10,9 +11,21 @@
 void CSceneSelection::buttonFunc(unsigned int id)
 {
 	switch (id) {
+	case BUTTONS_MENU::kMenuScn:
+		this->m_pFSM->SetState(SCENE_STATES::kMenu);
+		break;
 	case BUTTONS_MENU::KSeekFleeScn:
 		this->m_pFSM->SetState(SCENE_STATES::kSeekScene);
 		break;	
+	case BUTTONS_MENU::kArriveScr:
+		this->m_pFSM->SetState(SCENE_STATES::kArriveScene);
+		break;
+	case BUTTONS_MENU::kWanderScr:
+		this->m_pFSM->SetState(SCENE_STATES::kWanderScn);
+		break;
+	case BUTTONS_MENU::kPursuitScr:
+		this->m_pFSM->SetState(SCENE_STATES::kPursuitScn);
+		break;
 	case BUTTONS_MENU::kUndefined:break;
 	default:
 		break;
@@ -21,7 +34,7 @@ void CSceneSelection::buttonFunc(unsigned int id)
 
 void CSceneSelection::setButtonPositions()
 {
-	sf::Vector2u size = m_rendWindow->getSize();
+	CVector3 size = m_sfmlWnd->getRenderWndSize();
 	int maxCol = ( size.x / (ICO_SIZE + ICO_HOFFSET) ) - 1;
 
 	int row = 0;
@@ -43,6 +56,8 @@ void CSceneSelection::setButtonPositions()
 
 void CSceneSelection::init()
 {
+	m_sfmlWnd->setClearColor(93, 178, 196);
+
 	//Title
 	m_title.setFont(m_font);
 	m_title.setCharacterSize(64);
@@ -50,12 +65,40 @@ void CSceneSelection::init()
 	this->setTitlePostion(250, 40);
 	this->setTitle("Scene Selection");
 
-	//SEEK SCREEN
+	//BUTTON : SEEK / FLEE SCREEN
 	CInteractiveButton* _newBtn = new CInteractiveButton(BUTTONS_MENU::KSeekFleeScn);
 	_newBtn->m_name = "Seek Flee Screen";	
 	_newBtn->setLabel("Seek");		
 	_newBtn->setTextureDirectory("gameResources/icons/spr_seekflee_01.png");
-	m_buttonList.push_back(_newBtn);	
+	m_buttonList.push_back(_newBtn);
+
+	//BUTTON : ARRIVE SCREEN
+	_newBtn = new CInteractiveButton(BUTTONS_MENU::kArriveScr);
+	_newBtn->m_name = "Arrive Screen";
+	_newBtn->setLabel("Arrive");
+	_newBtn->setTextureDirectory("gameResources/icons/spr_arrive_01.png");
+	m_buttonList.push_back(_newBtn);
+
+	//BUTTON : WANDER
+	_newBtn = new CInteractiveButton(BUTTONS_MENU::kWanderScr);
+	_newBtn->m_name = "Wander Screen";
+	_newBtn->setLabel("Arrive");
+	_newBtn->setTextureDirectory("gameResources/icons/spr_wander_01.png");
+	m_buttonList.push_back(_newBtn);
+
+	//BUTTON : PURSUIT
+	_newBtn = new CInteractiveButton(BUTTONS_MENU::kPursuitScr);
+	_newBtn->m_name = "Pursuit Screen";
+	_newBtn->setLabel("Arrive");
+	_newBtn->setTextureDirectory("gameResources/icons/spr_pursuit_01.png");
+	m_buttonList.push_back(_newBtn);
+
+	//BUTTON : BACK TO MENU
+	_newBtn = new CInteractiveButton(BUTTONS_MENU::kMenuScn);
+	_newBtn->m_name = "Back";
+	_newBtn->setLabel("Back");
+	_newBtn->setTextureDirectory("gameResources/icons/spr_back_01.png");
+	m_buttonList.push_back(_newBtn);
 
 	//Position Buttons in Screen
 	setButtonPositions();

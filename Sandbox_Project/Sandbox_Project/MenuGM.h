@@ -13,9 +13,9 @@ private:
 public:
 
 	void init();
-	void render(RenderWindow& wnd);
+	void render();
 	
-	CMenuGM(const std::string& title, RenderWindow* window) : CPureMenuScene(SCENE_STATES::kMenu, title, window) { m_font.loadFromFile("fonts/Keep_Singing.ttf"); }
+	CMenuGM(const std::string& title, CSFMLWindow* window) : CPureMenuScene(SCENE_STATES::kMenu, title, window) { m_font.loadFromFile("fonts/Keep_Singing.ttf"); }
 	~CMenuGM() { destroy(); }
 };
 

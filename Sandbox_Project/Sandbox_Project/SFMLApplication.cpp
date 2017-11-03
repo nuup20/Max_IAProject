@@ -1,9 +1,18 @@
 #include "stdafx.h"
 #include "SFMLApplication.h"
 
+#include "Scene.h"
+#include "MenuGM.h"
+#include "SeekScreen.h"
+#include "SceneSelection.h"
+#include "ArriveScreen.h"
+#include "WanderScreen.h"
+#include "PursuitScreen.h"
+#include "OptionsScene.h"
+
 bool CSFMLApplication::peekEvent(Event& _event)
 {
-	while (m_appWindow.m_window.pollEvent(_event)) {
+	while (m_appWindow.pollEvent(_event)) {
 		switch (_event.type) {
 		case Event::Closed:
 			destroy();
@@ -23,27 +32,29 @@ void CSFMLApplication::init()
 {		
 	m_appWindow.initWindow(1024, 720, "Inteligencia Artificial Project");
 
-	m_screenFSM.AddState(reinterpret_cast<CState*>(new CMenuGM("Menu Scene", &m_appWindow.m_window)));
-	m_screenFSM.AddState(reinterpret_cast<CState*>(new COptionsScene("Options Scene", &m_appWindow.m_window)));
-	m_screenFSM.AddState(reinterpret_cast<CState*>(new CSceneSelection("Select Game Scene", &m_appWindow.m_window)));
-	m_screenFSM.AddState(reinterpret_cast<CState*>(new CSeekScreen("Seek Screen", &m_appWindow.m_window)));
-	m_screenFSM.AddState(reinterpret_cast<CState*>(new CFleeScreen("Flee Screen", &m_appWindow.m_window)));
+	m_screenFSM.AddState(reinterpret_cast<CState*>(new CMenuGM("Menu Scene", &m_appWindow)));
+	m_screenFSM.AddState(reinterpret_cast<CState*>(new COptionsScene("Options Scene", &m_appWindow)));
+	m_screenFSM.AddState(reinterpret_cast<CState*>(new CSceneSelection("Select Game Scene", &m_appWindow)));
+	m_screenFSM.AddState(reinterpret_cast<CState*>(new CSeekScreen("Seek Screen", &m_appWindow)));
+	m_screenFSM.AddState(reinterpret_cast<CState*>(new CArriveScreen("Arrive Screen", &m_appWindow)));
+	m_screenFSM.AddState(reinterpret_cast<CState*>(new CWanderScreen("Wander Screen", &m_appWindow)));
+	m_screenFSM.AddState(reinterpret_cast<CState*>(new CPursuitScreen("Pursuit Screen", &m_appWindow)));
 	m_screenFSM.SetState(SCENE_STATES::kMenu);	
 
 }
 
 void CSFMLApplication::update()
-{
+{	
 	m_appWindow.update();
 }
 
 void CSFMLApplication::render()
 {
-	m_appWindow.clear(sf::Color(49,143,194,255));
+	m_appWindow.clear();
 	if (m_screenFSM.m_aciveState)
 	{
 		CScene* pScene = reinterpret_cast<CScene*>(m_screenFSM.m_aciveState);
-		pScene->render(m_appWindow.m_window);
+		pScene->render();
 	}
 	m_appWindow.render();
 }

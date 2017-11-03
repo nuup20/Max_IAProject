@@ -3,8 +3,9 @@
 #include "SFML/Window/Event.hpp"
 #include "SFML/Window/Mouse.hpp"
 #include "Fsm.h"
+#include "SFMLWindow.h"
 
-#define ICO_HOFFSET 50
+#define ICO_HOFFSET 30
 
 unsigned int CGameScene::update(void * pObject)
 {
@@ -14,14 +15,14 @@ unsigned int CGameScene::update(void * pObject)
 	{	
 	case Event::MouseButtonReleased:
 	{
-		sf::Vector2i mousePos = Mouse::getPosition(*m_rendWindow);
+		sf::Vector2i mousePos = Mouse::getPosition(*m_sfmlWnd->getRenderWndPtr());
 		onMouseReleased(mousePos.x, mousePos.y, 0);
 		pEvent->type = Event::Count;
 	}
 	break;
 	case Event::MouseMoved:
 	{
-		sf::Vector2i mousePos = Mouse::getPosition(*m_rendWindow);
+		sf::Vector2i mousePos = Mouse::getPosition(*m_sfmlWnd->getRenderWndPtr());
 		onMouseMove(mousePos.x, mousePos.y);
 	}
 	break;
@@ -43,7 +44,7 @@ void CGameScene::setButtonPositions()
 {
 	if (m_buttonList.size() > 0)
 	{
-		sf::Vector2u size = m_rendWindow->getSize();
+		CVector3 size = m_sfmlWnd->getRenderWndSize();
 		CVector3 sprSize = m_buttonList[0]->getButtonSpriteSize();
 		int maxCol = (size.x / (sprSize.x + ICO_HOFFSET)) - 1;
 		
@@ -74,12 +75,12 @@ void CGameScene::init()
 	m_world.init();	
 }
 
-void CGameScene::render(RenderWindow & wnd)
+void CGameScene::render()
 {
-	m_world.render(wnd);
+	m_world.render(*m_sfmlWnd->getRenderWndPtr());
 
 	for (unsigned int i = 0; i < m_buttonList.size(); ++i)
-		m_buttonList[i]->render(wnd);
+		m_buttonList[i]->render(*m_sfmlWnd->getRenderWndPtr());
 }
 
 void CGameScene::destroy()

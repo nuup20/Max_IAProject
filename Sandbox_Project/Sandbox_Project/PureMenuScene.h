@@ -6,6 +6,9 @@ namespace BUTTONS_MENU {
 	enum b {
 		kUndefined,
 		KSceneSelectionScn,
+		kArriveScr,
+		kWanderScr,
+		kPursuitScr,
 		kOptionsScn,
 		kMenuScn,	
 		KSeekFleeScn,
@@ -32,7 +35,7 @@ public:
 	virtual void			onExit();
 
 	virtual void init();
-	virtual void render(RenderWindow& wnd);
+	virtual void render();
 	virtual void destroy();
 
 	virtual void setSceneName(string newName);
@@ -41,7 +44,7 @@ public:
 	virtual void onMouseReleased(int x, int y, short btn);
 	virtual void onMouseMove(int x, int y);
 
-	CPureMenuScene(unsigned int id, const std::string& name, RenderWindow* window) : CScene(id, name, window) {}
+	CPureMenuScene(unsigned int id, const std::string& name, CSFMLWindow* window) : CScene(id, name, window) {}
 	virtual ~CPureMenuScene();
 };
 

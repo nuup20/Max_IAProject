@@ -3,19 +3,20 @@
 
 #define	PI					3.141592
 #define MAG_SEEK			3
-#define RADIUS_FlEE			500 
-#define RADIUS_ARRIVE		200.f	
-#define	PP_WANDER_DIST		2	//Distancia entre el Puntro proyectado y posicion (wander)
-#define PP_WANDER_RADIUS	2	//Radio del Circulo proyectado (wander)
-#define PP_WANDER_APERTURE	30	//Angulo de apertura en grados (wander)
+#define RADIUS_FlEE			500.f 
+#define RADIUS_ARRIVE		275.f	
+#define	PP_WANDER_DIST		350.f	//Distancia entre el Puntro proyectado y posicion (wander)
+#define PP_WANDER_RADIUS	300.f	//Radio del Circulo proyectado (wander)
+#define PP_WANDER_APERTURE	90		//Angulo de apertura en grados (wander)
 #define NODE_RADIUS			2
 #define BOID_RADIUS			1
 #define BOID_VISION			5
 #define BOID_SEPARATION		5
 #define BOID_REPULSION_FORCE 10
-#define VELOCITY			10
 
 void CBoid::init() {
+
+	m_wndTime.init();
 
 	m_texture.loadFromFile("textures/default/spr_boid_01.png");
 	m_sprite.setTexture(m_texture);
@@ -27,15 +28,20 @@ void CBoid::init() {
 
 	m_Fsm.AddState(reinterpret_cast<CState*>(new CSeek(this)));
 	m_Fsm.AddState(reinterpret_cast<CState*>(new CFlee(this)));
+	m_Fsm.AddState(reinterpret_cast<CState*>(new CArrive(this)));
+	m_Fsm.AddState(reinterpret_cast<CState*>(new CWander(this)));
+	m_Fsm.AddState(reinterpret_cast<CState*>(new CPursuit(this)));
+	m_Fsm.AddState(reinterpret_cast<CState*>(new CEvade(this)));
 }
 
 void CBoid::update()
 {	
+	m_wndTime.update();
 	m_Fsm.UpdateState(nullptr);
 	
-	m_direction = ((m_direction * VELOCITY) + (m_steeringForce * 0.001));
+	m_direction = ((m_direction * m_velocity) + (m_steeringForce * m_wndTime.getFrameTime()));
 	m_direction = m_direction.normalized();
-	m_position = m_position + (m_direction * VELOCITY * 0.01f);
+	m_position = m_position + (m_direction * m_velocity * m_wndTime.getFrameTime());
 	
 	m_sprite.setPosition(m_position.x, m_position.y);	
 	m_sprite.setRotation(m_direction.degAngle());
@@ -48,12 +54,20 @@ void CBoid::render(RenderWindow& wnd)
 
 void CBoid::destroy()
 {
+	m_wndTime.destroy();
 }
 
 CVector3 CBoid::seek(float x, float y)
 {
-	CVector3 desired_Velocity = (CVector3(x, y) - m_position).normalized() * VELOCITY;	
-	return desired_Velocity - (m_direction * VELOCITY);
+	CVector3 desired_Velocity = (CVector3(x, y) - m_position).normalized() * m_velocity * 3;	
+	return desired_Velocity;
+}
+
+CVector3 CBoid::seek()
+{
+	if (!m_Objective)
+		return CVector3();
+	return seek(m_Objective->m_position.x, m_Objective->m_position.y);
 }
 
 CVector3 CBoid::flee(float x, float y)
@@ -61,27 +75,59 @@ CVector3 CBoid::flee(float x, float y)
 	if ((CVector3(x, y) - m_position).magnitud() < RADIUS_FlEE)
 		return seek(x, y) *-1;
 	else
-		return CVector3(0, 0);
+		return CVector3();
+}
+
+CVector3 CBoid::flee()
+{
+	if(!m_Objective)
+		return CVector3();
+	return flee(m_Objective->m_position.x, m_Objective->m_position.y);
 }
 
 CVector3 CBoid::arrive(float x, float y)
 {
-	CVector3 desired_Velocity = (CVector3(x, y) - m_position).normalized() * VELOCITY;	
+	CVector3 desired_Velocity = (CVector3(x, y) - m_position).normalized() * m_velocity;
 	if ((CVector3(x, y) - m_position).magnitud() < RADIUS_ARRIVE)
 		desired_Velocity = desired_Velocity * ((CVector3(x, y) - m_position).magnitud() / RADIUS_ARRIVE);	
-	return desired_Velocity -(m_direction * VELOCITY);
+	return desired_Velocity -(m_direction * m_velocity);
 }
 
-CVector3 CBoid::pursuit(CVector3 pos, CVector3 dir, float speed) {
-	float t = (pos - m_position).magnitud() / VELOCITY;
-	CVector3 futurePos = pos + (dir * speed * t);
-	return seek(futurePos.x,futurePos.y);
+CVector3 CBoid::arrive()
+{
+	if(!m_Objective)
+		return CVector3();
+	return arrive(m_Objective->m_position.x, m_Objective->m_position.y);
 }
 
-CVector3 CBoid::evade(CVector3 pos, CVector3 dir, float speed) {
-	float t = (pos - m_position).magnitud() / VELOCITY;
-	CVector3 futurePos = pos + (dir * speed * t);
+CVector3 CBoid::pursuit(CVector3 position, CVector3 directeion, float speed)
+{	
+	float t = (position - m_position).magnitud() / m_velocity;	
+	CVector3 futurePos = position + (directeion * speed * t);
+	return seek(futurePos.x, futurePos.y);
+}
+
+CVector3 CBoid::pursuit() {
+	if (!m_Objective) {
+		return CVector3();
+	}
+	CBoid* obj = reinterpret_cast<CBoid*>(m_Objective);
+	return pursuit(obj->m_position, obj->getDirection(), obj->getVelocity());	
+}
+
+CVector3 CBoid::evade(CVector3 position, CVector3 directeion, float speed)
+{
+	float t = (position - m_position).magnitud() / m_velocity;
+	CVector3 futurePos = position + (directeion * speed * t);
 	return flee(futurePos.x, futurePos.y);
+}
+
+CVector3 CBoid::evade() {
+	if (!m_Objective){
+		return CVector3(0, 0, 0);
+	}	
+	CBoid* obj = reinterpret_cast<CBoid*>(m_Objective);
+	return evade(obj->m_position, obj->getDirection(), obj->getVelocity());
 }
 
 CVector3 CBoid::wander() {
@@ -208,6 +254,16 @@ CVector3 CBoid::getDirection()
 	return m_direction;
 }
 
+void CBoid::setVelocity(float vel)
+{
+	m_velocity = vel;
+}
+
+float CBoid::getVelocity()
+{
+	return m_velocity;
+}
+
 void CBoid::setSpriteDirectory(string directory)
 {
 	if (!m_texture.loadFromFile(directory))
@@ -255,7 +311,7 @@ bool CBoid::setActiveState(int id)
 	return m_Fsm.SetState(id);	
 }
 
-CBoid::CBoid() : m_pathIndex(0)
+CBoid::CBoid() : m_pathIndex(0), m_velocity(0)
 {
 	m_Objective = nullptr;
 }

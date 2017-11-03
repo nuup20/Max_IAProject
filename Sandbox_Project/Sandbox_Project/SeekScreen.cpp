@@ -1,12 +1,16 @@
 #include "stdafx.h"
 #include "SeekScreen.h"
-//#include "InteractiveButton.h"
+#include "SFMLWindow.h"
 
 void CSeekScreen::buttonFunc(int id)
 {
 	switch (id) {
 	case GAMEBUTTON::KBack:
 		this->m_pFSM->SetState(SCENE_STATES::kSceneSelection);
+		break;
+	case GAMEBUTTON::kReset:
+		this->destroy();
+		this->init();
 		break;
 	case GAMEBUTTON::KSeekAgent:
 		m_activeAgent->setActiveState(BOIDSTATE::kSeek);
@@ -23,6 +27,7 @@ void CSeekScreen::buttonFunc(int id)
 void CSeekScreen::init()
 {
 	m_world.init();
+	m_sfmlWnd->setClearColor(93, 178, 196);
 
 	//GO : ISLAND
 	CRendObject* _newR = new CRendObject();
@@ -52,6 +57,7 @@ void CSeekScreen::init()
 	_newGO->setSpriteDirectory("gameResources/sprites/spr_plane.png");
 	_newGO->setObjective(_newR);
 	_newGO->setLayer(1);				// SET RENDER LAYER
+	_newGO->setVelocity(150.0f);
 	_newGO->setActiveState(BOIDSTATE::kSeek);
 	m_world.addGameObject(_newGO);
 	m_activeAgent = _newGO;
@@ -85,6 +91,12 @@ void CSeekScreen::init()
 	_newBut = new CInteractiveButton(GAMEBUTTON::kFleeAgent);
 	_newBut->setName("Flee");
 	_newBut->setTextureDirectory("gameResources/icons/spr_flee_01.png");
+	m_buttonList.push_back(_newBut);
+
+	//BUTTON : RESET
+	_newBut = new CInteractiveButton(GAMEBUTTON::kReset);
+	_newBut->setName("Reset");
+	_newBut->setTextureDirectory("gameResources/icons/spr_reset_01.png");
 	m_buttonList.push_back(_newBut);
 
 	//BUTTON : BACK

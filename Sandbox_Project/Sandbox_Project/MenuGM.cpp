@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MenuGM.h"
 #include "Fsm.h"
+#include "SFMLWindow.h"
 
 using sf::Event;
 using sf::Mouse;
@@ -22,6 +23,8 @@ void CMenuGM::buttonFunc(unsigned int id)
 
 void CMenuGM::init()
 {	
+	m_sfmlWnd->setClearColor(93, 178, 196);
+
 	// Play Button
 	CInteractiveButton* _newBtn = new CInteractiveButton(BUTTONS_MENU::KSceneSelectionScn);
 	_newBtn->m_name = "Play_Button";
@@ -43,11 +46,11 @@ void CMenuGM::init()
 	
 }
 
-void CMenuGM::render(RenderWindow & wnd)
+void CMenuGM::render()
 {
-	wnd.draw(m_titleSprite);
+	m_sfmlWnd->getRenderWndPtr()->draw(m_titleSprite);
 	for (unsigned int i = 0; i < m_buttonList.size(); ++i)
-		m_buttonList[i]->render(wnd);	
+		m_buttonList[i]->render(*m_sfmlWnd->getRenderWndPtr());
 
 }
 

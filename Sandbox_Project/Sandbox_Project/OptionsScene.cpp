@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "OptionsScene.h"
 #include "Fsm.h"
+#include "SFMLWindow.h"
 
 void COptionsScene::buttonFunc(unsigned int id)
 {
@@ -16,6 +17,8 @@ void COptionsScene::buttonFunc(unsigned int id)
 
 void COptionsScene::init()
 {	
+	m_sfmlWnd->setClearColor(93, 178, 196);
+
 	m_title.setFont(m_font);
 	m_title.setCharacterSize(64);
 	m_title.setFillColor(Color::White);

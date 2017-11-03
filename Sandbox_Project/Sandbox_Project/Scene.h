@@ -10,12 +10,13 @@ using sf::RenderWindow;
 using sf::Event;
 using sf::Mouse;
 
+class CSFMLWindow;
 class CScene : public CState
 {
-protected:
-	//CSFMLApplication*	myApp;
+protected:	
 	string				m_name;
-	RenderWindow*		m_rendWindow;
+	CSFMLWindow*		m_sfmlWnd;
+
 public:
 
 	virtual void		onEnter();	
@@ -23,14 +24,14 @@ public:
 	virtual void		onExit();
 
 	virtual void init();
-	virtual void render(RenderWindow& wnd);
+	virtual void render();
 	virtual void destroy();
 
 	virtual void setSceneName(string newName);
 	virtual void onMouseReleased(int x, int y, short btn);
 	virtual void onMouseMove(int x, int y);
 
-	CScene(unsigned int id, const std::string& name, RenderWindow* window) : CState(id), m_name(name), m_rendWindow(window) {}
+	CScene(unsigned int id, const std::string& name, CSFMLWindow* window) : CState(id), m_name(name), m_sfmlWnd(window) {}
 	virtual ~CScene() {};
 };
 

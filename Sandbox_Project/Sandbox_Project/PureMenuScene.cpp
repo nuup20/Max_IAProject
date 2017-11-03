@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "PureMenuScene.h"
-
+#include "SFMLWindow.h"
 
 CPureMenuScene::~CPureMenuScene()
 {
@@ -20,14 +20,14 @@ unsigned int CPureMenuScene::update(void * pObject)
 	{
 	case Event::MouseButtonReleased:
 	{
-		sf::Vector2i mousePos = Mouse::getPosition(*m_rendWindow);
+		sf::Vector2i mousePos = Mouse::getPosition(*m_sfmlWnd->getRenderWndPtr());
 		onMouseReleased(mousePos.x, mousePos.y, 0);
 		pEvent->type = Event::Count;
 	}
 	break;
 	case Event::MouseMoved:
 	{
-		sf::Vector2i mousePos = Mouse::getPosition(*m_rendWindow);
+		sf::Vector2i mousePos = Mouse::getPosition(*m_sfmlWnd->getRenderWndPtr());
 		onMouseMove(mousePos.x, mousePos.y);
 	}
 	break;
@@ -48,11 +48,11 @@ void CPureMenuScene::init()
 {
 }
 
-void CPureMenuScene::render(RenderWindow & wnd)
+void CPureMenuScene::render()
 {
 	for (unsigned int i = 0; i < m_buttonList.size(); ++i)
-		m_buttonList[i]->render(wnd);
-	wnd.draw(m_title);
+		m_buttonList[i]->render(*m_sfmlWnd->getRenderWndPtr());
+	m_sfmlWnd->getRenderWndPtr()->draw(m_title);
 }
 
 void CPureMenuScene::destroy()

@@ -4,10 +4,12 @@
 
 void CSFMLWindow::init()
 {
+	
 }
 
 void CSFMLWindow::update()
 {
+	m_wndTime.update();
 }
 
 void CSFMLWindow::render()
@@ -15,14 +17,15 @@ void CSFMLWindow::render()
 	m_window.display();
 }
 
-void CSFMLWindow::clear(const Color bckColor)
+void CSFMLWindow::clear()
 {
-	m_window.clear(bckColor);
+	m_window.clear(sf::Color(m_clearColor.x,m_clearColor.y,m_clearColor.z,255));
 }
 
 void CSFMLWindow::destroy()
 {
-	m_window.close();
+	m_wndTime.destroy();
+	m_window.close();	
 }
 
 void CSFMLWindow::initWindow(short _w, short _h, string _title)
@@ -31,12 +34,36 @@ void CSFMLWindow::initWindow(short _w, short _h, string _title)
 	this->m_height = _h;
 	this->m_title = _title;
 	m_window.create(VideoMode(_w, _h), _title);
+	m_wndTime.init();
 }
 
-CSFMLWindow::CSFMLWindow()
+void CSFMLWindow::setClearColor(int r, int g, int b)
 {
+	m_clearColor.x = r;
+	m_clearColor.y = g;
+	m_clearColor.z = b;
 }
 
+RenderWindow * CSFMLWindow::getRenderWndPtr()
+{
+	return &m_window;
+}
+
+CVector3 CSFMLWindow::getRenderWndSize()
+{
+	sf::Vector2u w = m_window.getSize();
+	return CVector3(w.x, w.y);
+}
+
+bool CSFMLWindow::pollEvent(Event& _event)
+{
+	return m_window.pollEvent(_event);
+}
+
+float CSFMLWindow::getFrameTime()
+{
+	return m_wndTime.getFrameTime();
+}
 
 CSFMLWindow::~CSFMLWindow()
 {

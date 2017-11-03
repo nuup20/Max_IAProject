@@ -10,7 +10,7 @@ class CSceneSelection :
 public:
 	void init();	
 
-	CSceneSelection(const std::string& title, RenderWindow* window) : CPureMenuScene(SCENE_STATES::kSceneSelection, title, window) {
+	CSceneSelection(const std::string& title, CSFMLWindow* window) : CPureMenuScene(SCENE_STATES::kSceneSelection, title, window) {
 		m_font.loadFromFile("fonts/Keep_Singing.ttf");
 	}
 	~CSceneSelection() { destroy(); }

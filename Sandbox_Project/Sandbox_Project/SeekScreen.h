@@ -10,7 +10,7 @@ public:
 
 	void init();
 
-	CSeekScreen(const std::string& title, RenderWindow* window) : CGameScene(SCENE_STATES::kSeekScene, title, window) {}
+	CSeekScreen(const std::string& title, CSFMLWindow* window) : CGameScene(SCENE_STATES::kSeekScene, title, window) {}
 	~CSeekScreen() { destroy(); }
 };
 

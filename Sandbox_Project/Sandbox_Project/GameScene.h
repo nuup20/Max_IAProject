@@ -7,6 +7,8 @@ namespace GAMEBUTTON {
 		kUndefined,
 		KSeekAgent,
 		kFleeAgent,
+		kWanderAgent,
+		kReset,
 		KBack,
 		kCount
 	};
@@ -30,13 +32,13 @@ public:
 
 	virtual void init();	
 	virtual unsigned int update(void* pObject);
-	virtual void render(RenderWindow& wnd);
+	virtual void render();
 	virtual void destroy();
 
 	virtual void onMouseReleased(int x, int y, short btn);
 	virtual void onMouseMove(int x, int y);
 
-	CGameScene(int sceneID, const std::string& title, RenderWindow* window) : CScene(sceneID, title, window) {}
+	CGameScene(int sceneID, const std::string& title, CSFMLWindow* window) : CScene(sceneID, title, window) {}
 	virtual ~CGameScene();
 };
 

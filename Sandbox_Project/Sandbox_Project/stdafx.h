@@ -20,7 +20,9 @@ namespace SCENE_STATES
 		kGame,
 		kSceneSelection,
 		kSeekScene,
-		kFleeScene,
+		kArriveScene,
+		kWanderScn,
+		kPursuitScn,
 		kNumScenes
 	};
 }
@@ -31,6 +33,10 @@ namespace BOIDSTATE {
 		kIdle,
 		kSeek,
 		kFlee,
+		kArrive,
+		kPursuit,
+		kEvade,
+		kWander,
 		kAttack,
 		kBuild,
 		kDead,

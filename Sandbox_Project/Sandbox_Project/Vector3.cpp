@@ -144,9 +144,9 @@ CVector3 CVector3::cross(const CVector3 & vc_vector) const
 
 CVector3::CVector3()
 {
-	this->x = 0;
-	this->y = 0;
-	this->z = 0;
+	this->x = 0.0f;
+	this->y = 0.0f;
+	this->z = 0.0f;
 }
 
 CVector3::CVector3(float f_x, float f_y, float f_z)
@@ -160,7 +160,7 @@ CVector3::CVector3(float f_x, float f_y)
 {
 	this->x = f_x;
 	this->y = f_y;
-	this->z = 0;
+	this->z = 0.0f;
 }
 
 CVector3::CVector3(float f_const)
