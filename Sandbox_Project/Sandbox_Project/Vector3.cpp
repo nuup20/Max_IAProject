@@ -11,13 +11,24 @@ float CVector3::magnitud() const
 
 CVector3 CVector3::normalized() const
 {
-	CVector3 vc_normalized;
+	CVector3 vc_normalize;
 	float f_mag = this->magnitud();
+	if (f_mag == 0.0f)
+	{
+		return *this;
+	}
+
 	f_mag = 1 / f_mag;
-	vc_normalized.x = this->x * f_mag;
-	vc_normalized.y = this->y * f_mag;
-	vc_normalized.z = this->z * f_mag;	
-	return vc_normalized;
+	vc_normalize.x = this->x * f_mag;
+	vc_normalize.y = this->y * f_mag;
+	vc_normalize.z = this->z * f_mag;
+	return vc_normalize;
+}
+
+CVector3 CVector3::normalize()
+{
+	*this = normalized();
+	return *this;
 }
 
 CVector3 CVector3::truncate(float maxMg) const
@@ -128,7 +139,7 @@ float CVector3::radAngle()
 
 float CVector3::degAngle()
 {
-	if(this->x != 0 && this->y != 0)
+	if(this->x != 0.f && this->y != 0.f)
 		return (atan2f(this->y,this->x)) * 180 / PI;
 	return 0.0f;
 }
@@ -142,11 +153,9 @@ CVector3 CVector3::cross(const CVector3 & vc_vector) const
 	return vc_res;
 }
 
-CVector3::CVector3()
+CVector3::CVector3() : x(0.0f), y(0.0f), z(0.0f)
 {
-	this->x = 0.0f;
-	this->y = 0.0f;
-	this->z = 0.0f;
+	
 }
 
 CVector3::CVector3(float f_x, float f_y, float f_z)

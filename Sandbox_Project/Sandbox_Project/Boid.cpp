@@ -4,10 +4,10 @@
 #define	PI					3.141592
 #define MAG_SEEK			3
 #define RADIUS_FlEE			500.f 
-#define RADIUS_ARRIVE		275.f	
+#define RADIUS_ARRIVE		200.f	
 #define	PP_WANDER_DIST		350.f	//Distancia entre el Puntro proyectado y posicion (wander)
 #define PP_WANDER_RADIUS	300.f	//Radio del Circulo proyectado (wander)
-#define PP_WANDER_APERTURE	90		//Angulo de apertura en grados (wander)
+#define PP_WANDER_APERTURE	180		//Angulo de apertura en grados (wander)
 #define NODE_RADIUS			2
 #define BOID_RADIUS			1
 #define BOID_VISION			5
@@ -24,26 +24,44 @@ void CBoid::init() {
 	m_sprite.setColor(sf::Color::Green);
 	
 	sf::FloatRect rect = m_sprite.getLocalBounds();
-	m_sprite.setOrigin(rect.width * 0.5f, rect.height * 0.5f);
+	m_sprite.setOrigin(rect.width * 0.5f, rect.height * 0.5f);	
 
-	m_Fsm.AddState(reinterpret_cast<CState*>(new CSeek(this)));
-	m_Fsm.AddState(reinterpret_cast<CState*>(new CFlee(this)));
-	m_Fsm.AddState(reinterpret_cast<CState*>(new CArrive(this)));
-	m_Fsm.AddState(reinterpret_cast<CState*>(new CWander(this)));
-	m_Fsm.AddState(reinterpret_cast<CState*>(new CPursuit(this)));
-	m_Fsm.AddState(reinterpret_cast<CState*>(new CEvade(this)));
+	if(m_targetList.size() > 0)
+	{
+		m_targetList.clear();
+	}
+	for (unsigned int i = 0; i < (BOIDTARGET::kCount); ++i) {
+		CGameObject* newGO = nullptr;
+		m_targetList.push_back(newGO);
+	}
 }
 
 void CBoid::update()
 {	
 	m_wndTime.update();
-	m_Fsm.UpdateState(nullptr);
 	
-	m_direction = ((m_direction * m_velocity) + (m_steeringForce * m_wndTime.getFrameTime()));
-	m_direction = m_direction.normalized();
-	m_position = m_position + (m_direction * m_velocity * m_wndTime.getFrameTime());
+	m_steeringForce = 0.0f;
+	m_steeringForce += seek() + flee() + arrive() + pursuit() + evade() + followPath();
+	if (m_isWander) 
+	{
+		m_steeringForce += wander();
+	}
+
+	if (std::fabsf(m_steeringForce.x) <= std::numeric_limits<float>::epsilon() &&
+		std::fabsf(m_steeringForce.y) <= std::numeric_limits<float>::epsilon())
+	{//El vector es inválido
+		return;
+	}
+
+	CVector3 steerForceDir = m_steeringForce.normalized();
+
+	float mass = 1.0f;
+
+	m_direction = (m_direction + (steerForceDir * mass * m_wndTime.getFrameTime())) ;
+	m_direction.normalize();
+	m_position += (m_direction * m_steeringForce.truncate(m_velocity).magnitud() * m_wndTime.getFrameTime());
 	
-	m_sprite.setPosition(m_position.x, m_position.y);	
+	m_sprite.setPosition(m_position.x, m_position.y);
 	m_sprite.setRotation(m_direction.degAngle());
 }
 
@@ -59,15 +77,14 @@ void CBoid::destroy()
 
 CVector3 CBoid::seek(float x, float y)
 {
-	CVector3 desired_Velocity = (CVector3(x, y) - m_position).normalized() * m_velocity * 3;	
-	return desired_Velocity;
+	return (CVector3(x, y) - m_position).normalized() * SEEK_FORCE;	
 }
 
 CVector3 CBoid::seek()
 {
-	if (!m_Objective)
+	if (!m_targetList[BOIDTARGET::kSeek])
 		return CVector3();
-	return seek(m_Objective->m_position.x, m_Objective->m_position.y);
+	return seek(m_targetList[BOIDTARGET::kSeek]->m_position.x, m_targetList[BOIDTARGET::kSeek]->m_position.y);
 }
 
 CVector3 CBoid::flee(float x, float y)
@@ -80,24 +97,24 @@ CVector3 CBoid::flee(float x, float y)
 
 CVector3 CBoid::flee()
 {
-	if(!m_Objective)
+	if(!m_targetList[BOIDTARGET::kFlee])
 		return CVector3();
-	return flee(m_Objective->m_position.x, m_Objective->m_position.y);
+	return flee(m_targetList[BOIDTARGET::kFlee]->m_position.x, m_targetList[BOIDTARGET::kFlee]->m_position.y);
 }
 
 CVector3 CBoid::arrive(float x, float y)
 {
-	CVector3 desired_Velocity = (CVector3(x, y) - m_position).normalized() * m_velocity;
+	CVector3 force = (CVector3(x, y) - m_position).normalized() * m_velocity;
 	if ((CVector3(x, y) - m_position).magnitud() < RADIUS_ARRIVE)
-		desired_Velocity = desired_Velocity * ((CVector3(x, y) - m_position).magnitud() / RADIUS_ARRIVE);	
-	return desired_Velocity -(m_direction * m_velocity);
+		force *= ((CVector3(x, y) - m_position).magnitud() / RADIUS_ARRIVE);
+	return force;
 }
 
 CVector3 CBoid::arrive()
 {
-	if(!m_Objective)
+	if(!m_targetList[BOIDTARGET::kArrive])
 		return CVector3();
-	return arrive(m_Objective->m_position.x, m_Objective->m_position.y);
+	return arrive(m_targetList[BOIDTARGET::kArrive]->m_position.x, m_targetList[BOIDTARGET::kArrive]->m_position.y);
 }
 
 CVector3 CBoid::pursuit(CVector3 position, CVector3 directeion, float speed)
@@ -108,10 +125,10 @@ CVector3 CBoid::pursuit(CVector3 position, CVector3 directeion, float speed)
 }
 
 CVector3 CBoid::pursuit() {
-	if (!m_Objective) {
+	if (!m_targetList[BOIDTARGET::kPursuit]) {
 		return CVector3();
 	}
-	CBoid* obj = reinterpret_cast<CBoid*>(m_Objective);
+	CBoid* obj = reinterpret_cast<CBoid*>(m_targetList[BOIDTARGET::kPursuit]);
 	return pursuit(obj->m_position, obj->getDirection(), obj->getVelocity());	
 }
 
@@ -123,10 +140,10 @@ CVector3 CBoid::evade(CVector3 position, CVector3 directeion, float speed)
 }
 
 CVector3 CBoid::evade() {
-	if (!m_Objective){
+	if (!m_targetList[BOIDTARGET::kEvade]){
 		return CVector3(0, 0, 0);
 	}	
-	CBoid* obj = reinterpret_cast<CBoid*>(m_Objective);
+	CBoid* obj = reinterpret_cast<CBoid*>(m_targetList[BOIDTARGET::kEvade]);
 	return evade(obj->m_position, obj->getDirection(), obj->getVelocity());
 }
 
@@ -289,31 +306,51 @@ void CBoid::addObstacleNode(CGameObject & newNode)
 	m_nodes.push_back(&newNode);
 }
 
-void CBoid::setObjective(CGameObject * newObj)
-{
-	m_Objective = newObj;
-}
-
-CVector3 CBoid::getObjectivePosition()
-{
-	if (m_Objective != nullptr)
-		return m_Objective->m_position;
-	return CVector3(0, 0, 0);
-}
-
 void CBoid::setSteeringForce(CVector3 force)
 {
 	m_steeringForce = force;
 }
 
-bool CBoid::setActiveState(int id)
+CVector3 CBoid::getTargetPosition(unsigned int targetIndex)
 {
-	return m_Fsm.SetState(id);	
+	if (targetIndex >= m_targetList.size()) {
+		return CVector3();
+	}
+	if (m_targetList[targetIndex] != nullptr) 
+	{
+		return CVector3();
+	}
+	return m_targetList[targetIndex]->m_position;	
 }
 
-CBoid::CBoid() : m_pathIndex(0), m_velocity(0)
+bool CBoid::addNewTarget(CGameObject* go, unsigned int targetType, bool _deleteGO)
 {
-	m_Objective = nullptr;
+	if (targetType >= m_targetList.size()) {
+		return false;
+	}
+	if (_deleteGO) {
+		if (m_targetList[targetType] != nullptr)
+		{
+			delete m_targetList[targetType];
+		}
+	}
+	m_targetList[targetType] = go;
+	return true;
+}
+
+bool CBoid::removeTarget(unsigned int targetType, bool _deleteGO)
+{
+	return addNewTarget(nullptr, targetType, _deleteGO);
+}
+
+void CBoid::setWander(bool b)
+{
+	m_isWander = b;
+}
+
+CBoid::CBoid() : m_pathIndex(0), m_velocity(0), m_isWander(false)
+{
+	init();
 }
 
 CBoid::~CBoid()

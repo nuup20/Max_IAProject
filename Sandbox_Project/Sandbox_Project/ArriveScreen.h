@@ -5,6 +5,7 @@ class CArriveScreen :
 {
 private:
 	void buttonFunc(int id);
+	
 public:
 	void init();
 

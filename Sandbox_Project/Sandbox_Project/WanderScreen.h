@@ -8,6 +8,7 @@ class CWanderScreen :
 private:
 	void buttonFunc(int id);
 	vector<CBoid*> ants;
+	CGameObject*		m_colony;
 
 public:
 	void init();

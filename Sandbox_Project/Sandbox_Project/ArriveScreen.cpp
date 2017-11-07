@@ -28,21 +28,19 @@ void CArriveScreen::init()
 	_newR->m_name = "Objective";
 	_newR->setPosition(750, 200);
 	_newR->setColor(255, 255, 255, 255);
-	_newR->setSpriteDirectory("gameResources/sprites/spr_crusier.png");
+	_newR->setSpriteDirectory("gameResources/sprites/spr_airport_01.png");
 	m_world.addGameObject(_newR);
 
 	// GO : AIRPLANE
 	CBoid* _newGO = new CBoid();
-	_newGO->init();
 	_newGO->m_name = "Agent";
 	_newGO->setPosition(100, 500);
 	_newGO->setDirection(0.0f, -1.0f);	
 	_newGO->setSpriteColor(255, 255, 255, 255);
 	_newGO->setSpriteDirectory("gameResources/sprites/spr_IDVPlane_01.png");
-	_newGO->setObjective(_newR);
-	_newGO->setLayer(1);				// SET RENDER LAYER
-	_newGO->setActiveState(BOIDSTATE::kArrive);
-	_newGO->setVelocity(10);
+	_newGO->addNewTarget(_newR, BOIDTARGET::kArrive);
+	_newGO->setLayer(1);				// SET RENDER LAYER	
+	_newGO->setVelocity(150.f);
 	m_world.addGameObject(_newGO);
 	m_activeAgent = _newGO;
 

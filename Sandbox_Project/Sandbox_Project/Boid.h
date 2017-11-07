@@ -7,17 +7,22 @@
 #include "SFML\Graphics.hpp"
 #include "WindowTime.h"
 
-#include "Seek.h"
-#include "Flee.h"
-#include "Arrive.h"
-#include "Wander.h"
-#include "Evade.h"
-#include "Pursuit.h"
-
 using sf::RenderWindow;
 using sf::Texture;
 using sf::Sprite;
 using std::vector;
+
+namespace BOIDTARGET {
+	enum t {
+		kUndefined,
+		kSeek,
+		kFlee,
+		kArrive,
+		kPursuit,
+		kEvade,
+		kCount
+	};
+}
 
 class CBoid : public CGameObject
 {
@@ -25,10 +30,6 @@ private:
 	// Componentes para dibujar el Sprite en SFML
 	Texture		m_texture;
 	Sprite		m_sprite;
-
-	// Maquina de Estados del Boid
-	CFsm		m_Fsm;
-	CState*		m_activeState;	
 	
 	// Vectores para calcular fuerzas y posición
 	CVector3				m_direction;
@@ -37,9 +38,10 @@ private:
 	CWindowTime				m_wndTime;
 
 	// Objetos necesarios para que funcionen algunos Steering Behaviors
-	CGameObject*			m_Objective;		// --> seek, flee, arrive, evade (CBoid), pursuit (CBoid)
+	vector<CGameObject*>	m_targetList;		//
 	vector<CGameObject*>	m_nodes;			// --> followPath
 	int						m_pathIndex;		// --> followPath
+	bool					m_isWander;
 
 public:
 	void		init();
@@ -74,12 +76,16 @@ public:
 	void		setSpriteDirectory(string directory);
 	void		setSpriteColor(int r, int g, int b, int a);
 	void		scaleSprite(float scale);
-	void		addObstacleNode(CGameObject& newNode);
-	void		setObjective(CGameObject* newObj);
-	CVector3	getObjectivePosition();
+	void		addObstacleNode(CGameObject& newNode);	
 	void		setSteeringForce(CVector3 force);
 
-	bool		setActiveState(int id);
+	bool		addNewTarget(CGameObject* go, unsigned int targetType, bool _deleteGO = false);
+	bool		removeTarget(unsigned int targetType, bool _deleteGO = false);
+	void		setWander(bool b);
+	CVector3	getTargetPosition(unsigned int targetIndex);
+
+	static const int SEEK_FORCE = 150;
+	static const int PURSUIT_FORCE = 200;
 
 	CBoid();
 	~CBoid();

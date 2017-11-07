@@ -26,6 +26,7 @@ public:
 
 	CVector3	truncate(const float maxMg) const;
 	CVector3	normalized() const;
+	CVector3	normalize();
 	CVector3	cross(const CVector3& vc_vector) const;
 	float		magnitud() const;	
 	float		dot(const CVector3& vc_vector) const;

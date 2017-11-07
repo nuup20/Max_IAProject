@@ -152,15 +152,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
-    <ClInclude Include="Arrive.h" />
     <ClInclude Include="ArriveScreen.h" />
     <ClInclude Include="Attack.h" />
     <ClInclude Include="Boid.h" />
     <ClInclude Include="BoidState.h" />
     <ClInclude Include="Build.h" />
     <ClInclude Include="Dead.h" />
-    <ClInclude Include="Evade.h" />
-    <ClInclude Include="Flee.h" />
     <ClInclude Include="Fsm.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameScene.h" />
@@ -175,13 +172,11 @@
     <ClInclude Include="OptionsScene.h" />
     <ClInclude Include="Patrol.h" />
     <ClInclude Include="PureMenuScene.h" />
-    <ClInclude Include="Pursuit.h" />
     <ClInclude Include="PursuitScreen.h" />
     <ClInclude Include="RendObject.h" />
     <ClInclude Include="RetreaveCargo.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneSelection.h" />
-    <ClInclude Include="Seek.h" />
     <ClInclude Include="SeekScreen.h" />
     <ClInclude Include="SFMLApplication.h" />
     <ClInclude Include="SFMLWindow.h" />
@@ -189,7 +184,6 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Vector3.h" />
-    <ClInclude Include="Wander.h" />
     <ClInclude Include="WanderScreen.h" />
     <ClInclude Include="WindowApp.h" />
     <ClInclude Include="WindowTime.h" />
@@ -197,15 +191,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="Arrive.cpp" />
     <ClCompile Include="ArriveScreen.cpp" />
     <ClCompile Include="Attack.cpp" />
     <ClCompile Include="Boid.cpp" />
     <ClCompile Include="BoidState.cpp" />
     <ClCompile Include="Build.cpp" />
     <ClCompile Include="Dead.cpp" />
-    <ClCompile Include="Evade.cpp" />
-    <ClCompile Include="Flee.cpp" />
     <ClCompile Include="Fsm.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameScene.cpp" />
@@ -220,14 +211,12 @@
     <ClCompile Include="OptionsScene.cpp" />
     <ClCompile Include="Patrol.cpp" />
     <ClCompile Include="PureMenuScene.cpp" />
-    <ClCompile Include="Pursuit.cpp" />
     <ClCompile Include="PursuitScreen.cpp" />
     <ClCompile Include="RendObject.cpp" />
     <ClCompile Include="RetreaveCargo.cpp" />
     <ClCompile Include="Sandbox_Project.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneSelection.cpp" />
-    <ClCompile Include="Seek.cpp" />
     <ClCompile Include="SeekScreen.cpp" />
     <ClCompile Include="SFMLApplication.cpp" />
     <ClCompile Include="SFMLWindow.cpp" />
@@ -239,7 +228,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Vector3.cpp" />
-    <ClCompile Include="Wander.cpp" />
     <ClCompile Include="WanderScreen.cpp" />
     <ClCompile Include="WindowApp.cpp" />
     <ClCompile Include="WindowTime.cpp" />

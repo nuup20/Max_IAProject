@@ -13,10 +13,12 @@ void CSeekScreen::buttonFunc(int id)
 		this->init();
 		break;
 	case GAMEBUTTON::KSeekAgent:
-		m_activeAgent->setActiveState(BOIDSTATE::kSeek);
+		m_activeAgent->addNewTarget(m_ship, BOIDTARGET::kSeek);
+		m_activeAgent->removeTarget(BOIDTARGET::kFlee);
 		break;
 	case GAMEBUTTON::kFleeAgent:
-		m_activeAgent->setActiveState(BOIDSTATE::kFlee);
+		m_activeAgent->addNewTarget(m_ship, BOIDTARGET::kFlee);
+		m_activeAgent->removeTarget(BOIDTARGET::kSeek);
 		break;
 	case GAMEBUTTON::kUndefined:break;
 	default:
@@ -45,6 +47,7 @@ void CSeekScreen::init()
 	_newR->setPosition(512, 360);
 	_newR->setColor(255, 255, 255, 255);
 	_newR->setSpriteDirectory("gameResources/sprites/spr_crusier.png");
+	m_ship = _newR;
 	m_world.addGameObject(_newR);
 
 	//GO : CREATE AGENT
@@ -55,10 +58,9 @@ void CSeekScreen::init()
 	_newGO->setDirection(0.0f, -1.0f);
 	_newGO->scaleSprite(0.8f);
 	_newGO->setSpriteDirectory("gameResources/sprites/spr_plane.png");
-	_newGO->setObjective(_newR);
+	_newGO->addNewTarget(m_ship, BOIDTARGET::kSeek);
 	_newGO->setLayer(1);				// SET RENDER LAYER
-	_newGO->setVelocity(150.0f);
-	_newGO->setActiveState(BOIDSTATE::kSeek);
+	_newGO->setVelocity(150.0f);	
 	m_world.addGameObject(_newGO);
 	m_activeAgent = _newGO;
 

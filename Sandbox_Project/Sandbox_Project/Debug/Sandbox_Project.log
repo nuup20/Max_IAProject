@@ -1,3 +1,17 @@
-﻿  PursuitScreen.cpp
+﻿  Boid.cpp
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(80): warning C4244: 'argument': conversion from 'const int' to 'const float', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(152): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(153): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(161): warning C4018: '>=': signed/unsigned mismatch
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(182): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(184): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(185): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(187): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(200): warning C4018: '<': signed/unsigned mismatch
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(224): warning C4018: '<': signed/unsigned mismatch
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(227): warning C4244: 'argument': conversion from 'unsigned int' to 'const float', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(233): warning C4018: '<': signed/unsigned mismatch
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(236): warning C4244: 'argument': conversion from 'unsigned int' to 'const float', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\boid.cpp(243): warning C4018: '<': signed/unsigned mismatch
   Sandbox_Project.vcxproj -> D:\Max Maldonado\Documents\Max_IAProject\Sandbox_Project\Debug\Sandbox_Project.exe
   Sandbox_Project.vcxproj -> D:\Max Maldonado\Documents\Max_IAProject\Sandbox_Project\Debug\Sandbox_Project.pdb (Full PDB)

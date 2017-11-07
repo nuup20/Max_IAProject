@@ -10,13 +10,15 @@ void CWanderScreen::buttonFunc(int id)
 	case GAMEBUTTON::KSeekAgent:
 		for (int i = 0; i < ants.size(); ++i)
 		{
-			ants[i]->setActiveState(BOIDSTATE::kSeek);
+			ants[i]->setWander(false);
+			ants[i]->addNewTarget(m_colony, BOIDTARGET::kSeek);
 		}
 		break;
 	case GAMEBUTTON::kWanderAgent:
 		for (int i = 0; i < ants.size(); ++i)
 		{
-			ants[i]->setActiveState(BOIDSTATE::kWander);
+			ants[i]->setWander(true);
+			ants[i]->removeTarget(BOIDTARGET::kSeek);
 		}
 		break;
 	case GAMEBUTTON::KBack:
@@ -75,10 +77,11 @@ void CWanderScreen::init()
 	// GO : COLONY
 	_newR = new CRendObject();
 	_newR->init();
-	_newR->m_name = "Leave 01";
+	_newR->m_name = "Colony";
 	_newR->setPosition(500, 300);
 	_newR->setColor(255, 255, 255, 255);
 	_newR->setSpriteDirectory("gameResources/sprites/spr_colony_01.png");
+	m_colony = _newR;
 	m_world.addGameObject(_newR);
 
 	// GO : ANT
@@ -91,9 +94,9 @@ void CWanderScreen::init()
 	_newGO->scaleSprite(2.0f);
 	_newGO->setSpriteDirectory("gameResources/sprites/spr_ant_01.png");
 	_newGO->setSpriteColor(255, 255, 255, 255);
+	_newGO->setWander(true);
 	_newGO->setLayer(1);				// SET RENDER LAYER
-	_newGO->setActiveState(BOIDSTATE::kWander);
-	_newGO->setObjective(_newR);
+	
 	m_world.addGameObject(_newGO);
 	ants.push_back(_newGO);
 
@@ -106,9 +109,9 @@ void CWanderScreen::init()
 	_newGO->scaleSprite(2.0f);
 	_newGO->setSpriteDirectory("gameResources/sprites/spr_ant_01.png");
 	_newGO->setSpriteColor(255, 255, 255, 255);
+	_newGO->setWander(true);
 	_newGO->setLayer(1);				// SET RENDER LAYER
-	_newGO->setActiveState(BOIDSTATE::kWander);
-	_newGO->setObjective(_newR);
+	
 	m_world.addGameObject(_newGO);
 	ants.push_back(_newGO);
 
@@ -121,9 +124,9 @@ void CWanderScreen::init()
 	_newGO->scaleSprite(2.0f);
 	_newGO->setSpriteDirectory("gameResources/sprites/spr_ant_01.png");
 	_newGO->setSpriteColor(255, 255, 255, 255);
+	_newGO->setWander(true);
 	_newGO->setLayer(1);				// SET RENDER LAYER
-	_newGO->setActiveState(BOIDSTATE::kWander);
-	_newGO->setObjective(_newR);
+	
 	m_world.addGameObject(_newGO);
 	ants.push_back(_newGO);
 
@@ -136,9 +139,9 @@ void CWanderScreen::init()
 	_newGO->scaleSprite(2.0f);
 	_newGO->setSpriteDirectory("gameResources/sprites/spr_ant_01.png");
 	_newGO->setSpriteColor(255, 255, 255, 255);
+	_newGO->setWander(true);
 	_newGO->setLayer(1);				// SET RENDER LAYER
-	_newGO->setActiveState(BOIDSTATE::kWander);
-	_newGO->setObjective(_newR);
+	
 	m_world.addGameObject(_newGO);
 	ants.push_back(_newGO);
 
