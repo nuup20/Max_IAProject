@@ -20,7 +20,9 @@ void CPursuitScreen::buttonFunc(int id)
 
 void CPursuitScreen::init()
 {
+	m_time.init();
 	m_world.init();
+	this->m_isPaused = false;
 	m_sfmlWnd->setClearColor(60, 122, 67);
 
 	CRendObject* _newR = new CRendObject();
@@ -48,7 +50,7 @@ void CPursuitScreen::init()
 	m_world.addGameObject(_newR);
 
 	// GO : THIEF
-	CBoid* _newGO = new CBoid();	
+	CBoid* _newGO = new CBoid(this);	
 	_newGO->m_name = "Thief";
 	_newGO->setPosition(10, 100);
 	_newGO->setDirection(1.0f, 0.0f);
@@ -61,7 +63,7 @@ void CPursuitScreen::init()
 	m_world.addGameObject(_newGO);
 	CBoid* objective = _newGO;
 
-	_newGO = new CBoid();
+	_newGO = new CBoid(this);
 	_newGO->m_name = "Police";
 	_newGO->setPosition(100, 700);
 	_newGO->setDirection(0.0f, -1.0f);	

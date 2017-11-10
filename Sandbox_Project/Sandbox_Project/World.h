@@ -25,8 +25,8 @@ public:
 	void	render(RenderWindow& wnd);
 	void	destroy();	
 
-	void				addGameObject(CGameObject* newGameObject);
-	vector<CGameObject*> getObjsInArea(int x, int y, float radius);
+	void		addGameObject(CGameObject* newGameObject);
+	vector<CGameObject*>	getObjsInArea(int x, int y, float radius, unsigned int m_group = GOGROUP::kEverything);
 
 	CWorld();
 	~CWorld();

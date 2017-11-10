@@ -1,15 +1,13 @@
 #pragma once
-#include "GameObject.h"
-class CObstacle : public CGameObject
+#include "RendObject.h"
+class CObstacle : public CRendObject
 {
-public:
+private:
 
+public:
 	float	m_radius;
 
-	void	init();
-	void	update();
-	void	render(RenderWindow& wnd);
-	void	destroy();
+	void	setRadius(float radius);
 
 	CObstacle();
 	~CObstacle();

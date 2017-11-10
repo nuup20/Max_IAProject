@@ -3,6 +3,7 @@
 
 void CWindowTime::init()
 {
+	m_clock.restart();
 }
 
 void CWindowTime::update()

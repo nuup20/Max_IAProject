@@ -12,6 +12,8 @@ namespace BUTTONS_MENU {
 		kOptionsScn,
 		kMenuScn,	
 		KSeekFleeScn,
+		kPathScn,
+		kAvoidanceScn,
 		kCount
 	};
 }

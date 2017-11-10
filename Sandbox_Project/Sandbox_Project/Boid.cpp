@@ -1,27 +1,50 @@
 #include "stdafx.h"
 #include "Boid.h"
+#include "GameScene.h"
 
 #define	PI					3.141592
 #define MAG_SEEK			3
 #define RADIUS_FlEE			500.f 
 #define RADIUS_ARRIVE		200.f	
 #define	PP_WANDER_DIST		350.f	//Distancia entre el Puntro proyectado y posicion (wander)
-#define PP_WANDER_RADIUS	300.f	//Radio del Circulo proyectado (wander)
-#define PP_WANDER_APERTURE	180		//Angulo de apertura en grados (wander)
-#define NODE_RADIUS			2
-#define BOID_RADIUS			1
-#define BOID_VISION			5
+#define PP_WANDER_RADIUS	100.f	//Radio del Circulo proyectado (wander)
+#define PP_WANDER_APERTURE	180		//Angulo de apertura en grados ( )
+#define NODE_RADIUS			50.f
+#define BOID_RADIUS			150.f
+#define BOID_VISION			150
 #define BOID_SEPARATION		5
 #define BOID_REPULSION_FORCE 10
 
-void CBoid::init() {
+void CBoid::drawVector(CVector3 position, CVector3 vector, RenderWindow& wnd, bool scale)
+{	
+	if (scale)
+	{
+		vector *= 100.0f;
+	}
+	Vertex line[2] = { Vertex(Vector2f(position.x, position.y)), Vertex(Vector2f(position.x + vector.x, position.y + vector.y)) };	
+	wnd.draw(line, 2, sf::Lines);
+}
 
-	m_wndTime.init();
+void CBoid::drawVectorInfo(RenderWindow& wnd)
+{	
+	m_text.setString("SteerForce < " + to_string(m_steeringForce.x) + " , " + to_string(m_steeringForce.y) + " > \n Magnitude : " + to_string(m_steeringForce.magnitud()));
+	m_text.setPosition(m_position.x + 50, m_position.y + 50);
+	wnd.draw(m_text);
+}
+
+void CBoid::init() {	
+
+	m_font.loadFromFile("fonts/arial.ttf");
+	m_text.setFont(m_font);
+	m_text.setCharacterSize(17);
+	m_text.setFillColor(sf::Color::White);
 
 	m_texture.loadFromFile("textures/default/spr_boid_01.png");
 	m_sprite.setTexture(m_texture);
 	m_sprite.setPosition(m_position.x, m_position.y);
 	m_sprite.setColor(sf::Color::Green);
+	m_wanderCircle.setFillColor(sf::Color(255,0,0,80));
+	m_wanderCircle.setRadius(PP_WANDER_RADIUS);
 	
 	sf::FloatRect rect = m_sprite.getLocalBounds();
 	m_sprite.setOrigin(rect.width * 0.5f, rect.height * 0.5f);	
@@ -37,11 +60,9 @@ void CBoid::init() {
 }
 
 void CBoid::update()
-{	
-	m_wndTime.update();
-	
+{		
 	m_steeringForce = 0.0f;
-	m_steeringForce += seek() + flee() + arrive() + pursuit() + evade() + followPath();
+	m_steeringForce += seek() + flee() + arrive() + pursuit() + evade() + followPath() + obstacleAvoidance(m_gameScene->getObjectsInArea(m_position.x,m_position.y,BOID_RADIUS,GOGROUP::kObstacle));
 	if (m_isWander) 
 	{
 		m_steeringForce += wander();
@@ -54,12 +75,10 @@ void CBoid::update()
 	}
 
 	CVector3 steerForceDir = m_steeringForce.normalized();
-
-	float mass = 1.0f;
-
-	m_direction = (m_direction + (steerForceDir * mass * m_wndTime.getFrameTime())) ;
+	m_direction = (m_direction + (steerForceDir * m_mass * m_gameScene->m_time.getFrameTime())) ;
 	m_direction.normalize();
-	m_position += (m_direction * m_steeringForce.truncate(m_velocity).magnitud() * m_wndTime.getFrameTime());
+	m_steeringForce = m_steeringForce.truncate(m_velocity);
+	m_position += (m_direction *  m_steeringForce.magnitud() * m_gameScene->m_time.getFrameTime());
 	
 	m_sprite.setPosition(m_position.x, m_position.y);
 	m_sprite.setRotation(m_direction.degAngle());
@@ -68,11 +87,20 @@ void CBoid::update()
 void CBoid::render(RenderWindow& wnd)
 {	
 	wnd.draw(m_sprite);	
+	if (m_debug)
+	{
+		if (m_isWander)
+		{
+			wnd.draw(m_wanderCircle);
+		}
+		drawVector(m_position, m_direction, wnd, true);
+		drawVector(m_position, m_steeringForce, wnd);
+		drawVectorInfo(wnd);		
+	}
 }
 
 void CBoid::destroy()
-{
-	m_wndTime.destroy();
+{	
 }
 
 CVector3 CBoid::seek(float x, float y)
@@ -149,29 +177,52 @@ CVector3 CBoid::evade() {
 
 CVector3 CBoid::wander() {
 	CVector3 pp = m_position + (m_direction * PP_WANDER_DIST);
-	float f_wAp = (rand() % PP_WANDER_APERTURE) * (PI / 180);
-	float f_wPhi = (atan(m_direction.y / m_direction.x) - ((PP_WANDER_APERTURE >> 1) * PI / 180)) + f_wAp;
-	pp.x += PP_WANDER_RADIUS * cos(f_wPhi);
-	pp.y += PP_WANDER_RADIUS * sin(f_wPhi);
-	return (pp - m_position);
+	if (m_debug)
+	{
+		m_wanderCircle.setPosition(pp.x - (PP_WANDER_RADIUS), pp.y - (PP_WANDER_RADIUS));
+	}
+
+	m_timeCount += m_gameScene->m_time.getFrameTime();
+	if (m_timeCount >= m_timeTrigger)
+	{
+		m_timeCount = 0;
+
+		float f_wAp = (rand() % PP_WANDER_APERTURE) * (PI / 180);
+		float f_wPhi = (atan(m_direction.y / m_direction.x) - ((PP_WANDER_APERTURE >> 1) * PI / 180)) + f_wAp;
+		pp.x += PP_WANDER_RADIUS * cos(f_wPhi);
+		pp.y += PP_WANDER_RADIUS * sin(f_wPhi);
+		m_wanderForce = (pp - m_position) * 500;		
+	}
+	return m_wanderForce;
 }
 
 CVector3 CBoid::followPath()
 {
-	if (m_pathIndex >= m_nodes.size())
+	if (m_pathIndex >= m_nodes.size()) 
+	{
 		return CVector3();
-	if (m_pathIndex == 0)
+	}
+		
+	if ((m_nodes[m_pathIndex]->m_position - m_position).magnitud() <= NODE_RADIUS)
+	{
+		++m_pathIndex;
+		if (m_pathIndex >= m_nodes.size()) 
+		{
+			m_pathIndex = 0;
+		}			
+	}
+	if (m_pathIndex == 0) 
+	{
 		return seek(m_nodes[m_pathIndex]->m_position.x, m_nodes[m_pathIndex]->m_position.y);
+	}		
 
 	CVector3 agentDist = m_position - m_nodes[m_pathIndex - 1]->m_position;
-	CVector3 nodeDist = m_nodes[m_pathIndex]->m_position - m_nodes[m_pathIndex - 1]->m_position;
-	CVector3 pathForce = (nodeDist * dot(nodeDist, agentDist)) - agentDist;
+	CVector3 nodeDist = m_nodes[m_pathIndex]->m_position - m_nodes[m_pathIndex - 1]->m_position;	
+	CVector3 pathForce = (nodeDist.normalized() * (dot(agentDist, nodeDist) / nodeDist.magnitud())) - agentDist;
 	CVector3 nodeForce = m_nodes[m_pathIndex]->m_position - m_position;
+	CVector3 steerForce = pathForce + nodeForce;
 	
-	if ((m_nodes[m_pathIndex]->m_position - m_position).magnitud() <= NODE_RADIUS)
-		++m_pathIndex;
-
-	return nodeForce + pathForce;
+	return steerForce.normalized() * SEEK_FORCE;
 }
 
 CVector3 CBoid::followPath(vector<CGameObject*>& nodeList, float index)
@@ -186,10 +237,10 @@ CVector3 CBoid::followPath(vector<CGameObject*>& nodeList, float index)
 	CVector3 pathForce = (nodeDist * dot(nodeDist, agentDist)) - agentDist;
 	CVector3 nodeForce = nodeList[index]->m_position - m_position;
 
-	return nodeForce + pathForce;
+	return (nodeForce.normalize() * 150) + (pathForce.normalize() * 150);
 }
 
-CVector3 CBoid::obstacleAvoidance(vector<CObstacle*>& obstacles)
+CVector3 CBoid::obstacleAvoidance(vector<CGameObject*>& obstacles)
 {
 	CVector3	visionVec = this->m_direction * BOID_VISION;
 	CVector3	vect_ObsToVision, vect_AgentToObs;
@@ -197,21 +248,27 @@ CVector3 CBoid::obstacleAvoidance(vector<CObstacle*>& obstacles)
 	float		refEsc = BOID_VISION;
 	float		dotEsc = 0;
 
-	for (int i = 0; i < obstacles.size(); ++i) {
-		vect_AgentToObs = (*obstacles[i]).m_position - this->m_position;
-		dotEsc = vect_AgentToObs.dot(visionVec);
-		if ( dotEsc > 0 && dotEsc <= 1 && dotEsc <= refEsc) {
-			vect_ObsToVision = (visionVec * dotEsc) - vect_AgentToObs;
-			if (((vect_ObsToVision).magnitud() - (*obstacles[i]).m_radius) <= (BOID_RADIUS * 0.5f)) {
+	for (int i = 0; i < obstacles.size(); ++i) 
+	{
+		vect_AgentToObs = obstacles[i]->m_position - this->m_position;		
+		dotEsc = dot(vect_AgentToObs, visionVec) / visionVec.magnitud();
+		if ( dotEsc > 0 && dotEsc <= refEsc) 
+		{
+			vect_ObsToVision = (m_direction * dotEsc) - vect_AgentToObs;
+			CObstacle* _obst = reinterpret_cast<CObstacle*>(obstacles[i]);
+			if (((vect_ObsToVision).magnitud() - _obst->m_radius) <= (BOID_RADIUS * 0.5f)) 
+			{
+				refEsc = dotEsc;
 				primaryObstacle = obstacles[i];
 			}
 		}
 	}
 
-	if (primaryObstacle != NULL) {
-		vect_AgentToObs = (*primaryObstacle).m_position - this->m_position;
-		dotEsc = vect_AgentToObs.dot(visionVec);
-		vect_ObsToVision = (visionVec * dotEsc) - vect_AgentToObs;
+	if (primaryObstacle != NULL) 
+	{
+		vect_AgentToObs = primaryObstacle->m_position - this->m_position;
+		dotEsc = dot(vect_AgentToObs, visionVec) / visionVec.magnitud();
+		vect_ObsToVision = (m_direction * dotEsc) - vect_AgentToObs;
 		return vect_ObsToVision * 999999.f;
 	}
 
@@ -281,6 +338,11 @@ float CBoid::getVelocity()
 	return m_velocity;
 }
 
+void CBoid::setMass(float mas)
+{
+	m_mass = mas;
+}
+
 void CBoid::setSpriteDirectory(string directory)
 {
 	if (!m_texture.loadFromFile(directory))
@@ -301,9 +363,14 @@ void CBoid::scaleSprite(float scale)
 	m_sprite.scale(scale,scale);
 }
 
-void CBoid::addObstacleNode(CGameObject & newNode)
+void CBoid::setDebug(bool deb)
 {
-	m_nodes.push_back(&newNode);
+	m_debug = deb;
+}
+
+void CBoid::addPathNode(CGameObject * newNode)
+{
+	m_nodes.push_back(newNode);
 }
 
 void CBoid::setSteeringForce(CVector3 force)
@@ -348,7 +415,8 @@ void CBoid::setWander(bool b)
 	m_isWander = b;
 }
 
-CBoid::CBoid() : m_pathIndex(0), m_velocity(0), m_isWander(false)
+CBoid::CBoid(CGameScene* gameScn) : CGameObject(GOGROUP::kBoid), m_gameScene(gameScn), m_pathIndex(0), m_velocity(0), m_mass(1.0f), 
+				m_isWander(false), m_debug(true), m_timeCount(100.0f), m_timeTrigger(0.5f)
 {
 	init();
 }

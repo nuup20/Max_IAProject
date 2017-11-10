@@ -8,18 +8,21 @@ void CWanderScreen::buttonFunc(int id)
 {
 	switch (id) {
 	case GAMEBUTTON::KSeekAgent:
-		for (int i = 0; i < ants.size(); ++i)
+		for (unsigned int i = 0; i < ants.size(); ++i)
 		{
 			ants[i]->setWander(false);
 			ants[i]->addNewTarget(m_colony, BOIDTARGET::kSeek);
 		}
 		break;
 	case GAMEBUTTON::kWanderAgent:
-		for (int i = 0; i < ants.size(); ++i)
+		for (unsigned int i = 0; i < ants.size(); ++i)
 		{
 			ants[i]->setWander(true);
 			ants[i]->removeTarget(BOIDTARGET::kSeek);
 		}
+		break;
+	case GAMEBUTTON::kPause:
+		this->pauseSystem();
 		break;
 	case GAMEBUTTON::KBack:
 		this->m_pFSM->SetState(SCENE_STATES::kSceneSelection);
@@ -36,6 +39,9 @@ void CWanderScreen::buttonFunc(int id)
 
 void CWanderScreen::init()
 {
+	m_time.init();
+	m_world.init();
+	this->m_isPaused = false;
 	m_sfmlWnd->setClearColor(201, 150, 109);
 
 	// GO : LEAVE
@@ -85,7 +91,7 @@ void CWanderScreen::init()
 	m_world.addGameObject(_newR);
 
 	// GO : ANT
-	CBoid* _newGO = new CBoid();
+	CBoid* _newGO = new CBoid(this);
 	_newGO->init();
 	_newGO->m_name = "Agent";
 	_newGO->setPosition(100, 500);
@@ -100,7 +106,7 @@ void CWanderScreen::init()
 	m_world.addGameObject(_newGO);
 	ants.push_back(_newGO);
 
-	_newGO = new CBoid();
+	_newGO = new CBoid(this);
 	_newGO->init();
 	_newGO->m_name = "Agent";
 	_newGO->setPosition(300, 300);
@@ -115,7 +121,7 @@ void CWanderScreen::init()
 	m_world.addGameObject(_newGO);
 	ants.push_back(_newGO);
 
-	_newGO = new CBoid();
+	_newGO = new CBoid(this);
 	_newGO->init();
 	_newGO->m_name = "Agent";
 	_newGO->setPosition(700, 700);
@@ -130,7 +136,7 @@ void CWanderScreen::init()
 	m_world.addGameObject(_newGO);
 	ants.push_back(_newGO);
 
-	_newGO = new CBoid();
+	_newGO = new CBoid(this);
 	_newGO->init();
 	_newGO->m_name = "Agent";
 	_newGO->setPosition(175, 10);
@@ -157,6 +163,12 @@ void CWanderScreen::init()
 	_newBut->setTextureDirectory("gameResources/icons/spr_tocolony_01.png");
 	m_buttonList.push_back(_newBut);
 
+	//BUTTON : PAUSE
+	_newBut = new CInteractiveButton(GAMEBUTTON::kPause);
+	_newBut->setName("Pause");
+	_newBut->setTextureDirectory("gameResources/icons/spr_pause_01.png");
+	m_buttonList.push_back(_newBut);
+
 	//BUTTON : RESET
 	_newBut = new CInteractiveButton(GAMEBUTTON::kReset);
 	_newBut->setName("Reset");
@@ -174,6 +186,7 @@ void CWanderScreen::init()
 
 void CWanderScreen::destroy()
 {
+	m_time.destroy();
 	m_world.destroy();
 	for (unsigned int i = 0; i < m_buttonList.size(); ++i)
 		delete m_buttonList[i];

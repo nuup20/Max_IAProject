@@ -36,6 +36,11 @@ void CGameObject::setLayer(int layer) // Describe el número de capa para renderi
 	m_layer = layer;
 }
 
+void CGameObject::setObjectGroup(unsigned int group)
+{
+	m_group = group;
+}
+
 
 CGameObject::~CGameObject()
 {

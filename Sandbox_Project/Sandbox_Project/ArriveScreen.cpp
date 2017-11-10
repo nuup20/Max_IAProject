@@ -20,6 +20,9 @@ void CArriveScreen::buttonFunc(int id)
 
 void CArriveScreen::init()
 {
+	m_time.init();
+	m_world.init();
+	this->m_isPaused = false;
 	m_sfmlWnd->setClearColor(64, 145, 64);
 
 	// GO : LAND ZONE
@@ -32,7 +35,7 @@ void CArriveScreen::init()
 	m_world.addGameObject(_newR);
 
 	// GO : AIRPLANE
-	CBoid* _newGO = new CBoid();
+	CBoid* _newGO = new CBoid(this);
 	_newGO->m_name = "Agent";
 	_newGO->setPosition(100, 500);
 	_newGO->setDirection(0.0f, -1.0f);	

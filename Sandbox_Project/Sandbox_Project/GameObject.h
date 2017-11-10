@@ -5,6 +5,16 @@
 using sf::RenderWindow;
 using std::string;
 
+namespace GOGROUP {
+	enum g {
+		kUndefined,
+		kEverything,
+		kObstacle,
+		kBoid,
+		kCount
+	};
+}
+
 class CObject
 {
 public:
@@ -17,6 +27,7 @@ class CGameObject : public CObject
 public:
 
 	string			m_name;
+	unsigned int	m_group;
 	CVector3		m_position;
 	int				m_layer;
 
@@ -28,8 +39,9 @@ public:
 	void		setPosition(int x, int y);
 	void		setName(string name);
 	void		setLayer(int layer);
+	void		setObjectGroup(unsigned int group);
 
-	CGameObject(int layer = 0) : m_layer(layer) {}
+	CGameObject( unsigned int group = 0) : m_layer(0), m_group(group) {}
 	virtual ~CGameObject();
 };
 

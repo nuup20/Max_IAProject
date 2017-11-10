@@ -2,7 +2,7 @@
 #include "RendObject.h"
 
 
-CRendObject::CRendObject()
+CRendObject::CRendObject(unsigned int group) : CGameObject(group)
 {
 	
 }

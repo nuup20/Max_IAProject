@@ -2,23 +2,12 @@
 #include "Obstacle.h"
 
 
-void CObstacle::init()
+void CObstacle::setRadius(float radius)
 {
+	m_radius = radius;
 }
 
-void CObstacle::update()
-{
-}
-
-void CObstacle::render(RenderWindow & wnd)
-{
-}
-
-void CObstacle::destroy()
-{
-}
-
-CObstacle::CObstacle()
+CObstacle::CObstacle() : CRendObject(GOGROUP::kObstacle) , m_radius(1.0f)
 {
 }
 

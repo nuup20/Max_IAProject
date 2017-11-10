@@ -39,9 +39,9 @@ void CSFMLWindow::initWindow(short _w, short _h, string _title)
 
 void CSFMLWindow::setClearColor(int r, int g, int b)
 {
-	m_clearColor.x = r;
-	m_clearColor.y = g;
-	m_clearColor.z = b;
+	m_clearColor.x = (float)r;
+	m_clearColor.y = (float)g;
+	m_clearColor.z = (float)b;
 }
 
 RenderWindow * CSFMLWindow::getRenderWndPtr()
@@ -52,7 +52,7 @@ RenderWindow * CSFMLWindow::getRenderWndPtr()
 CVector3 CSFMLWindow::getRenderWndSize()
 {
 	sf::Vector2u w = m_window.getSize();
-	return CVector3(w.x, w.y);
+	return CVector3((float)w.x,(float)w.y);
 }
 
 bool CSFMLWindow::pollEvent(Event& _event)

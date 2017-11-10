@@ -24,7 +24,7 @@ public:
 	void setColor(float r,float g,float b,float a);
 	void scale(float scalation);
 
-	CRendObject();
+	CRendObject(unsigned int group = GOGROUP::kUndefined);
 	~CRendObject();
 };
 

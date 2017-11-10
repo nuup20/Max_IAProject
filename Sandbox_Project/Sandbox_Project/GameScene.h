@@ -9,6 +9,7 @@ namespace GAMEBUTTON {
 		kFleeAgent,
 		kWanderAgent,
 		kReset,
+		kPause,
 		KBack,
 		kCount
 	};
@@ -21,6 +22,8 @@ protected:
 	CWorld m_world;
 	vector<CInteractiveButton*> m_buttonList;
 	CBoid* m_activeAgent;
+
+	bool	m_isPaused;
 
 	virtual void buttonFunc(int id);
 	virtual void setButtonPositions();
@@ -37,8 +40,10 @@ public:
 
 	virtual void onMouseReleased(int x, int y, short btn);
 	virtual void onMouseMove(int x, int y);
+	void		pauseSystem();
+	vector<CGameObject*> getObjectsInArea(int x, int y, int radius, int group = GOGROUP::kEverything);
 
-	CGameScene(int sceneID, const std::string& title, CSFMLWindow* window) : CScene(sceneID, title, window) {}
+	CGameScene(int sceneID, const std::string& title, CSFMLWindow* window) : CScene(sceneID, title, window), m_isPaused(false) {}
 	virtual ~CGameScene();
 };
 

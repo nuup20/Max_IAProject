@@ -26,6 +26,12 @@ void CSceneSelection::buttonFunc(unsigned int id)
 	case BUTTONS_MENU::kPursuitScr:
 		this->m_pFSM->SetState(SCENE_STATES::kPursuitScn);
 		break;
+	case BUTTONS_MENU::kPathScn:
+		this->m_pFSM->SetState(SCENE_STATES::kPathScene);
+		break;
+	case BUTTONS_MENU::kAvoidanceScn:
+		this->m_pFSM->SetState(SCENE_STATES::kAvoidance);
+		break;
 	case BUTTONS_MENU::kUndefined:break;
 	default:
 		break;
@@ -35,11 +41,11 @@ void CSceneSelection::buttonFunc(unsigned int id)
 void CSceneSelection::setButtonPositions()
 {
 	CVector3 size = m_sfmlWnd->getRenderWndSize();
-	int maxCol = ( size.x / (ICO_SIZE + ICO_HOFFSET) ) - 1;
+	int maxCol = ( (int)size.x / (ICO_SIZE + ICO_HOFFSET) ) - 1;
 
 	int row = 0;
 	int col = 0;	
-	for (int i = 0; i < m_buttonList.size(); ++i) {
+	for (unsigned int i = 0; i < m_buttonList.size(); ++i) {
 		if (i > maxCol * (row + 1)) {
 			++row;
 			col = 0;
@@ -91,6 +97,20 @@ void CSceneSelection::init()
 	_newBtn->m_name = "Pursuit Screen";
 	_newBtn->setLabel("Arrive");
 	_newBtn->setTextureDirectory("gameResources/icons/spr_pursuit_01.png");
+	m_buttonList.push_back(_newBtn);
+
+	//BUTTON : FOLLOW PATH
+	_newBtn = new CInteractiveButton(BUTTONS_MENU::kPathScn);
+	_newBtn->m_name = "Path Screen";
+	_newBtn->setLabel("Path");
+	_newBtn->setTextureDirectory("gameResources/icons/spr_path_01.png");
+	m_buttonList.push_back(_newBtn);
+
+	//BUTTON : AVOIDANCE
+	_newBtn = new CInteractiveButton(BUTTONS_MENU::kAvoidanceScn);
+	_newBtn->m_name = "Avoidance";
+	_newBtn->setLabel("Avoidance");
+	_newBtn->setTextureDirectory("gameResources/icons/spr_avoidance_01.png");
 	m_buttonList.push_back(_newBtn);
 
 	//BUTTON : BACK TO MENU

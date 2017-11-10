@@ -154,6 +154,7 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="ArriveScreen.h" />
     <ClInclude Include="Attack.h" />
+    <ClInclude Include="Avoidance.h" />
     <ClInclude Include="Boid.h" />
     <ClInclude Include="BoidState.h" />
     <ClInclude Include="Build.h" />
@@ -170,6 +171,7 @@
     <ClInclude Include="MoveTo.h" />
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="OptionsScene.h" />
+    <ClInclude Include="PathScreen.h" />
     <ClInclude Include="Patrol.h" />
     <ClInclude Include="PureMenuScene.h" />
     <ClInclude Include="PursuitScreen.h" />
@@ -193,6 +195,7 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="ArriveScreen.cpp" />
     <ClCompile Include="Attack.cpp" />
+    <ClCompile Include="Avoidance.cpp" />
     <ClCompile Include="Boid.cpp" />
     <ClCompile Include="BoidState.cpp" />
     <ClCompile Include="Build.cpp" />
@@ -209,6 +212,7 @@
     <ClCompile Include="MoveTo.cpp" />
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="OptionsScene.cpp" />
+    <ClCompile Include="PathScreen.cpp" />
     <ClCompile Include="Patrol.cpp" />
     <ClCompile Include="PureMenuScene.cpp" />
     <ClCompile Include="PursuitScreen.cpp" />

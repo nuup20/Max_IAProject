@@ -8,7 +8,9 @@
 #include "ArriveScreen.h"
 #include "WanderScreen.h"
 #include "PursuitScreen.h"
+#include "PathScreen.h"
 #include "OptionsScene.h"
+#include "Avoidance.h"
 
 bool CSFMLApplication::peekEvent(Event& _event)
 {
@@ -39,6 +41,8 @@ void CSFMLApplication::init()
 	m_screenFSM.AddState(reinterpret_cast<CState*>(new CArriveScreen("Arrive Screen", &m_appWindow)));
 	m_screenFSM.AddState(reinterpret_cast<CState*>(new CWanderScreen("Wander Screen", &m_appWindow)));
 	m_screenFSM.AddState(reinterpret_cast<CState*>(new CPursuitScreen("Pursuit Screen", &m_appWindow)));
+	m_screenFSM.AddState(reinterpret_cast<CState*>(new CPathScreen("Path Screen", &m_appWindow)));
+	m_screenFSM.AddState(reinterpret_cast<CState*>(new CAvoidance("Avoidancec Screen", &m_appWindow)));
 	m_screenFSM.SetState(SCENE_STATES::kMenu);	
 
 }

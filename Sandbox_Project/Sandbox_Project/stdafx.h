@@ -21,8 +21,10 @@ namespace SCENE_STATES
 		kSceneSelection,
 		kSeekScene,
 		kArriveScene,
+		kPathScene,
 		kWanderScn,
 		kPursuitScn,
+		kAvoidance,
 		kNumScenes
 	};
 }

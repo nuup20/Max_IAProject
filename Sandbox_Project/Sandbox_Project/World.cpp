@@ -32,7 +32,7 @@ void CWorld::destroy()
 
 void CWorld::addGameObject(CGameObject * newGameObject)
 {	
-	for (int i = 0; i < m_gameObjectList.size(); ++i) {
+	for (unsigned int i = 0; i < m_gameObjectList.size(); ++i) {
 		if (newGameObject->m_layer < m_gameObjectList[i]->m_layer) {
 			m_gameObjectList.insert(m_gameObjectList.begin() + i, newGameObject);
 			return;
@@ -41,13 +41,19 @@ void CWorld::addGameObject(CGameObject * newGameObject)
 	m_gameObjectList.push_back(newGameObject);
 }
 
-vector<CGameObject*> CWorld::getObjsInArea(int x, int y, float radius)
+vector<CGameObject*> CWorld::getObjsInArea(int x, int y, float radius, unsigned int m_group)
 {
-	CVector3 position(x,y);
+	CVector3 position((float)x,(float)y);
 	vector<CGameObject*> objectsDetected;
-	for (unsigned int i = 0; i < m_gameObjectList.size(); ++i)
+	for (unsigned int i = 0; i < m_gameObjectList.size(); ++i) {
 		if ((position - m_gameObjectList[i]->m_position).magnitud() <= radius)
-			objectsDetected.push_back(m_gameObjectList[i]);
+		{
+			if (m_group == GOGROUP::kEverything || m_group == m_gameObjectList[i]->m_group) 
+			{
+				objectsDetected.push_back(m_gameObjectList[i]);
+			}
+		}
+	}
 	return objectsDetected;
 }
 

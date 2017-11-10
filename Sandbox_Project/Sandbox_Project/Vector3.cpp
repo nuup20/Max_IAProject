@@ -5,8 +5,8 @@
 
 float CVector3::magnitud() const
 {
-	float f_mg = pow(this->x, 2) + pow(this->y, 2) + pow(this->z, 2);	
-	return sqrt(f_mg);
+	float f_mg = powf(this->x, 2) + pow(this->y, 2) + pow(this->z, 2);	
+	return sqrtf(f_mg);
 }
 
 CVector3 CVector3::normalized() const

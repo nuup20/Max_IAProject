@@ -153,6 +153,12 @@
     <ClInclude Include="WindowTime.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PathScreen.h">
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Avoidance.h">
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -265,6 +271,12 @@
     </ClCompile>
     <ClCompile Include="WindowTime.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PathScreen.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Avoidance.cpp">
+      <Filter>Source Files\Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

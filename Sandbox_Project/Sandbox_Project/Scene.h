@@ -3,6 +3,7 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include "State.h"
+#include "WindowTime.h"
 
 using std::vector;
 using std::string;
@@ -11,13 +12,15 @@ using sf::Event;
 using sf::Mouse;
 
 class CSFMLWindow;
+class CWindowTime;
 class CScene : public CState
 {
 protected:	
 	string				m_name;
-	CSFMLWindow*		m_sfmlWnd;
+	CSFMLWindow*		m_sfmlWnd;	
 
 public:
+	CWindowTime			m_time;
 
 	virtual void		onEnter();	
 	virtual unsigned int update(void* pObject) override;

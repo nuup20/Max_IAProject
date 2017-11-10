@@ -28,7 +28,9 @@ void CSeekScreen::buttonFunc(int id)
 
 void CSeekScreen::init()
 {
+	m_time.init();
 	m_world.init();
+	m_isPaused = false;
 	m_sfmlWnd->setClearColor(93, 178, 196);
 
 	//GO : ISLAND
@@ -51,7 +53,7 @@ void CSeekScreen::init()
 	m_world.addGameObject(_newR);
 
 	//GO : CREATE AGENT
-	CBoid* _newGO = new CBoid();
+	CBoid* _newGO = new CBoid(this);
 	_newGO->init();
 	_newGO->m_name = "Agent";
 	_newGO->setPosition(100, 500);

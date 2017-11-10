@@ -9,6 +9,7 @@
 
 unsigned int CGameScene::update(void * pObject)
 {
+	m_time.update();
 	Event* pEvent = reinterpret_cast<Event*>(pObject);
 
 	switch (pEvent->type)
@@ -32,7 +33,10 @@ unsigned int CGameScene::update(void * pObject)
 		break;
 	}
 
-	m_world.update();
+	if (!m_isPaused)
+	{
+		m_world.update();
+	}	
 	return 0;
 }
 
@@ -62,17 +66,18 @@ void CGameScene::setButtonPositions()
 
 void CGameScene::onEnter()
 {
-	init();
+	init();	
 }
 
 void CGameScene::onExit()
-{
+{	
 	destroy();
 }
 
 void CGameScene::init()
 {
 	m_world.init();	
+	m_time.init();
 }
 
 void CGameScene::render()
@@ -85,6 +90,7 @@ void CGameScene::render()
 
 void CGameScene::destroy()
 {
+	m_time.destroy();
 	m_world.destroy();
 	for (unsigned int i = 0; i < m_buttonList.size(); ++i)
 		delete m_buttonList[i];
@@ -104,6 +110,16 @@ void CGameScene::onMouseMove(int x, int y)
 {
 	for (unsigned int i = 0; i < m_buttonList.size(); ++i)
 		m_buttonList[i]->isHoverbyPosition(x, y);
+}
+
+void CGameScene::pauseSystem()
+{
+	m_isPaused = !m_isPaused;
+}
+
+vector<CGameObject*> CGameScene::getObjectsInArea(int x, int y, int radius, int group)
+{
+	return m_world.getObjsInArea(x, y, radius, group);
 }
 
 CGameScene::~CGameScene()
