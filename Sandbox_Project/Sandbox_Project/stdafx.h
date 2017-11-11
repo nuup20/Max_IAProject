@@ -25,6 +25,7 @@ namespace SCENE_STATES
 		kWanderScn,
 		kPursuitScn,
 		kAvoidance,
+		kFlock,
 		kNumScenes
 	};
 }

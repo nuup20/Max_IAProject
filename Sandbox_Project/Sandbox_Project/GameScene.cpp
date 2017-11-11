@@ -117,11 +117,6 @@ void CGameScene::pauseSystem()
 	m_isPaused = !m_isPaused;
 }
 
-vector<CGameObject*> CGameScene::getObjectsInArea(int x, int y, int radius, int group)
-{
-	return m_world.getObjsInArea(x, y, radius, group);
-}
-
 CGameScene::~CGameScene()
 {
 	destroy();

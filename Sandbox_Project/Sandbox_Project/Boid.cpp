@@ -12,8 +12,8 @@
 #define NODE_RADIUS			50.f
 #define BOID_RADIUS			150.f
 #define BOID_VISION			150
-#define BOID_SEPARATION		5
-#define BOID_REPULSION_FORCE 10
+#define BOID_SEPARATION		100
+#define BOID_REPULSION_FORCE 300
 
 void CBoid::drawVector(CVector3 position, CVector3 vector, RenderWindow& wnd, bool scale)
 {	
@@ -62,10 +62,16 @@ void CBoid::init() {
 void CBoid::update()
 {		
 	m_steeringForce = 0.0f;
-	m_steeringForce += seek() + flee() + arrive() + pursuit() + evade() + followPath() + obstacleAvoidance(m_gameScene->getObjectsInArea(m_position.x,m_position.y,BOID_RADIUS,GOGROUP::kObstacle));
+	m_steeringForce += seek() + flee() + arrive() + pursuit() + evade() + followPath()
+		+ obstacleAvoidance(m_gameScene->getObjsInArea<CObstacle>(m_position.x,m_position.y,BOID_RADIUS));
+		 
 	if (m_isWander) 
 	{
 		m_steeringForce += wander();
+	}
+	if (m_isFlocking)
+	{
+		m_steeringForce += flock((m_gameScene->getObjsInArea<CBoid>(m_position.x, m_position.y, BOID_RADIUS)));
 	}
 
 	if (std::fabsf(m_steeringForce.x) <= std::numeric_limits<float>::epsilon() &&
@@ -240,11 +246,11 @@ CVector3 CBoid::followPath(vector<CGameObject*>& nodeList, float index)
 	return (nodeForce.normalize() * 150) + (pathForce.normalize() * 150);
 }
 
-CVector3 CBoid::obstacleAvoidance(vector<CGameObject*>& obstacles)
+CVector3 CBoid::obstacleAvoidance(vector<CObstacle*>& obstacles)
 {
 	CVector3	visionVec = this->m_direction * BOID_VISION;
 	CVector3	vect_ObsToVision, vect_AgentToObs;
-	CGameObject* primaryObstacle = NULL;
+	CObstacle*	primaryObstacle = NULL;
 	float		refEsc = BOID_VISION;
 	float		dotEsc = 0;
 
@@ -254,9 +260,8 @@ CVector3 CBoid::obstacleAvoidance(vector<CGameObject*>& obstacles)
 		dotEsc = dot(vect_AgentToObs, visionVec) / visionVec.magnitud();
 		if ( dotEsc > 0 && dotEsc <= refEsc) 
 		{
-			vect_ObsToVision = (m_direction * dotEsc) - vect_AgentToObs;
-			CObstacle* _obst = reinterpret_cast<CObstacle*>(obstacles[i]);
-			if (((vect_ObsToVision).magnitud() - _obst->m_radius) <= (BOID_RADIUS * 0.5f)) 
+			vect_ObsToVision = (m_direction * dotEsc) - vect_AgentToObs;			
+			if (((vect_ObsToVision).magnitud() - obstacles[i]->m_radius) <= (BOID_RADIUS * 0.5f))
 			{
 				refEsc = dotEsc;
 				primaryObstacle = obstacles[i];
@@ -281,14 +286,14 @@ CVector3 CBoid::avargeDirection(vector<CBoid*>& boidList)
 	for (int i = 0; i < boidList.size(); ++i) {
 		pDirection += (*boidList[i]).m_direction;
 	}
-	return (pDirection / boidList.size()).normalized();
+	return (pDirection / boidList.size()).normalized() * 700;
 }
 
 CVector3 CBoid::cohesion(vector<CBoid*>& boidList)
 {
 	CVector3 pPosition(0, 0, 0);
 	for (int i = 0; i < boidList.size(); ++i) {
-		pPosition += (*boidList[i]).m_direction;
+		pPosition += (*boidList[i]).m_position;
 	}
 	pPosition /= boidList.size();
 	return seek(pPosition.x, pPosition.y);
@@ -321,6 +326,7 @@ void CBoid::setDirection(float x, float y, float z)
 	m_direction.x = x;
 	m_direction.y = y;	
 	m_direction.z = z;
+	m_direction.normalize();
 }
 
 CVector3 CBoid::getDirection()
@@ -413,6 +419,11 @@ bool CBoid::removeTarget(unsigned int targetType, bool _deleteGO)
 void CBoid::setWander(bool b)
 {
 	m_isWander = b;
+}
+
+void CBoid::setFlocking(bool b)
+{
+	m_isFlocking = b;
 }
 
 CBoid::CBoid(CGameScene* gameScn) : CGameObject(GOGROUP::kBoid), m_gameScene(gameScn), m_pathIndex(0), m_velocity(0), m_mass(1.0f), 

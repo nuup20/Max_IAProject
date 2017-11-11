@@ -14,6 +14,7 @@ namespace BUTTONS_MENU {
 		KSeekFleeScn,
 		kPathScn,
 		kAvoidanceScn,
+		kFlockScn,
 		kCount
 	};
 }

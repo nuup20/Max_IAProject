@@ -32,6 +32,9 @@ void CSceneSelection::buttonFunc(unsigned int id)
 	case BUTTONS_MENU::kAvoidanceScn:
 		this->m_pFSM->SetState(SCENE_STATES::kAvoidance);
 		break;
+	case BUTTONS_MENU::kFlockScn:
+		this->m_pFSM->SetState(SCENE_STATES::kFlock);
+		break;
 	case BUTTONS_MENU::kUndefined:break;
 	default:
 		break;
@@ -110,6 +113,13 @@ void CSceneSelection::init()
 	_newBtn = new CInteractiveButton(BUTTONS_MENU::kAvoidanceScn);
 	_newBtn->m_name = "Avoidance";
 	_newBtn->setLabel("Avoidance");
+	_newBtn->setTextureDirectory("gameResources/icons/spr_avoidance_01.png");
+	m_buttonList.push_back(_newBtn);
+
+	//BUTTON : FLOCKING
+	_newBtn = new CInteractiveButton(BUTTONS_MENU::kFlockScn);
+	_newBtn->m_name = "Flock";
+	_newBtn->setLabel("Flock");
 	_newBtn->setTextureDirectory("gameResources/icons/spr_avoidance_01.png");
 	m_buttonList.push_back(_newBtn);
 

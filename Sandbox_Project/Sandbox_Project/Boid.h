@@ -56,6 +56,7 @@ private:
 	vector<CGameObject*>	m_nodes;			// --> followPath
 	int						m_pathIndex;		// --> followPath
 	bool					m_isWander;
+	bool					m_isFlocking;
 	bool					m_debug;
 
 	void		drawVector(CVector3 position, CVector3 vector, RenderWindow& wnd, bool scale = false);
@@ -80,7 +81,7 @@ public:
 	CVector3	wander();
 	CVector3	followPath();
 	CVector3	followPath(vector<CGameObject*>& nodeList, float index);
-	CVector3	obstacleAvoidance(vector<CGameObject*>& obstacles);
+	CVector3	obstacleAvoidance(vector<CObstacle*>& obstacles);
 	CVector3	avargeDirection(vector<CBoid*>& boidList);
 	CVector3	cohesion(vector<CBoid*>& boidList);
 	CVector3	separation(vector<CBoid*>& boidList);
@@ -102,6 +103,7 @@ public:
 	bool		addNewTarget(CGameObject* go, unsigned int targetType, bool _deleteGO = false);
 	bool		removeTarget(unsigned int targetType, bool _deleteGO = false);
 	void		setWander(bool b);
+	void		setFlocking(bool b);
 	CVector3	getTargetPosition(unsigned int targetIndex);
 
 	static const int SEEK_FORCE = 150;

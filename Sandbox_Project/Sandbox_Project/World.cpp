@@ -41,20 +41,13 @@ void CWorld::addGameObject(CGameObject * newGameObject)
 	m_gameObjectList.push_back(newGameObject);
 }
 
-vector<CGameObject*> CWorld::getObjsInArea(int x, int y, float radius, unsigned int m_group)
+void CWorld::localTranslation(int x, int y)
 {
-	CVector3 position((float)x,(float)y);
-	vector<CGameObject*> objectsDetected;
-	for (unsigned int i = 0; i < m_gameObjectList.size(); ++i) {
-		if ((position - m_gameObjectList[i]->m_position).magnitud() <= radius)
-		{
-			if (m_group == GOGROUP::kEverything || m_group == m_gameObjectList[i]->m_group) 
-			{
-				objectsDetected.push_back(m_gameObjectList[i]);
-			}
-		}
+	for (int i = 0; i < m_gameObjectList.size(); ++i)
+	{
+		m_gameObjectList[i]->m_position.x += x;
+		m_gameObjectList[i]->m_position.y += y;
 	}
-	return objectsDetected;
 }
 
 CWorld::CWorld()
