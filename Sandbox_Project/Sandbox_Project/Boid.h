@@ -1,8 +1,6 @@
 #pragma once
 #include <vector>
-#include "GameObject.h"
-#include "Obstacle.h"
-#include "Vector3.h"
+#include "RendObject.h"
 #include "Fsm.h"
 #include "SFML\Graphics.hpp"
 
@@ -29,17 +27,27 @@ namespace BOIDTARGET {
 	};
 }
 
+class CVector3;
 class CGameScene;
-class CBoid : public CGameObject
+class CObstacle;
+class CAttack;
+class CIdle;
+class CToBase;
+
+class CBoid : public CRendObject
 {
-private:
-	// Componentes para dibujar el Sprite en SFML
-	Texture		m_texture;
-	Sprite		m_sprite;	
+	friend class CAttack;
+	friend class CIdle;
+	friend class CToBase;
+	friend class CDefendLeader;
+protected:	
+	CGameScene* m_gameScene;
+	CFsm		m_fsm;
+	CState*		m_activeState;
+
+	//	Elementos para Debugear
 	Font		m_font;
 	Text		m_text;	
-	CGameScene* m_gameScene;
-
 	CircleShape	m_wanderCircle;
 	CVector3	m_wanderForce;
 	float		m_timeTrigger;
@@ -49,7 +57,8 @@ private:
 	CVector3				m_direction;
 	float					m_velocity;
 	float					m_mass;
-	CVector3				m_steeringForce;	
+	CVector3				m_steeringForce;
+	CVector3				m_forceToDirection;
 
 	// Objetos necesarios para que funcionen algunos Steering Behaviors
 	vector<CGameObject*>	m_targetList;		//
@@ -63,10 +72,10 @@ private:
 	void		drawVectorInfo(RenderWindow& wnd);
 
 public:
-	void		init();
-	void		update();
-	void		render(RenderWindow& wnd);
-	void		destroy();
+	virtual void	init();
+	virtual void	update();
+	virtual void	render(RenderWindow& wnd);
+	virtual void	destroy();
 
 	CVector3	seek(float x, float y);
 	CVector3	seek();
@@ -92,13 +101,11 @@ public:
 	CVector3	getDirection();
 	void		setVelocity(float vel);
 	float		getVelocity();
-	void		setMass(float mas);
-	void		setSpriteDirectory(string directory);
-	void		setSpriteColor(int r, int g, int b, int a);
-	void		scaleSprite(float scale);
+	void		setMass(float mas);	
 	void		setDebug(bool deb);
 	void		addPathNode(CGameObject* newNode);	
 	void		setSteeringForce(CVector3 force);
+	void		setForceToDirection(CVector3 direction);
 
 	bool		addNewTarget(CGameObject* go, unsigned int targetType, bool _deleteGO = false);
 	bool		removeTarget(unsigned int targetType, bool _deleteGO = false);
@@ -108,8 +115,10 @@ public:
 
 	static const int SEEK_FORCE = 150;
 	static const int PURSUIT_FORCE = 200;
+	static const int BOID_RADIUS = 50;
+	static const int BOID_VISION = 150;
 
 	CBoid(CGameScene* gmScn);
-	~CBoid();
+	virtual ~CBoid();
 };
 

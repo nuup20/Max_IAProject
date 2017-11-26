@@ -11,6 +11,8 @@ namespace GOGROUP {
 		kEverything,
 		kObstacle,
 		kBoid,
+		kFlag,
+		kBase,
 		kCount
 	};
 }

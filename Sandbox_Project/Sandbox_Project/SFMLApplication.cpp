@@ -3,15 +3,8 @@
 
 #include "Scene.h"
 #include "MenuGM.h"
-#include "SeekScreen.h"
-#include "SceneSelection.h"
-#include "ArriveScreen.h"
-#include "WanderScreen.h"
-#include "PursuitScreen.h"
-#include "PathScreen.h"
 #include "OptionsScene.h"
-#include "Avoidance.h"
-#include "FlockScreen.h"
+#include "GameScene.h"
 
 bool CSFMLApplication::peekEvent(Event& _event)
 {
@@ -33,20 +26,12 @@ bool CSFMLApplication::peekEvent(Event& _event)
 
 void CSFMLApplication::init()
 {		
-	m_appWindow.initWindow(1024, 720, "Inteligencia Artificial Project");
+	m_appWindow.initWindow(1920, 1080, "Inteligencia Artificial Project");
 
-	m_screenFSM.AddState(reinterpret_cast<CState*>(new CMenuGM("Menu Scene", &m_appWindow)));
-	m_screenFSM.AddState(reinterpret_cast<CState*>(new COptionsScene("Options Scene", &m_appWindow)));
-	m_screenFSM.AddState(reinterpret_cast<CState*>(new CSceneSelection("Select Game Scene", &m_appWindow)));
-	m_screenFSM.AddState(reinterpret_cast<CState*>(new CSeekScreen("Seek Screen", &m_appWindow)));
-	m_screenFSM.AddState(reinterpret_cast<CState*>(new CArriveScreen("Arrive Screen", &m_appWindow)));
-	m_screenFSM.AddState(reinterpret_cast<CState*>(new CWanderScreen("Wander Screen", &m_appWindow)));
-	m_screenFSM.AddState(reinterpret_cast<CState*>(new CPursuitScreen("Pursuit Screen", &m_appWindow)));
-	m_screenFSM.AddState(reinterpret_cast<CState*>(new CPathScreen("Path Screen", &m_appWindow)));
-	m_screenFSM.AddState(reinterpret_cast<CState*>(new CAvoidance("Avoidance Screen", &m_appWindow)));
-	m_screenFSM.AddState(reinterpret_cast<CState*>(new CFlockScreen("Avoidance Screen", &m_appWindow)));
+	m_screenFSM.AddState(reinterpret_cast<CState*>(new CMenuGM("Menu Scene", &m_appWindow, this)));
+	m_screenFSM.AddState(reinterpret_cast<CState*>(new COptionsScene("Options Scene", &m_appWindow, this)));
+	m_screenFSM.AddState(reinterpret_cast<CState*>(new CGameScene(SCENE_STATES::kGame,"Options Scene", &m_appWindow, this)));
 	m_screenFSM.SetState(SCENE_STATES::kMenu);	
-
 }
 
 void CSFMLApplication::update()

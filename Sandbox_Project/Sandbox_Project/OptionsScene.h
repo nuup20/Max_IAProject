@@ -12,7 +12,7 @@ public:
 
 	void init();	
 
-	COptionsScene(const std::string& title, CSFMLWindow* window) : CPureMenuScene(SCENE_STATES ::kOptions, title, window) { m_font.loadFromFile("fonts/Keep_Singing.ttf"); }
+	COptionsScene(const std::string& title, CSFMLWindow* window, CSFMLApplication* app) : CPureMenuScene(SCENE_STATES ::kOptions, title, window, app) { m_font.loadFromFile("fonts/Keep_Singing.ttf"); }
 	~COptionsScene();
 };
 

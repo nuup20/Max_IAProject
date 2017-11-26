@@ -5,19 +5,14 @@
 namespace BUTTONS_MENU {
 	enum b {
 		kUndefined,
-		KSceneSelectionScn,
-		kArriveScr,
-		kWanderScr,
-		kPursuitScr,
-		kOptionsScn,
-		kMenuScn,	
-		KSeekFleeScn,
-		kPathScn,
-		kAvoidanceScn,
-		kFlockScn,
+		kToGame,
+		kToMenu,	
+		kToOptions,
+		kToExit,
 		kCount
 	};
 }
+
 
 class CPureMenuScene // SCENA UNICAMENTE CON BOTONES
 	: public CScene
@@ -47,7 +42,7 @@ public:
 	virtual void onMouseReleased(int x, int y, short btn);
 	virtual void onMouseMove(int x, int y);
 
-	CPureMenuScene(unsigned int id, const std::string& name, CSFMLWindow* window) : CScene(id, name, window) {}
+	CPureMenuScene(unsigned int id, const std::string& name, CSFMLWindow* window, CSFMLApplication* app) : CScene(id, name, window, app) {}
 	virtual ~CPureMenuScene();
 };
 

@@ -9,6 +9,7 @@ void CObstacle::setRadius(float radius)
 
 CObstacle::CObstacle() : CRendObject(GOGROUP::kObstacle) , m_radius(1.0f)
 {
+	init();
 }
 
 

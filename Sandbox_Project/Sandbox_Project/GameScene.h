@@ -20,7 +20,6 @@ class CGameScene :
 {
 protected:
 	CWorld m_world;
-	vector<CInteractiveButton*> m_buttonList;
 	CBoid* m_activeAgent;
 
 	bool	m_isPaused;
@@ -40,10 +39,11 @@ public:
 
 	virtual void onMouseReleased(int x, int y, short btn);
 	virtual void onMouseMove(int x, int y);
-	void	pauseSystem();
+	void		 pauseSystem();
 	template <class _obj> vector<_obj*>	getObjsInArea(int x, int y, float radius, unsigned int group = GOGROUP::kEverything);
+	template <class _obj> vector<_obj*> getObjs(unsigned int group = GOGROUP::kEverything);
 
-	CGameScene(int sceneID, const std::string& title, CSFMLWindow* window) : CScene(sceneID, title, window), m_isPaused(false) {}
+	CGameScene(int sceneID, const std::string& title, CSFMLWindow* window, CSFMLApplication* app) : CScene(sceneID, title, window, app), m_isPaused(false) {}
 	virtual ~CGameScene();
 };
 
@@ -51,4 +51,10 @@ template<class _obj>
 inline vector<_obj*> CGameScene::getObjsInArea(int x, int y, float radius, unsigned int group)
 {
 	return m_world.getObjsInArea<_obj>(x, y, radius, group);
+}
+
+template<class _obj>
+inline vector<_obj*> CGameScene::getObjs(unsigned int group)
+{
+	return m_world.getObjs<_obj>(group);
 }

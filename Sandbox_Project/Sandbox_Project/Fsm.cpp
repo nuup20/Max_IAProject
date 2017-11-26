@@ -36,7 +36,7 @@ int CFsm::UpdateState(void* pObject)
 {
 	if (m_aciveState)
 	{
-		m_aciveState->update(pObject);
+		return m_aciveState->update(pObject);
 	}
 	return 0;
 }

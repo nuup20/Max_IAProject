@@ -27,6 +27,7 @@ public:
 
 	void		addGameObject(CGameObject* newGameObject);
 	template <class _obj> vector<_obj*>	getObjsInArea(int x, int y, float radius, unsigned int m_group = GOGROUP::kEverything);
+	template <class _obj> vector<_obj*> getObjs(unsigned int m_group = GOGROUP::kEverything);
 	void	localTranslation(int x, int y);
 
 	CWorld();
@@ -53,4 +54,22 @@ inline vector<_obj*> CWorld::getObjsInArea(int x, int y, float radius, unsigned 
 		}
 	}
 	return objectsDetected;
+}
+
+template<class _obj>
+inline vector<_obj*> CWorld::getObjs(unsigned int m_group)
+{
+	vector<_obj*> objects;
+	for (unsigned int i = 0; i < m_gameObjectList.size(); ++i)
+	{
+		_obj* object = dynamic_cast<_obj*>(m_gameObjectList[i]);
+		if (object)
+		{
+			if (m_gameObjectList[i]->m_group == m_group || m_group == GOGROUP::kEverything)
+			{
+				objects.push_back(object);
+			}
+		}
+	}
+	return objects;
 }

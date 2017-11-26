@@ -1,15 +1,16 @@
 #pragma once
-#include "State.h"
+#include "BoidState.h"
+
+class CSoldier;
 class CIdle :
-	public CState
+	public CBoidState
 {
 public:
-
 	void onEnter();
-	void update();
+	unsigned int update(void* pObject);
 	void onExit();
 
-	CIdle();
+	CIdle(CSoldier* mySoldier);
 	~CIdle();
 };
 

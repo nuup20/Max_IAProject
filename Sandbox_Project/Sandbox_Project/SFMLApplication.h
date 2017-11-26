@@ -14,8 +14,7 @@ class CSFMLApplication : public CApplication
 private:	
 
 	CSFMLWindow			m_appWindow;
-	CFsm				m_screenFSM;
-	
+	CFsm				m_screenFSM;	
 
 	bool	peekEvent(Event& _event);
 

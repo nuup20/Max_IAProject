@@ -9,7 +9,7 @@ using sf::Texture;
 class CRendObject :
 	public CGameObject
 {
-
+protected:
 	Texture m_texture;
 	Sprite	m_sprite;
 

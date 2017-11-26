@@ -152,80 +152,58 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
-    <ClInclude Include="ArriveScreen.h" />
     <ClInclude Include="Attack.h" />
-    <ClInclude Include="Avoidance.h" />
+    <ClInclude Include="Base.h" />
     <ClInclude Include="Boid.h" />
     <ClInclude Include="BoidState.h" />
-    <ClInclude Include="Build.h" />
-    <ClInclude Include="Dead.h" />
-    <ClInclude Include="FlockScreen.h" />
+    <ClInclude Include="DefendLeader.h" />
+    <ClInclude Include="Flag.h" />
     <ClInclude Include="Fsm.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameScene.h" />
-    <ClInclude Include="Gather.h" />
     <ClInclude Include="Idle.h" />
     <ClInclude Include="InteractiveButton.h" />
-    <ClInclude Include="Land.h" />
-    <ClInclude Include="Lift.h" />
     <ClInclude Include="MenuGM.h" />
-    <ClInclude Include="MoveTo.h" />
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="OptionsScene.h" />
-    <ClInclude Include="PathScreen.h" />
-    <ClInclude Include="Patrol.h" />
     <ClInclude Include="PureMenuScene.h" />
-    <ClInclude Include="PursuitScreen.h" />
     <ClInclude Include="RendObject.h" />
-    <ClInclude Include="RetreaveCargo.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="SceneSelection.h" />
-    <ClInclude Include="SeekScreen.h" />
     <ClInclude Include="SFMLApplication.h" />
     <ClInclude Include="SFMLWindow.h" />
+    <ClInclude Include="Soldier.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="ToBase.h" />
     <ClInclude Include="Vector3.h" />
-    <ClInclude Include="WanderScreen.h" />
     <ClInclude Include="WindowApp.h" />
     <ClInclude Include="WindowTime.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="ArriveScreen.cpp" />
     <ClCompile Include="Attack.cpp" />
-    <ClCompile Include="Avoidance.cpp" />
+    <ClCompile Include="Base.cpp" />
     <ClCompile Include="Boid.cpp" />
     <ClCompile Include="BoidState.cpp" />
-    <ClCompile Include="Build.cpp" />
-    <ClCompile Include="Dead.cpp" />
-    <ClCompile Include="FlockScreen.cpp" />
+    <ClCompile Include="DefendLeader.cpp" />
+    <ClCompile Include="Flag.cpp" />
     <ClCompile Include="Fsm.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameScene.cpp" />
-    <ClCompile Include="Gather.cpp" />
     <ClCompile Include="Idle.cpp" />
     <ClCompile Include="InteractiveButton.cpp" />
-    <ClCompile Include="Land.cpp" />
-    <ClCompile Include="Lift.cpp" />
     <ClCompile Include="MenuGM.cpp" />
-    <ClCompile Include="MoveTo.cpp" />
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="OptionsScene.cpp" />
-    <ClCompile Include="PathScreen.cpp" />
-    <ClCompile Include="Patrol.cpp" />
     <ClCompile Include="PureMenuScene.cpp" />
-    <ClCompile Include="PursuitScreen.cpp" />
     <ClCompile Include="RendObject.cpp" />
-    <ClCompile Include="RetreaveCargo.cpp" />
     <ClCompile Include="Sandbox_Project.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="SceneSelection.cpp" />
-    <ClCompile Include="SeekScreen.cpp" />
     <ClCompile Include="SFMLApplication.cpp" />
     <ClCompile Include="SFMLWindow.cpp" />
+    <ClCompile Include="Soldier.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -233,8 +211,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ToBase.cpp" />
     <ClCompile Include="Vector3.cpp" />
-    <ClCompile Include="WanderScreen.cpp" />
     <ClCompile Include="WindowApp.cpp" />
     <ClCompile Include="WindowTime.cpp" />
     <ClCompile Include="World.cpp" />

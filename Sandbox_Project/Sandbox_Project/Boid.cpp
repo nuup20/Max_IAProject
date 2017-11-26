@@ -1,6 +1,11 @@
 #include "stdafx.h"
+#include "Vector3.h"
+
 #include "Boid.h"
+#include "Obstacle.h"
+
 #include "GameScene.h"
+
 
 #define	PI					3.141592
 #define MAG_SEEK			3
@@ -10,8 +15,6 @@
 #define PP_WANDER_RADIUS	100.f	//Radio del Circulo proyectado (wander)
 #define PP_WANDER_APERTURE	180		//Angulo de apertura en grados ( )
 #define NODE_RADIUS			50.f
-#define BOID_RADIUS			150.f
-#define BOID_VISION			150
 #define BOID_SEPARATION		100
 #define BOID_REPULSION_FORCE 300
 
@@ -63,7 +66,8 @@ void CBoid::update()
 {		
 	m_steeringForce = 0.0f;
 	m_steeringForce += seek() + flee() + arrive() + pursuit() + evade() + followPath()
-		+ obstacleAvoidance(m_gameScene->getObjsInArea<CObstacle>(m_position.x,m_position.y,BOID_RADIUS));
+		+ obstacleAvoidance(m_gameScene->getObjsInArea<CObstacle>(m_position.x,m_position.y,BOID_RADIUS))
+		+ m_forceToDirection;
 		 
 	if (m_isWander) 
 	{
@@ -261,7 +265,7 @@ CVector3 CBoid::obstacleAvoidance(vector<CObstacle*>& obstacles)
 		if ( dotEsc > 0 && dotEsc <= refEsc) 
 		{
 			vect_ObsToVision = (m_direction * dotEsc) - vect_AgentToObs;			
-			if (((vect_ObsToVision).magnitud() - obstacles[i]->m_radius) <= (BOID_RADIUS * 0.5f))
+			if (((vect_ObsToVision).magnitud() - obstacles[i]->m_radius) <= BOID_RADIUS)
 			{
 				refEsc = dotEsc;
 				primaryObstacle = obstacles[i];
@@ -349,26 +353,6 @@ void CBoid::setMass(float mas)
 	m_mass = mas;
 }
 
-void CBoid::setSpriteDirectory(string directory)
-{
-	if (!m_texture.loadFromFile(directory))
-		m_texture.loadFromFile("textures/default/spr_boid_01.png");
-	m_sprite.setTexture(m_texture, true);
-	
-	sf::FloatRect rect = m_sprite.getLocalBounds();
-	m_sprite.setOrigin(rect.width * 0.5f, rect.height * 0.5f);
-}
-
-void CBoid::setSpriteColor(int r, int g, int b, int a)
-{
-	m_sprite.setColor(sf::Color(r, g, b, a));
-}
-
-void CBoid::scaleSprite(float scale)
-{
-	m_sprite.scale(scale,scale);
-}
-
 void CBoid::setDebug(bool deb)
 {
 	m_debug = deb;
@@ -382,6 +366,19 @@ void CBoid::addPathNode(CGameObject * newNode)
 void CBoid::setSteeringForce(CVector3 force)
 {
 	m_steeringForce = force;
+}
+
+void CBoid::setForceToDirection(CVector3 direction)
+{
+	if (direction.magnitud() > 0.1f)
+	{
+		m_forceToDirection = direction.normalized() * SEEK_FORCE;
+	}
+	else
+	{
+		m_forceToDirection = CVector3();
+	}
+	
 }
 
 CVector3 CBoid::getTargetPosition(unsigned int targetIndex)
@@ -426,7 +423,7 @@ void CBoid::setFlocking(bool b)
 	m_isFlocking = b;
 }
 
-CBoid::CBoid(CGameScene* gameScn) : CGameObject(GOGROUP::kBoid), m_gameScene(gameScn), m_pathIndex(0), m_velocity(0), m_mass(1.0f), 
+CBoid::CBoid(CGameScene* gameScn) : CRendObject(GOGROUP::kBoid), m_gameScene(gameScn), m_pathIndex(0), m_velocity(0), m_mass(1.0f), 
 				m_isWander(false), m_debug(true), m_timeCount(100.0f), m_timeTrigger(0.5f)
 {
 	init();

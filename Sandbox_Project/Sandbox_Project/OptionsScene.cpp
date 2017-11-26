@@ -6,7 +6,7 @@
 void COptionsScene::buttonFunc(unsigned int id)
 {
 	switch (id) {
-	case BUTTONS_MENU::kMenuScn:
+	case BUTTONS_MENU::kToMenu:
 		this->m_pFSM->SetState(SCENE_STATES::kMenu);
 		break;	
 	case BUTTONS_MENU::kUndefined:break;
@@ -26,7 +26,7 @@ void COptionsScene::init()
 	this->setTitle("Options");
 
 	// Menu Button
-	CInteractiveButton* _newBtn = new CInteractiveButton(BUTTONS_MENU::kMenuScn);
+	CInteractiveButton* _newBtn = new CInteractiveButton(BUTTONS_MENU::kToMenu);
 	_newBtn->m_name = "Back_Button";
 	_newBtn->setPosition(400, 260);
 	_newBtn->setLabel("Back");

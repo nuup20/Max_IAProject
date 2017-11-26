@@ -2,6 +2,7 @@
 #include "MenuGM.h"
 #include "Fsm.h"
 #include "SFMLWindow.h"
+#include "SFMLApplication.h"
 
 using sf::Event;
 using sf::Mouse;
@@ -9,12 +10,16 @@ using sf::Mouse;
 void CMenuGM::buttonFunc(unsigned int id)
 {
 	switch (id) {
-	case BUTTONS_MENU::KSceneSelectionScn:
-		this->m_pFSM->SetState(SCENE_STATES::kSceneSelection);
+	case BUTTONS_MENU::kToGame:
+		this->m_pFSM->SetState(SCENE_STATES::kGame);
 		break;
-	case BUTTONS_MENU::kOptionsScn:
+	case BUTTONS_MENU::kToOptions:
 		this->m_pFSM->SetState(SCENE_STATES::kOptions);
 		break;
+	case BUTTONS_MENU::kToExit:
+		destroy();
+		this->m_app->destroy();
+	break;
 	case BUTTONS_MENU::kUndefined:break;
 	default:
 		break;
@@ -26,17 +31,23 @@ void CMenuGM::init()
 	m_sfmlWnd->setClearColor(93, 178, 196);
 
 	// Play Button
-	CInteractiveButton* _newBtn = new CInteractiveButton(BUTTONS_MENU::KSceneSelectionScn);
+	CInteractiveButton* _newBtn = new CInteractiveButton(BUTTONS_MENU::kToGame);
 	_newBtn->m_name = "Play_Button";
 	_newBtn->setPosition(400, 400);	
 	_newBtn->setLabel("Start");	
 	m_buttonList.push_back(_newBtn);
 
 	// Option Button
-	_newBtn = new CInteractiveButton(BUTTONS_MENU::kOptionsScn);
+	_newBtn = new CInteractiveButton(BUTTONS_MENU::kToOptions);
 	_newBtn->m_name = "Option_Button";
 	_newBtn->setPosition(400, 500);	
 	_newBtn->setLabel("Options");	
+	m_buttonList.push_back(_newBtn);
+
+	_newBtn = new CInteractiveButton(BUTTONS_MENU::kToExit);
+	_newBtn->m_name = "Exit_Button";
+	_newBtn->setPosition(400, 600);
+	_newBtn->setLabel("Exit");
 	m_buttonList.push_back(_newBtn);
 
 	// Main Title Sprite

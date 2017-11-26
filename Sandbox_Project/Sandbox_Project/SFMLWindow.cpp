@@ -33,7 +33,7 @@ void CSFMLWindow::initWindow(short _w, short _h, string _title)
 	this->m_width = _w;
 	this->m_height = _h;
 	this->m_title = _title;
-	m_window.create(VideoMode(_w, _h), _title);
+	m_window.create(VideoMode(_w, _h), _title, sf::Style::Fullscreen);
 	m_wndTime.init();
 }
 

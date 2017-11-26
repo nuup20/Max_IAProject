@@ -17,15 +17,7 @@ namespace SCENE_STATES
 		kInvalid = 0,
 		kMenu,
 		kOptions,
-		kGame,
-		kSceneSelection,
-		kSeekScene,
-		kArriveScene,
-		kPathScene,
-		kWanderScn,
-		kPursuitScn,
-		kAvoidance,
-		kFlock,
+		kGame,		
 		kNumScenes
 	};
 }
@@ -34,21 +26,18 @@ namespace BOIDSTATE {
 	enum e {
 		kUndefined,
 		kIdle,
-		kSeek,
-		kFlee,
-		kArrive,
-		kPursuit,
-		kEvade,
-		kWander,
 		kAttack,
-		kBuild,
-		kDead,
-		kGather,
-		kLand,
-		kLift,
-		kMoveTo,
-		kPatrol,
-		kRetreaveCargo,
+		kDefendLeader,
+		kToBase,
+		kCount
+	};
+}
+
+namespace TEAM {
+	enum t {
+		kUndefined,
+		kGreen,
+		kRed,
 		kCount
 	};
 }

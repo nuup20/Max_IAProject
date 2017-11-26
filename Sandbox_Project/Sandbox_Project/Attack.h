@@ -1,15 +1,17 @@
 #pragma once
-#include "State.h"
-class CAttack :
-	public CState
-{
-public:
+#include "BoidState.h"
 
+class CAttack :
+	public CBoidState
+{
+private:
+
+public:
 	void onEnter();
-	void update();
+	unsigned int update(void* pObject);
 	void onExit();
 
-	CAttack();
+	CAttack(CSoldier* mySoldier);
 	~CAttack();
 };
 

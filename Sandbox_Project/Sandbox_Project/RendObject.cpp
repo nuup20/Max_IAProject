@@ -17,7 +17,7 @@ void CRendObject::init()
 {
 	m_texture.loadFromFile("textures/default/spr_circle_01.png");
 	m_sprite.setTexture(m_texture);
-	m_sprite.setColor(Color::Red);
+	m_sprite.setColor(Color::White);
 
 	sf::FloatRect rect = m_sprite.getLocalBounds();
 	m_sprite.setOrigin(rect.width * 0.5f, rect.height * 0.5f);
