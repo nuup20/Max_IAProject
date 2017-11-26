@@ -15,6 +15,7 @@ void CAttack::onEnter()
 	{
 		m_Soldier->m_fsm.SetState(BOIDSTATE::kIdle);
 	}
+	m_Soldier->m_stateDebug = "Attack";
 }
 	
 
@@ -24,31 +25,21 @@ unsigned int CAttack::update(void * pObject)
 
 	//¿BASE ENEMIGA A LA VISTA?
 	if (vec_ToEnemyBase.magnitud() <= (m_Soldier->BOID_VISION - 10))
-	{
-		vector<CFlag*> flag_list = m_Soldier->objectsAtVisionRange<CFlag>();
-		CFlag* enemyFlag = nullptr;
-		
-		//SI NO HAY BANDERA ENEMIGA EN LA POSICIÓN, REGRESA A LA BASE
-		for (unsigned int i = 0; i < flag_list.size(); ++i)
-		{
-			if (flag_list[i]->flagTeam() != m_Soldier->soldierTeam() 
-				&& flag_list[i]->flagTeam() != TEAM::kUndefined)
+	{		
+		//¿HAY BANDERA ENEMIGA EN LA BASE?
+		CFlag* enemyFlag = m_Soldier->enemyFlagInSight();		
+		if (enemyFlag != nullptr)
+		{		
+			if (!enemyFlag->isEnable())
 			{
-				enemyFlag = flag_list[i];
-				break;
-			}
+				m_Soldier->m_fsm.SetState(BOIDSTATE::kToBase);
+				return 0;
+			}			
 		}
-
-		if (enemyFlag == nullptr)
-		{			
+		else {
 			m_Soldier->m_fsm.SetState(BOIDSTATE::kToBase);
 			return 0;
-		}
-		if (!enemyFlag->isEnable())
-		{
-			m_Soldier->m_fsm.SetState(BOIDSTATE::kToBase);
-			return 0;
-		}
+		}		
 		
 		//SI HAY BANDERA, REVISA SI PUEDE TOMARLA
 		if ((enemyFlag->m_position - m_Soldier->m_position).magnitud() <= m_Soldier->BOID_RADIUS)
@@ -59,6 +50,14 @@ unsigned int CAttack::update(void * pObject)
 			m_Soldier->m_fsm.SetState(BOIDSTATE::kIdle);
 			return 0;
 		}
+	}
+
+	// LÍDER A LA VISTA	
+	CSoldier* leader = m_Soldier->leaderInSight();
+	if (leader != nullptr)
+	{
+		//SEGUIR AL LIDER
+		m_Soldier->m_fsm.SetState(BOIDSTATE::kDefendLeader);
 	}
 
 	return 0;	

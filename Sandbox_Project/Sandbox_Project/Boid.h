@@ -23,6 +23,7 @@ namespace BOIDTARGET {
 		kArrive,
 		kPursuit,
 		kEvade,
+		kLeader,
 		kCount
 	};
 }
@@ -57,8 +58,7 @@ protected:
 	CVector3				m_direction;
 	float					m_velocity;
 	float					m_mass;
-	CVector3				m_steeringForce;
-	CVector3				m_forceToDirection;
+	CVector3				m_steeringForce;	
 
 	// Objetos necesarios para que funcionen algunos Steering Behaviors
 	vector<CGameObject*>	m_targetList;		//
@@ -66,7 +66,7 @@ protected:
 	int						m_pathIndex;		// --> followPath
 	bool					m_isWander;
 	bool					m_isFlocking;
-	bool					m_debug;
+	bool					m_debug;	
 
 	void		drawVector(CVector3 position, CVector3 vector, RenderWindow& wnd, bool scale = false);
 	void		drawVectorInfo(RenderWindow& wnd);
@@ -96,6 +96,7 @@ public:
 	CVector3	separation(vector<CBoid*>& boidList);
 	CVector3	flock(vector<CBoid*>& boidList);
 	CVector3	followTheLeader(CBoid& leader, float proyectionMgn, vector<CBoid*>& boidList);
+	CVector3	defendTheLeader();
 
 	void		setDirection(float x, float y, float z = 0);
 	CVector3	getDirection();
@@ -104,8 +105,7 @@ public:
 	void		setMass(float mas);	
 	void		setDebug(bool deb);
 	void		addPathNode(CGameObject* newNode);	
-	void		setSteeringForce(CVector3 force);
-	void		setForceToDirection(CVector3 direction);
+	void		setSteeringForce(CVector3 force);	
 
 	bool		addNewTarget(CGameObject* go, unsigned int targetType, bool _deleteGO = false);
 	bool		removeTarget(unsigned int targetType, bool _deleteGO = false);
@@ -116,7 +116,9 @@ public:
 	static const int SEEK_FORCE = 150;
 	static const int PURSUIT_FORCE = 200;
 	static const int BOID_RADIUS = 50;
-	static const int BOID_VISION = 150;
+	static const int BOID_VISION = 275;
+
+	string		m_stateDebug;
 
 	CBoid(CGameScene* gmScn);
 	virtual ~CBoid();

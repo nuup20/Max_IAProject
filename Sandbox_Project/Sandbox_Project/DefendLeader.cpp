@@ -5,7 +5,7 @@
 
 void CDefendLeader::onEnter()
 {
-
+	m_Soldier->m_stateDebug = "Defend Leader";
 }
 
 unsigned int CDefendLeader::update(void * pObject)
@@ -13,12 +13,13 @@ unsigned int CDefendLeader::update(void * pObject)
 	// SIGUE AL LIDER
 	CSoldier* leader = m_Soldier->leaderInSight();
 	if (leader != nullptr)
-	{
-		m_Soldier->setForceToDirection(leader->getDirection());
-		m_Soldier->addNewTarget(leader, BOIDTARGET::kSeek);
+	{		
+		//SEGUIR AL LIDER
+		m_Soldier->addNewTarget(leader, BOIDTARGET::kLeader);
 	}
 	else
-	{
+	{		
+		// HE PERDIDO AL LIDER
 		m_Soldier->m_fsm.SetState(BOIDSTATE::kIdle);
 	}
 
@@ -26,9 +27,8 @@ unsigned int CDefendLeader::update(void * pObject)
 }
 
 void CDefendLeader::onExit()
-{
-	m_Soldier->setForceToDirection(CVector3());
-	m_Soldier->removeTarget(BOIDTARGET::kSeek);
+{	
+	m_Soldier->removeTarget(BOIDTARGET::kLeader);	
 }
 
 CDefendLeader::CDefendLeader(CSoldier * mySoldier) : CBoidState(BOIDSTATE::kDefendLeader, mySoldier)

@@ -1,6 +1,7 @@
 #pragma once
 #include "Boid.h"
 #include "Fsm.h"
+#include "Flag.h"
 
 class CGameScene;
 class CBase;
@@ -12,11 +13,11 @@ protected:
 	Texture m_miniFlag_texture;
 	Sprite	m_miniFlag_Sprite;
 
-	CFsm		m_stateMchn;
+	CFsm	m_stateMchn;
 	CBase* m_enemyBase;
 	CBase* m_friendlyBase;
 
-	bool	m_flagPower;
+	bool	m_flagPower;	
 
 	unsigned int m_team;
 
@@ -33,9 +34,10 @@ public:
 	bool		flagPower();
 	void		setFlagPower(bool setFlag);
 	CSoldier*	leaderInSight();
+	CFlag*		enemyFlagInSight();
 
 	template<class _obj> vector<_obj*> objectsAtVisionRange();
-
+	
 	CSoldier(CGameScene* gmScn, unsigned int m_team = TEAM::kGreen);
 	~CSoldier();
 };

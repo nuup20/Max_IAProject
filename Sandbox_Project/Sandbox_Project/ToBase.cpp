@@ -16,6 +16,7 @@ void CToBase::onEnter()
 	{
 		m_Soldier->m_fsm.SetState(BOIDSTATE::kIdle);
 	}
+	m_Soldier->m_stateDebug = "To Base";
 }
 
 unsigned int CToBase::update(void * pObject)
@@ -49,9 +50,7 @@ unsigned int CToBase::update(void * pObject)
 						}
 					}
 				}
-
 			}
-
 			// REGRESO A IDLE
 			m_Soldier->m_fsm.SetState(BOIDSTATE::kIdle);
 			return 0;
@@ -63,6 +62,18 @@ unsigned int CToBase::update(void * pObject)
 	if (leader != nullptr)
 	{
 		m_Soldier->m_fsm.SetState(BOIDSTATE::kDefendLeader);
+	}
+
+	//¿HAY BANDERA ENEMIGA EN LA BASE?
+	CFlag* enemyFlag = m_Soldier->enemyFlagInSight();
+	if (enemyFlag != nullptr)
+	{
+		if (enemyFlag->isEnable())
+		{
+			// VAMOS POR LA BANDERA CARAJO!
+			m_Soldier->m_fsm.SetState(BOIDSTATE::kAttack);
+			return 0;
+		}
 	}
 
 	return 0;

@@ -127,7 +127,7 @@
       <Filter>Header Files\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="DefendLeader.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\FSM</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -216,7 +216,7 @@
       <Filter>Source Files\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="DefendLeader.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\FSM</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

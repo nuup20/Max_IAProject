@@ -294,10 +294,28 @@ void CGameScene::init()
 	_newBoid->setPosition(120, 540);
 	_newBoid->setVelocity(100.f);	
 	m_world.addGameObject(_newBoid);
-
+		
 	_newBoid = new CSoldier(this, TEAM::kRed);
 	_newBoid->m_name = "Red Boid";
 	_newBoid->setPosition(770, 546);
+	_newBoid->setVelocity(100.f);
+	m_world.addGameObject(_newBoid);
+	
+	_newBoid = new CSoldier(this, TEAM::kRed);
+	_newBoid->m_name = "Red Boid";
+	_newBoid->setPosition(1530, 530);
+	_newBoid->setVelocity(100.f);
+	m_world.addGameObject(_newBoid);
+
+	_newBoid = new CSoldier(this, TEAM::kRed);
+	_newBoid->m_name = "Red Boid";
+	_newBoid->setPosition(435, 435);
+	_newBoid->setVelocity(100.f);
+	m_world.addGameObject(_newBoid);
+
+	_newBoid = new CSoldier(this, TEAM::kRed);
+	_newBoid->m_name = "Red Boid";
+	_newBoid->setPosition(1559, 579);
 	_newBoid->setVelocity(100.f);
 	m_world.addGameObject(_newBoid);
 }

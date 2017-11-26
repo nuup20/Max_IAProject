@@ -3,7 +3,6 @@
 
 //GOs
 #include "Soldier.h"
-#include "Flag.h"
 #include "Base.h"
 #include "Obstacle.h"
 
@@ -11,6 +10,7 @@
 #include "Idle.h"
 #include "Attack.h"
 #include "ToBase.h"
+#include "DefendLeader.h"
 
 #define PP_WANDER_RADIUS	100.f	//Radio del Circulo proyectado (wander)
 
@@ -20,6 +20,7 @@ void CSoldier::init()
 	m_fsm.AddState(new CIdle(this));
 	m_fsm.AddState(new CAttack(this));
 	m_fsm.AddState(new CToBase(this));	
+	m_fsm.AddState(new CDefendLeader(this));
 
 	//DEBUG TEXT
 	m_font.loadFromFile("fonts/arial.ttf");
@@ -80,7 +81,8 @@ void CSoldier::update()
 	m_steeringForce = 0.0f;
 	m_steeringForce += seek() + flee() + arrive() + pursuit() + evade()
 		+ obstacleAvoidance(m_gameScene->getObjsInArea<CObstacle>(m_position.x, m_position.y, BOID_VISION))
-		+ separation(m_gameScene->getObjsInArea<CBoid>(m_position.x, m_position.y,BOID_VISION));
+		+ separation(m_gameScene->getObjsInArea<CBoid>(m_position.x, m_position.y,BOID_VISION))
+		+ defendTheLeader();
 
 	if (m_isWander)
 	{
@@ -102,6 +104,7 @@ void CSoldier::update()
 	m_direction.normalize();
 	m_steeringForce = m_steeringForce.truncate(m_velocity);
 	m_position += (m_direction *  m_steeringForce.magnitud() * m_gameScene->m_time.getFrameTime());
+	
 
 	m_sprite.setPosition(m_position.x, m_position.y);
 	m_sprite.setRotation(m_direction.degAngle());
@@ -178,7 +181,24 @@ CSoldier * CSoldier::leaderInSight()
 	return nullptr;
 }
 
-CSoldier::CSoldier(CGameScene * gmScn, unsigned int team) : CBoid(gmScn), m_team(team), m_flagPower(false)
+CFlag * CSoldier::enemyFlagInSight()
+{
+	vector<CFlag*> flag_list = objectsAtVisionRange<CFlag>();
+	CFlag* enemyFlag = nullptr;
+	
+	for (unsigned int i = 0; i < flag_list.size(); ++i)
+	{
+		if (flag_list[i]->flagTeam() != m_team
+			&& flag_list[i]->flagTeam() != TEAM::kUndefined)
+		{
+			enemyFlag = flag_list[i];
+			break;
+		}
+	}	
+	return enemyFlag;
+}
+
+CSoldier::CSoldier(CGameScene * gmScn, unsigned int team) : CBoid(gmScn), m_team(team), m_flagPower(false)	
 {
 	init();
 }
