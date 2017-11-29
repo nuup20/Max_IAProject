@@ -11,6 +11,7 @@ namespace GAMEBUTTON {
 		kReset,
 		kPause,
 		KBack,
+		KDebug,
 		kCount
 	};
 }
@@ -23,6 +24,16 @@ protected:
 	CBoid* m_activeAgent;
 
 	bool	m_isPaused;
+	unsigned int m_redScore;
+	unsigned int m_redMarks;
+	unsigned int m_greenScore;
+	unsigned int m_greenMarks;
+
+	Font	m_scoreFont;
+	Text	m_redScoreText;
+	Text	m_greenScoreText;
+	Text	m_redMarkText;
+	Text	m_greenMarkText;
 
 	virtual void buttonFunc(int id);
 	virtual void setButtonPositions();
@@ -40,6 +51,10 @@ public:
 	virtual void onMouseReleased(int x, int y, short btn);
 	virtual void onMouseMove(int x, int y);
 	void		 pauseSystem();
+	bool		 destroyObject(CGameObject* obj);
+	void		 addNewObject(CGameObject* obj);
+	void		 addPoint(unsigned int team, unsigned int points = 1);
+	void		 addDeathMan(unsigned int team);
 	template <class _obj> vector<_obj*>	getObjsInArea(int x, int y, float radius, unsigned int group = GOGROUP::kEverything);
 	template <class _obj> vector<_obj*> getObjs(unsigned int group = GOGROUP::kEverything);
 

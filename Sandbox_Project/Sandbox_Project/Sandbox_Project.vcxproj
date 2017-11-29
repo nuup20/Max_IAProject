@@ -153,9 +153,13 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Attack.h" />
+    <ClInclude Include="AttackEnemy.h" />
     <ClInclude Include="Base.h" />
     <ClInclude Include="Boid.h" />
     <ClInclude Include="BoidState.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Dead.h" />
+    <ClInclude Include="DefendBase.h" />
     <ClInclude Include="DefendLeader.h" />
     <ClInclude Include="Flag.h" />
     <ClInclude Include="Fsm.h" />
@@ -184,9 +188,13 @@
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Attack.cpp" />
+    <ClCompile Include="AttackEnemy.cpp" />
     <ClCompile Include="Base.cpp" />
     <ClCompile Include="Boid.cpp" />
     <ClCompile Include="BoidState.cpp" />
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Dead.cpp" />
+    <ClCompile Include="DefendBase.cpp" />
     <ClCompile Include="DefendLeader.cpp" />
     <ClCompile Include="Flag.cpp" />
     <ClCompile Include="Fsm.cpp" />

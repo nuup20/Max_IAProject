@@ -24,37 +24,48 @@ unsigned int CToBase::update(void * pObject)
 	CVector3 vec_ToFriendlyBase = m_Soldier->friendlyBase()->m_position - m_Soldier->m_position;
 	CGameScene* gmscn = reinterpret_cast<CGameScene*>(pObject);
 
-	//¿BASE AMIGA A LA VISTA?
-	if (vec_ToFriendlyBase.magnitud() <= m_Soldier->BOID_VISION)
-	{		
-		//¿HE LLEGADO A LA BASE?
-		if (vec_ToFriendlyBase.magnitud() <= m_Soldier->BOID_RADIUS)
+	
+	//¿HE LLEGADO A LA BASE?
+	if (vec_ToFriendlyBase.magnitud() <= m_Soldier->BOID_RADIUS)
+	{
+		// ¿POSEO LA BANDERA ENEMIGA?
+		if (m_Soldier->flagPower())
 		{
-			// ¿POSEO LA BANDERA ENEMIGA?
-			if (m_Soldier->flagPower())
+			//ANOTO UN PUNTO
+			m_Soldier->setFlagPower(false);
+			gmscn->addPoint(m_Soldier->soldierTeam());
+
+			//LA BANDERA ENEMIGA REGRESA A SU POSICIÓN				
+			vector<CFlag*> flags = gmscn->getObjs<CFlag>();
+
+			for (int i = 0; i < flags.size(); ++i)
 			{
-				//ANOTO UN PUNTO
-				m_Soldier->setFlagPower(false);
-
-				//LA BANDERA ENEMIGA REGRESA A SU POSICIÓN				
-				vector<CFlag*> flags = gmscn->getObjs<CFlag>();
-
-				for (int i = 0; i < flags.size(); ++i)
+				if (flags[i]->flagTeam() != m_Soldier->soldierTeam())
 				{
-					if (flags[i]->flagTeam() != m_Soldier->soldierTeam())
+					if (!flags[i]->isEnable())
 					{
-						if (!flags[i]->isEnable())
-						{
-							flags[i]->setEnable(true);
-							break;
-						}
+						flags[i]->setEnable(true);
+						break;
 					}
 				}
 			}
-			// REGRESO A IDLE
-			m_Soldier->m_fsm.SetState(BOIDSTATE::kIdle);
-			return 0;
 		}
+		// REGRESO A IDLE
+		m_Soldier->m_fsm.SetState(BOIDSTATE::kIdle);
+		return 0;
+	}
+	
+
+	if (m_Soldier->flagPower())
+	{		
+		return 0;
+	}
+
+	if (m_Soldier->enemyInSight() != nullptr)
+	{
+		//OH SHIT, UN ENEMIGO TENGO QUE REVENTARLO
+		m_Soldier->m_fsm.SetState(BOIDSTATE::kAttackEnemy);
+		return 0;
 	}
 
 	//¿LIDER A LA VISTA?
@@ -62,6 +73,7 @@ unsigned int CToBase::update(void * pObject)
 	if (leader != nullptr)
 	{
 		m_Soldier->m_fsm.SetState(BOIDSTATE::kDefendLeader);
+		return 0;
 	}
 
 	//¿HAY BANDERA ENEMIGA EN LA BASE?

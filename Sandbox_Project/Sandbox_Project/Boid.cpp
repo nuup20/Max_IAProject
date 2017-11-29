@@ -367,9 +367,9 @@ void CBoid::setMass(float mas)
 	m_mass = mas;
 }
 
-void CBoid::setDebug(bool deb)
+void CBoid::setDebug()
 {
-	m_debug = deb;
+	m_debug = !m_debug;
 }
 
 void CBoid::addPathNode(CGameObject * newNode)
@@ -425,7 +425,7 @@ void CBoid::setFlocking(bool b)
 }
 
 CBoid::CBoid(CGameScene* gameScn) : CRendObject(GOGROUP::kBoid), m_gameScene(gameScn), m_pathIndex(0), m_velocity(0), m_mass(1.0f),
-			m_isWander(false), m_debug(true), m_timeCount(100.0f), m_timeTrigger(0.5f), m_stateDebug("")
+			m_isWander(false), m_debug(false), m_timeCount(100.0f), m_timeTrigger(0.5f), m_stateDebug("")
 {
 	init();
 }

@@ -1,4 +1,5 @@
-﻿  Idle.cpp
+﻿  ToBase.cpp
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\tobase.cpp(41): warning C4018: '<': signed/unsigned mismatch
   DefendLeader.cpp
   Generating Code...
   Sandbox_Project.vcxproj -> D:\Max Maldonado\Documents\Max_IAProject\Sandbox_Project\Debug\Sandbox_Project.exe

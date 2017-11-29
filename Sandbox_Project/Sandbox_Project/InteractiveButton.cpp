@@ -43,7 +43,7 @@ void CInteractiveButton::init()
 void CInteractiveButton::update()
 {
 	//m_label.setPosition(m_position.x, m_position.y);
-	//m_btnSprite.setPosition(m_position.x, m_position.y);
+	m_btnSprite.setPosition(m_position.x, m_position.y);
 }
 
 void CInteractiveButton::render(RenderWindow & wnd)

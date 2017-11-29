@@ -23,7 +23,7 @@ namespace BOIDTARGET {
 		kArrive,
 		kPursuit,
 		kEvade,
-		kLeader,
+		kLeader,		
 		kCount
 	};
 }
@@ -41,6 +41,10 @@ class CBoid : public CRendObject
 	friend class CIdle;
 	friend class CToBase;
 	friend class CDefendLeader;
+	friend class CDefendBase;
+	friend class CAttackEnemy;
+	friend class CDead;
+
 protected:	
 	CGameScene* m_gameScene;
 	CFsm		m_fsm;
@@ -103,7 +107,7 @@ public:
 	void		setVelocity(float vel);
 	float		getVelocity();
 	void		setMass(float mas);	
-	void		setDebug(bool deb);
+	void		setDebug();
 	void		addPathNode(CGameObject* newNode);	
 	void		setSteeringForce(CVector3 force);	
 
@@ -115,7 +119,7 @@ public:
 
 	static const int SEEK_FORCE = 150;
 	static const int PURSUIT_FORCE = 200;
-	static const int BOID_RADIUS = 50;
+	static const int BOID_RADIUS = 25;
 	static const int BOID_VISION = 275;
 
 	string		m_stateDebug;

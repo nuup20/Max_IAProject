@@ -45,11 +45,25 @@ unsigned int CGameScene::update(void * pObject)
 	{
 		m_world.update();
 	}	
+
+	m_redScoreText.setString(to_string(m_redScore));
+	m_greenScoreText.setString(to_string(m_greenScore));
+	m_redMarkText.setString(to_string(m_redMarks));
+	m_greenMarkText.setString(to_string(m_greenMarks));
+
 	return 0;
 }
 
 void CGameScene::buttonFunc(int id)
 {
+	if (id == GAMEBUTTON::KDebug)
+	{
+		vector<CBoid*> boidList = m_world.getObjs<CBoid>();
+		for (auto boid : boidList)
+		{
+			boid->setDebug();
+		}
+	}
 }
 
 void CGameScene::setButtonPositions()
@@ -85,8 +99,26 @@ void CGameScene::onExit()
 
 void CGameScene::init()
 {
-	m_world.init();	
+	m_world.init();
 	m_time.init();
+
+	m_redMarks = m_greenMarks = m_greenScore = m_redScore = 0;
+
+	m_scoreFont.loadFromFile("fonts/Keep_Singing.ttf");
+	m_redScoreText.setFont(m_scoreFont);
+	m_greenScoreText.setFont(m_scoreFont);
+	m_redMarkText.setFont(m_scoreFont);
+	m_greenMarkText.setFont(m_scoreFont);
+
+	m_redScoreText.setCharacterSize(80);
+	m_greenScoreText.setCharacterSize(80);
+	m_redMarkText.setCharacterSize(60);
+	m_greenMarkText.setCharacterSize(60);
+
+	m_redScoreText.setPosition(700, 980);
+	m_greenScoreText.setPosition(1170, 980);
+	m_redMarkText.setPosition(340, 990);
+	m_greenMarkText.setPosition(1510, 990);	
 
 	// Crea todos los tiles del background
 	static const int maxColumns = (int)( 1920 / TILE_SIZE) + BCK_OFFSET;
@@ -149,175 +181,255 @@ void CGameScene::init()
 	//OBSTACLES
 	CObstacle* obs = new CObstacle();
 	obs->setSpriteDirectory("gameResources/sprites/spr_150_obs.png");
-	obs->setRadius(150.f);
+	obs->setRadius(75.f);
 	obs->setPosition(960, 540);
-	m_world.addGameObject(obs);
-
-	obs = new CObstacle();
-	obs->setSpriteDirectory("gameResources/sprites/spr_75_obs.png");
-	obs->setRadius(75.f);
-	obs->setPosition(160, 75);
-	m_world.addGameObject(obs);
-
-	obs = new CObstacle();
-	obs->setSpriteDirectory("gameResources/sprites/spr_75_obs.png");
-	obs->setRadius(75.f);
-	obs->setPosition(1760, 75);
-	m_world.addGameObject(obs);
-
-	obs = new CObstacle();
-	obs->setSpriteDirectory("gameResources/sprites/spr_75_obs.png");
-	obs->setRadius(75.f);
-	obs->setPosition(160, 1005);
-	m_world.addGameObject(obs);
-
-	obs = new CObstacle();
-	obs->setSpriteDirectory("gameResources/sprites/spr_75_obs.png");
-	obs->setRadius(75.f);
-	obs->setPosition(1760, 1005);
-	m_world.addGameObject(obs);
+	m_world.addGameObject(obs);	
 
 	obs = new CObstacle();
 	obs->setSpriteDirectory("gameResources/sprites/spr_100_obs.png");
-	obs->setRadius(100.f);
+	obs->setRadius(50.f);
 	obs->setPosition(1310, 540);
 	m_world.addGameObject(obs);
 
 	obs = new CObstacle();
 	obs->setSpriteDirectory("gameResources/sprites/spr_100_obs.png");
-	obs->setRadius(100.f);
+	obs->setRadius(50.f);
 	obs->setPosition(610, 540);
 	m_world.addGameObject(obs);
 
 	obs = new CObstacle();
 	obs->setSpriteDirectory("gameResources/sprites/spr_100_obs.png");
-	obs->setRadius(100.f);
+	obs->setRadius(50.f);
 	obs->setPosition(515, 262);
 	m_world.addGameObject(obs);
 
 	obs = new CObstacle();
 	obs->setSpriteDirectory("gameResources/sprites/spr_100_obs.png");
-	obs->setRadius(100.f);
+	obs->setRadius(50.f);
 	obs->setPosition(515, 818);
 	m_world.addGameObject(obs);
 
 	obs = new CObstacle();
 	obs->setSpriteDirectory("gameResources/sprites/spr_100_obs.png");
-	obs->setRadius(100.f);
+	obs->setRadius(50.f);
 	obs->setPosition(1405, 262);
 	m_world.addGameObject(obs);
 
 	obs = new CObstacle();
 	obs->setSpriteDirectory("gameResources/sprites/spr_100_obs.png");
-	obs->setRadius(100.f);
+	obs->setRadius(50.f);
 	obs->setPosition(1405, 818);
 	m_world.addGameObject(obs);
 
 	obs = new CObstacle();
 	obs->setSpriteDirectory("gameResources/sprites/spr_100_obs.png");
-	obs->setRadius(100.f);
+	obs->setRadius(50.f);
 	obs->setPosition(960, 180);
 	m_world.addGameObject(obs);
 
 	obs = new CObstacle();
 	obs->setSpriteDirectory("gameResources/sprites/spr_100_obs.png");
-	obs->setRadius(100.f);
+	obs->setRadius(50.f);
 	obs->setPosition(960, 900);
 	m_world.addGameObject(obs);
 
 	obs = new CObstacle();
 	obs->setSpriteDirectory("gameResources/sprites/spr_75_obs.png");
-	obs->setRadius(75.f);
+	obs->setRadius(37.f);
 	obs->setPosition(770, 335);
 	m_world.addGameObject(obs);
 
 	obs = new CObstacle();
 	obs->setSpriteDirectory("gameResources/sprites/spr_75_obs.png");
-	obs->setRadius(75.f);
+	obs->setRadius(37.f);
 	obs->setPosition(770, 735);
 	m_world.addGameObject(obs);
 
 	obs = new CObstacle();
 	obs->setSpriteDirectory("gameResources/sprites/spr_75_obs.png");
-	obs->setRadius(75.f);
+	obs->setRadius(37.f);
 	obs->setPosition(1150, 335);
 	m_world.addGameObject(obs);
 
 	obs = new CObstacle();
 	obs->setSpriteDirectory("gameResources/sprites/spr_75_obs.png");
-	obs->setRadius(75.f);
+	obs->setRadius(37.f);
 	obs->setPosition(1150, 735);
 	m_world.addGameObject(obs);
 
 	obs = new CObstacle();
 	obs->setSpriteDirectory("gameResources/sprites/spr_100_obs.png");
-	obs->setRadius(100.f);
+	obs->setRadius(50.f);
 	obs->setPosition(1665, 335);
 	m_world.addGameObject(obs);
 
 	obs = new CObstacle();
 	obs->setSpriteDirectory("gameResources/sprites/spr_100_obs.png");
-	obs->setRadius(100.f);
+	obs->setRadius(50.f);
 	obs->setPosition(1665, 735);
 	m_world.addGameObject(obs);
 
 	obs = new CObstacle();
 	obs->setSpriteDirectory("gameResources/sprites/spr_100_obs.png");
-	obs->setRadius(100.f);
+	obs->setRadius(50.f);
 	obs->setPosition(255, 335);
 	m_world.addGameObject(obs);
 
 	obs = new CObstacle();
 	obs->setSpriteDirectory("gameResources/sprites/spr_100_obs.png");
-	obs->setRadius(100.f);
+	obs->setRadius(50.f);
 	obs->setPosition(255, 735);
 	m_world.addGameObject(obs);
 
+	//INVISIBLE OBSTACLES
+	for (int i = 0; i < 13; ++i)
+	{
+		obs = new CObstacle();		
+		obs->setRadius(150.f);
+		obs->setPosition(i * 150, 0);
+		obs->m_isVisible = false;
+		m_world.addGameObject(obs);
+	}
+
+	for (int i = 0; i < 14; ++i)
+	{
+		obs = new CObstacle();
+		obs->setRadius(150.f);
+		obs->setPosition(i * 150, 1080);
+		obs->m_isVisible = false;
+		m_world.addGameObject(obs);
+	}
+
+	for (int i = 0; i < 7; ++i)
+	{
+		obs = new CObstacle();
+		obs->setRadius(150.f);
+		obs->setPosition(0, i * 150);
+		obs->m_isVisible = false;
+		m_world.addGameObject(obs);
+	}
+
+	for (int i = 0; i < 7; ++i)
+	{
+		obs = new CObstacle();
+		obs->setRadius(150.f);
+		obs->setPosition(1920, i * 150);
+		obs->m_isVisible = false;
+		m_world.addGameObject(obs);
+	}
+
+	// BASE
 	CBase* _newBase = new CBase(TEAM::kRed);
-	_newBase->setPosition(100, 540);
+	_newBase->setPosition(200, 540);
 	m_world.addGameObject(_newBase);
 
 	_newBase = new CBase(TEAM::kGreen);
-	_newBase->setPosition(1820, 540);
+	_newBase->setPosition(1720, 540);
 	m_world.addGameObject(_newBase);
 
+	// FLAGS
 	CFlag* _newFlag = new CFlag(TEAM::kRed);	
-	_newFlag->setPosition(100, 540);	
+	_newFlag->setPosition(200, 540);	
 	m_world.addGameObject(_newFlag);
 
 	_newFlag = new CFlag(TEAM::kGreen);	
-	_newFlag->setPosition(1820, 540);	
+	_newFlag->setPosition(1720, 540);	
 	m_world.addGameObject(_newFlag);
 
+	// RED SOLDIERS
 	CSoldier* _newBoid = new CSoldier(this, TEAM::kRed);
 	_newBoid->m_name = "Red Boid";
-	_newBoid->setPosition(120, 540);
+	_newBoid->setPosition(120, 200);
+	_newBoid->m_respawnPosition = _newBoid->m_position;
 	_newBoid->setVelocity(100.f);	
 	m_world.addGameObject(_newBoid);
 		
 	_newBoid = new CSoldier(this, TEAM::kRed);
 	_newBoid->m_name = "Red Boid";
-	_newBoid->setPosition(770, 546);
+	_newBoid->setPosition(260, 523);
+	_newBoid->m_respawnPosition = _newBoid->m_position;
 	_newBoid->setVelocity(100.f);
 	m_world.addGameObject(_newBoid);
 	
 	_newBoid = new CSoldier(this, TEAM::kRed);
 	_newBoid->m_name = "Red Boid";
-	_newBoid->setPosition(1530, 530);
+	_newBoid->setPosition(120, 870);
+	_newBoid->m_respawnPosition = _newBoid->m_position;
 	_newBoid->setVelocity(100.f);
 	m_world.addGameObject(_newBoid);
 
 	_newBoid = new CSoldier(this, TEAM::kRed);
 	_newBoid->m_name = "Red Boid";
-	_newBoid->setPosition(435, 435);
+	_newBoid->setPosition(390, 760);
+	_newBoid->m_respawnPosition = _newBoid->m_position;
 	_newBoid->setVelocity(100.f);
 	m_world.addGameObject(_newBoid);
 
 	_newBoid = new CSoldier(this, TEAM::kRed);
 	_newBoid->m_name = "Red Boid";
-	_newBoid->setPosition(1559, 579);
+	_newBoid->setPosition(380, 300);
+	_newBoid->m_respawnPosition = _newBoid->m_position;
 	_newBoid->setVelocity(100.f);
 	m_world.addGameObject(_newBoid);
+
+	// GREEN SOLDIERS
+	_newBoid = new CSoldier(this, TEAM::kGreen);
+	_newBoid->m_name = "Green Boid";
+	_newBoid->setPosition(1662, 543);
+	_newBoid->m_respawnPosition = _newBoid->m_position;
+	_newBoid->setVelocity(100.f);
+	m_world.addGameObject(_newBoid);
+
+	_newBoid = new CSoldier(this, TEAM::kGreen);
+	_newBoid->m_name = "Green Boid";
+	_newBoid->setPosition(1764, 202);
+	_newBoid->m_respawnPosition = _newBoid->m_position;
+	_newBoid->setVelocity(100.f);
+	m_world.addGameObject(_newBoid);
+
+	_newBoid = new CSoldier(this, TEAM::kGreen);
+	_newBoid->m_name = "Green Boid";
+	_newBoid->setPosition(1764, 864);
+	_newBoid->m_respawnPosition = _newBoid->m_position;
+	_newBoid->setVelocity(100.f);
+	m_world.addGameObject(_newBoid);
+
+	_newBoid = new CSoldier(this, TEAM::kGreen);
+	_newBoid->m_name = "Green Boid";
+	_newBoid->setPosition(1524, 754);
+	_newBoid->m_respawnPosition = _newBoid->m_position;
+	_newBoid->setVelocity(100.f);
+	m_world.addGameObject(_newBoid);
+
+	_newBoid = new CSoldier(this, TEAM::kGreen);
+	_newBoid->m_name = "Green Boid";
+	_newBoid->setPosition(1525, 300);
+	_newBoid->m_respawnPosition = _newBoid->m_position;
+	_newBoid->setVelocity(100.f);
+	m_world.addGameObject(_newBoid);
+
+	//SCORES
+	CRendObject* score = new CRendObject();
+	score->m_layer = 3;
+	score->setSpriteDirectory("gameResources/sprites/spr_redScore.png");
+	score->setPosition(457,920);	
+	m_world.addGameObject(score);
+
+	score = new CRendObject();
+	score->m_layer = 3;
+	score->setSpriteDirectory("gameResources/sprites/spr_greenScore.png");
+	score->setPosition(1463, 920);
+	m_world.addGameObject(score);
+
+	CInteractiveButton* debugger = new CInteractiveButton(GAMEBUTTON::KDebug);
+	debugger->init();
+	debugger->setTextureDirectory("gameResources/icons/spr_debug.png");
+	debugger->setPosition(886, 970);
+	debugger->setName("Debugger Button");
+	debugger->setNormalColor(200, 200, 200, 255);
+	debugger->setHoverColor(255, 255, 255, 255);
+	debugger->setLayer(4);
+	m_world.addGameObject(debugger);
 }
 
 void CGameScene::render()
@@ -327,6 +439,11 @@ void CGameScene::render()
 	vector<CInteractiveButton*> buttonList = m_world.getObjs<CInteractiveButton>();
 	for (unsigned int i = 0; i < buttonList.size(); ++i)
 		buttonList[i]->render(*m_sfmlWnd->getRenderWndPtr());
+
+	(m_sfmlWnd->getRenderWndPtr())->draw(m_greenMarkText);
+	(m_sfmlWnd->getRenderWndPtr())->draw(m_redMarkText);
+	(m_sfmlWnd->getRenderWndPtr())->draw(m_greenScoreText);
+	(m_sfmlWnd->getRenderWndPtr())->draw(m_redScoreText);
 }
 
 void CGameScene::destroy()
@@ -355,6 +472,40 @@ void CGameScene::onMouseMove(int x, int y)
 void CGameScene::pauseSystem()
 {
 	m_isPaused = !m_isPaused;
+}
+
+bool CGameScene::destroyObject(CGameObject * obj)
+{	
+	return m_world.destroyGameObject(obj);
+}
+
+void CGameScene::addNewObject(CGameObject * obj)
+{
+	m_world.addGameObject(obj);
+}
+
+void CGameScene::addPoint(unsigned int team, unsigned int points)
+{
+	if (team == TEAM::kRed)
+	{
+		m_redScore += points;
+	}
+	else
+	{
+		m_greenScore += points;
+	}
+}
+
+void CGameScene::addDeathMan(unsigned int team)
+{
+	if (team == TEAM::kRed)
+	{
+		m_greenMarks += 1;
+	}
+	else
+	{
+		m_redMarks += 1;
+	}
 }
 
 CGameScene::~CGameScene()

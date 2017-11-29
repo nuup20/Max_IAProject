@@ -15,7 +15,12 @@ class CWorld
 private:
 
 	vector<CGameObject*>				m_gameObjectList;
+	vector<CGameObject*>				m_obsToAdd;
+	vector<CGameObject*>				m_obsToDelete;
 	vector<CGameObject*>::iterator		m_objIt;
+
+	void	addGOsInList();
+	void	removeGOsInList();
 
 public:
 
@@ -26,9 +31,11 @@ public:
 	void	destroy();	
 
 	void		addGameObject(CGameObject* newGameObject);
+	bool		destroyGameObject(CGameObject* gameObject);
 	template <class _obj> vector<_obj*>	getObjsInArea(int x, int y, float radius, unsigned int m_group = GOGROUP::kEverything);
 	template <class _obj> vector<_obj*> getObjs(unsigned int m_group = GOGROUP::kEverything);
-	void	localTranslation(int x, int y);
+	void		localTranslation(int x, int y);
+	void		cleanWorld();
 
 	CWorld();
 	~CWorld();

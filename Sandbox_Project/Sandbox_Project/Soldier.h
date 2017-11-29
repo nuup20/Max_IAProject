@@ -9,17 +9,19 @@ class CSoldier :
 	public CBoid
 {
 protected:
+	Texture		m_miniFlag_texture;
+	Sprite		m_miniFlag_Sprite;
 
-	Texture m_miniFlag_texture;
-	Sprite	m_miniFlag_Sprite;
+	CFsm		m_stateMchn;
+	CBase*		m_enemyBase;
+	CBase*		m_friendlyBase;	
 
-	CFsm	m_stateMchn;
-	CBase* m_enemyBase;
-	CBase* m_friendlyBase;
+	bool		m_flagPower;	
 
-	bool	m_flagPower;	
+	const float		m_timeToShoot = 0.5f;
+	float			m_shootTimeCnt;
 
-	unsigned int m_team;
+	unsigned int	m_team;
 
 public:
 
@@ -29,12 +31,18 @@ public:
 	void	destroy();
 
 	unsigned int	soldierTeam();
+	bool			flagPower();
+	void			setFlagPower(bool setFlag);	
+
 	CBase*		enemyBase();
-	CBase*		friendlyBase();
-	bool		flagPower();
-	void		setFlagPower(bool setFlag);
+	CBase*		friendlyBase();	
 	CSoldier*	leaderInSight();
+	CSoldier*	enemyInSight();
 	CFlag*		enemyFlagInSight();
+	bool		shootBullet();
+
+	bool		m_isMoving;
+	CVector3	m_respawnPosition;
 
 	template<class _obj> vector<_obj*> objectsAtVisionRange();
 	

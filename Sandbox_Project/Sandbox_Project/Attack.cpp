@@ -23,6 +23,13 @@ unsigned int CAttack::update(void * pObject)
 {
 	CVector3 vec_ToEnemyBase =  m_Soldier->enemyBase()->m_position - m_Soldier->m_position;
 
+	if (m_Soldier->enemyInSight() != nullptr)
+	{
+		//OH SHIT, UN ENEMIGO TENGO QUE REVENTARLO
+		m_Soldier->m_fsm.SetState(BOIDSTATE::kAttackEnemy);
+		return 0;
+	}
+
 	//¿BASE ENEMIGA A LA VISTA?
 	if (vec_ToEnemyBase.magnitud() <= (m_Soldier->BOID_VISION - 10))
 	{		

@@ -11,20 +11,22 @@ class CRendObject :
 {
 protected:
 	Texture m_texture;
-	Sprite	m_sprite;
+	Sprite	m_sprite;	
 
 public:
 
-	void init();
-	void render(RenderWindow& wnd);
-	void update();
-	void destroy();
+	virtual void init();
+	virtual void render(RenderWindow& wnd);
+	virtual void update();
+	virtual void destroy();
 
 	void setSpriteDirectory(string directory);
 	void setColor(float r,float g,float b,float a);
 	void scale(float scalation);
 
+	bool	m_isVisible;
+
 	CRendObject(unsigned int group = GOGROUP::kUndefined);
-	~CRendObject();
+	virtual ~CRendObject();
 };
 

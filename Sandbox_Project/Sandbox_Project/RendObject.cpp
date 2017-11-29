@@ -2,11 +2,9 @@
 #include "RendObject.h"
 
 
-CRendObject::CRendObject(unsigned int group) : CGameObject(group)
-{
-	
+CRendObject::CRendObject(unsigned int group) : CGameObject(group), m_isVisible(true)
+{	
 }
-
 
 CRendObject::~CRendObject()
 {
@@ -25,7 +23,10 @@ void CRendObject::init()
 
 void CRendObject::render(RenderWindow & wnd)
 {
-	wnd.draw(m_sprite);
+	if (m_isVisible) 
+	{
+		wnd.draw(m_sprite);
+	}	
 }
 
 void CRendObject::update()

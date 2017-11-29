@@ -15,12 +15,20 @@ unsigned int CDefendLeader::update(void * pObject)
 	if (leader != nullptr)
 	{		
 		//SEGUIR AL LIDER
-		m_Soldier->addNewTarget(leader, BOIDTARGET::kLeader);
+		m_Soldier->addNewTarget(leader, BOIDTARGET::kLeader);		
 	}
 	else
 	{		
 		// HE PERDIDO AL LIDER
 		m_Soldier->m_fsm.SetState(BOIDSTATE::kIdle);
+		return 0;
+	}
+
+	if (m_Soldier->enemyInSight() != nullptr)
+	{
+		//OH SHIT, UN ENEMIGO TENGO QUE REVENTARLO
+		m_Soldier->m_fsm.SetState(BOIDSTATE::kAttackEnemy);
+		return 0;
 	}
 
 	return 0;
