@@ -11,6 +11,7 @@
 #include "Idle.h"
 #include "Attack.h"
 #include "ToBase.h"
+#include "ReturnToField.h"
 #include "DefendLeader.h"
 #include "DefendBase.h"
 #include "AttackEnemy.h"
@@ -24,6 +25,7 @@ void CSoldier::init()
 	m_fsm.AddState(new CIdle(this));
 	m_fsm.AddState(new CAttack(this));
 	m_fsm.AddState(new CToBase(this));	
+	m_fsm.AddState(new CReturnToField(this));
 	m_fsm.AddState(new CDefendLeader(this));
 	m_fsm.AddState(new CDefendBase(this));
 	m_fsm.AddState(new CAttackEnemy(this));
@@ -109,7 +111,7 @@ void CSoldier::update()
 	m_steeringForce = 0.0f;	
 	m_steeringForce += seek() + flee() + arrive() + pursuit() + evade()	+ defendTheLeader();
 
-	if (m_isMoving)
+	if (m_isMoving && !outOfField())
 	{
 		// SI ME ESTOY MOVIENDO, EVITAR OBSTÁCULOS Y SEPARARME DE MIS COMPAS.
 		m_steeringForce += obstacleAvoidance(m_gameScene->getObjsInArea<CObstacle>(m_position.x, m_position.y, BOID_VISION))
@@ -127,7 +129,7 @@ void CSoldier::update()
 	}
 
 	CVector3 steerForceDir = m_steeringForce.normalized();
-	m_direction = (m_direction + (steerForceDir * m_mass * m_gameScene->m_time.getFrameTime()));
+	m_direction = (m_direction + (steerForceDir * m_mass * 2 * m_gameScene->m_time.getFrameTime()));
 	m_direction.normalize();
 	m_steeringForce = m_steeringForce.truncate(m_velocity);
 	
@@ -159,11 +161,12 @@ void CSoldier::update()
 		m_miniFlag_Sprite.setPosition(m_position.x + (BOID_RADIUS >> 1), m_position.y - (BOID_RADIUS >> 1));
 	}	
 
-	// SI EL SOLDADO SALE DEL CAMPO DE BATALLA, MUERE.
-	if (m_position.x < 0 || m_position.x > 1920 || m_position.y < 0 || m_position.y > 1080)
+	// SI EL SOLDADO ESTÁ FUERA DEL CAMPO DE BATALLA.
+	if (outOfField())
 	{
-		m_fsm.SetState(BOIDSTATE::kDead);
+		m_fsm.SetState(BOIDSTATE::kToField);
 	}
+	
 }
 
 void CSoldier::render(RenderWindow & wnd)
@@ -213,6 +216,16 @@ CBase * CSoldier::friendlyBase()
 bool CSoldier::flagPower()
 {
 	return m_flagPower;
+}
+
+bool CSoldier::outOfField()
+{
+	// SI EL SOLDADO SALE DEL CAMPO DE BATALLA
+	if (m_position.x < 20 || m_position.x > 1920 - 20 || m_position.y < 20 || m_position.y > 1080 - 20)
+	{
+		return true;
+	}
+	return false;
 }
 
 void CSoldier::setFlagPower(bool setFlag)
@@ -282,6 +295,32 @@ bool CSoldier::shootBullet()
 		return true;
 	}
 	return false;
+}
+
+CVector3 CSoldier::sceneLitimsForce()
+{
+	CVector3 pointPos = m_position + (m_direction * BOID_VISION);
+	CVector3 force;
+	
+	if (pointPos.x < 0)
+	{
+		force.x = 1;		
+	}
+	else if (pointPos.x > 1920)
+	{
+		force.x = -1;		
+	}
+	if (pointPos.y < 0)
+	{
+		force.y = 1;		
+	}
+	else if (pointPos.y > 1080)
+	{
+		force.y = -1;		
+	}
+	force *= 9999999.f;
+	
+	return force;
 }
 
 CSoldier::CSoldier(CGameScene * gmScn, unsigned int team) : CBoid(gmScn), m_team(team), m_flagPower(false), m_isMoving(true)

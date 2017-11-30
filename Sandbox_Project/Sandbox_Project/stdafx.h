@@ -30,6 +30,7 @@ namespace BOIDSTATE {
 		kDefendLeader,
 		kDefendBase,
 		kToBase,
+		kToField,
 		kAttackEnemy,
 		kDead,
 		kCount

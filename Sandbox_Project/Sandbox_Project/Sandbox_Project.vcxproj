@@ -172,6 +172,7 @@
     <ClInclude Include="OptionsScene.h" />
     <ClInclude Include="PureMenuScene.h" />
     <ClInclude Include="RendObject.h" />
+    <ClInclude Include="ReturnToField.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SFMLApplication.h" />
     <ClInclude Include="SFMLWindow.h" />
@@ -207,6 +208,7 @@
     <ClCompile Include="OptionsScene.cpp" />
     <ClCompile Include="PureMenuScene.cpp" />
     <ClCompile Include="RendObject.cpp" />
+    <ClCompile Include="ReturnToField.cpp" />
     <ClCompile Include="Sandbox_Project.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SFMLApplication.cpp" />

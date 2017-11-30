@@ -32,6 +32,7 @@ public:
 
 	unsigned int	soldierTeam();
 	bool			flagPower();
+	bool			outOfField();
 	void			setFlagPower(bool setFlag);	
 
 	CBase*		enemyBase();
@@ -40,6 +41,7 @@ public:
 	CSoldier*	enemyInSight();
 	CFlag*		enemyFlagInSight();
 	bool		shootBullet();
+	CVector3	sceneLitimsForce();
 
 	bool		m_isMoving;
 	CVector3	m_respawnPosition;

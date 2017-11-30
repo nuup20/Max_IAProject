@@ -63,6 +63,12 @@ void CGameScene::buttonFunc(int id)
 		{
 			boid->setDebug();
 		}
+
+		vector<CObstacle*> obsList = m_world.getObjs<CObstacle>();
+		for (auto obstacle : obsList)
+		{
+			obstacle->setDebug();
+		}
 	}
 }
 
@@ -281,12 +287,13 @@ void CGameScene::init()
 	obs->setPosition(255, 735);
 	m_world.addGameObject(obs);
 
+	static const int offsetField = 100;
 	//INVISIBLE OBSTACLES
 	for (int i = 0; i < 13; ++i)
 	{
 		obs = new CObstacle();		
-		obs->setRadius(150.f);
-		obs->setPosition(i * 150, 0);
+		obs->setRadius(150);
+		obs->setPosition(i * 150, -offsetField);
 		obs->m_isVisible = false;
 		m_world.addGameObject(obs);
 	}
@@ -295,7 +302,7 @@ void CGameScene::init()
 	{
 		obs = new CObstacle();
 		obs->setRadius(150.f);
-		obs->setPosition(i * 150, 1080);
+		obs->setPosition(i * 150, 1080 + offsetField);
 		obs->m_isVisible = false;
 		m_world.addGameObject(obs);
 	}
@@ -304,7 +311,7 @@ void CGameScene::init()
 	{
 		obs = new CObstacle();
 		obs->setRadius(150.f);
-		obs->setPosition(0, i * 150);
+		obs->setPosition(0 - offsetField, i * 150);
 		obs->m_isVisible = false;
 		m_world.addGameObject(obs);
 	}
@@ -313,10 +320,11 @@ void CGameScene::init()
 	{
 		obs = new CObstacle();
 		obs->setRadius(150.f);
-		obs->setPosition(1920, i * 150);
+		obs->setPosition(1920 + offsetField, i * 150);
 		obs->m_isVisible = false;
 		m_world.addGameObject(obs);
 	}
+
 
 	// BASE
 	CBase* _newBase = new CBase(TEAM::kRed);

@@ -1,6 +1,22 @@
-﻿  ToBase.cpp
-d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\tobase.cpp(41): warning C4018: '<': signed/unsigned mismatch
-  DefendLeader.cpp
-  Generating Code...
+﻿  Soldier.cpp
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\soldier.cpp(67): warning C4018: '<': signed/unsigned mismatch
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\soldier.cpp(117): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\soldier.cpp(117): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\soldier.cpp(118): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\soldier.cpp(118): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\soldier.cpp(146): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\soldier.cpp(146): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\soldier.cpp(238): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\soldier.cpp(238): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\soldier.cpp(255): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\soldier.cpp(255): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\soldier.cpp(302): warning C4244: 'argument': conversion from 'const int' to 'const float', possible loss of data
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\soldier.h(58): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
+  d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\soldier.cpp(272): note: see reference to function template instantiation 'std::vector<CFlag *,std::allocator<_Ty>> CSoldier::objectsAtVisionRange<CFlag>(void)' being compiled
+          with
+          [
+              _Ty=CFlag *
+          ]
+d:\max maldonado\documents\max_iaproject\sandbox_project\sandbox_project\soldier.h(58): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
   Sandbox_Project.vcxproj -> D:\Max Maldonado\Documents\Max_IAProject\Sandbox_Project\Debug\Sandbox_Project.exe
   Sandbox_Project.vcxproj -> D:\Max Maldonado\Documents\Max_IAProject\Sandbox_Project\Debug\Sandbox_Project.pdb (Full PDB)

@@ -28,6 +28,13 @@ void CBullet::update()
 			return;
 		}				
 	}
+
+	// SI SALE DEL CAMPO DE BATALLA, MUERE.
+	if (m_position.x < 0 || m_position.x > 1920 || m_position.y < 0 || m_position.y > 1080)
+	{
+		m_gmScn->destroyObject(this);
+		return;
+	}
 	return;
 }
 

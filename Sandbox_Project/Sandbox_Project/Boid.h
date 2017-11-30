@@ -43,6 +43,7 @@ class CBoid : public CRendObject
 	friend class CDefendLeader;
 	friend class CDefendBase;
 	friend class CAttackEnemy;
+	friend class CReturnToField;
 	friend class CDead;
 
 protected:	
